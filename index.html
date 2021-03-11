@@ -22,7 +22,7 @@
 		import { RGBELoader } from './three/examples/jsm/loaders/RGBELoader.js';
 		import { RoughnessMipmapper } from './three/examples/jsm/utils/RoughnessMipmapper.js';
 
-		let camera, scene, renderer;
+		let camera, scene, renderer, dials, clock;
 
 		init();
 		render();
@@ -40,7 +40,7 @@
 			new RGBELoader()
 				.setDataType(THREE.UnsignedByteType)
 				.setPath('equirectangular/')
-				.load('royal_esplanade_1k.hdr', function (texture) {
+				.load('vintage_measuring_lab_1k.hdr', function (texture) {
 
 					const envMap = pmremGenerator.fromEquirectangular(texture).texture;
 
@@ -58,7 +58,7 @@
 					const roughnessMipmapper = new RoughnessMipmapper(renderer);
 
 					const loader = new GLTFLoader().setPath('scene/');
-					loader.load('SoyuzElectroMechanicalSpaceClock_007.glb', function (gltf) {
+					loader.load('SoyuzElectroMechanicalSpaceClock_009.glb', function (gltf) {
 
 						gltf.scene.traverse(function (child) {
 
@@ -75,10 +75,31 @@
 
 						roughnessMipmapper.dispose();
 
-						render();
+						const elementNameList = [
+							"tri_clocks_indicator",
+							"tri_clocks_indicator001",
+							"tri_clocks_indicator002",
+							"dial_indicator_seconds",
+							"dial_indicator_minutes",
+							"dial_indicator_hours",
+							"small_clock_indicators_minutes",
+							"small_clock_indicator_hours"
+						];
 
+						dials = gltf.scene.children
+							.filter(item => elementNameList.includes(item.name));
+
+						dials.forEach(dial => {
+							const rnd = Math.random();
+							dial.rotation.set(0, rnd, 0, 'XYZ');
+						});
+
+						render();
 					});
 
+					clock = new THREE.Clock();
+
+					animate();
 				});
 
 			renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -111,15 +132,37 @@
 			renderer.setSize(window.innerWidth, window.innerHeight);
 
 			render();
-
 		}
 
 		//
+		function animate() {
+
+			requestAnimationFrame(animate);
+
+			// Get the time elapsed since the last frame
+			const startTime = clock.startTime;
+			const elapsedTime = clock.getElapsedTime();
+
+			if (dials) {
+				dials.forEach(dial => {
+
+					//				console.log('dials[i].rotation:', dials[i].rotation)
+					//radians 2pi / 60
+					//console.log('Math.round(elapsedTime):', Math.round(elapsedTime))
+					//console.log('dial.rotation.y:', dial.rotation.y)
+					const radianStep = ((2 * Math.PI) / 60);
+					const rad = radianStep * Math.round(elapsedTime);
+					//const rot = dial.rotation.y + (((2 * Math.PI) / 360) * Math.round(elapsedTime));
+					dial.rotation.set(0, rad * -1, 0, 'XYZ')
+				})
+			}
+
+			renderer.render(scene, camera);
+		}
 
 		function render() {
 
 			renderer.render(scene, camera);
-
 		}
 	</script>
 </body>
