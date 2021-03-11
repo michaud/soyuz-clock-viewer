@@ -146,13 +146,8 @@
 			if (dials) {
 				dials.forEach(dial => {
 
-					//				console.log('dials[i].rotation:', dials[i].rotation)
-					//radians 2pi / 60
-					//console.log('Math.round(elapsedTime):', Math.round(elapsedTime))
-					//console.log('dial.rotation.y:', dial.rotation.y)
 					const radianStep = ((2 * Math.PI) / 60);
-					const rad = radianStep * Math.round(elapsedTime);
-					//const rot = dial.rotation.y + (((2 * Math.PI) / 360) * Math.round(elapsedTime));
+					const rad = radianStep * ((Math.round(elapsedTime * 2)) / 2);
 					dial.rotation.set(0, rad * -1, 0, 'XYZ')
 				})
 			}
