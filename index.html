@@ -22,7 +22,13 @@
 		import { RGBELoader } from './three/examples/jsm/loaders/RGBELoader.js';
 		import { RoughnessMipmapper } from './three/examples/jsm/utils/RoughnessMipmapper.js';
 
-		let camera, scene, renderer, dials, clock;
+		let camera, scene, renderer, dials, clock, startTime;
+		const radStep = {
+			day: (2 * Math.PI) / 5184000,
+			hour: (2 * Math.PI) / (60 * 60 * 24),
+			minute: (2 * Math.PI) / (60 * 60),
+			second: (2 * Math.PI) / 60
+		};
 
 		init();
 		render();
@@ -76,28 +82,66 @@
 						roughnessMipmapper.dispose();
 
 						const elementNameList = [
-							"tri_clocks_indicator",
-							"tri_clocks_indicator001",
-							"tri_clocks_indicator002",
-							"dial_indicator_seconds",
-							"dial_indicator_minutes",
-							"dial_indicator_hours",
-							"small_clock_indicators_minutes",
-							"small_clock_indicator_hours"
+							{
+								name: "tri_clocks_indicator",
+								time: "minute"
+							},
+							{
+								name: "tri_clocks_indicator001",
+								time: "second"
+							},
+							{
+								name: "tri_clocks_indicator002",
+								time: "hour"
+							},
+							{
+								name: "dial_indicator_seconds",
+								time: "second"
+							},
+							{
+								name: "dial_indicator_minutes",
+								time: "minute"
+							},
+							{
+								name: "dial_indicator_hours",
+								time: "hour"
+							},
+							{
+								name: "small_clock_indicators_minutes",
+								time: "minute"
+							},
+							{
+								name: "small_clock_indicator_hours",
+								time: "hour"
+							}
 						];
 
 						dials = gltf.scene.children
-							.filter(item => elementNameList.includes(item.name));
+							.reduce((acc, item) => {
 
-						dials.forEach(dial => {
-							const rnd = Math.random();
-							dial.rotation.set(0, rnd, 0, 'XYZ');
-						});
+								const found = elementNameList.find(el => el.name === item.name);
+
+								if (found) {
+									acc.push({
+
+										...found,
+										...item
+									});
+								}
+
+								return acc;
+
+							}, []);
 
 						render();
 					});
 
 					clock = new THREE.Clock();
+					console.log('clock.startTime:', clock.startTime);
+					const currTime = Date.now();
+					console.log('currTime:', currTime)
+					startTime = clock.startTime + Date.now();
+					console.log('new Date(startTime).toTimeString():', new Date(startTime).toTimeString())
 
 					animate();
 				});
@@ -134,21 +178,36 @@
 			render();
 		}
 
+		function getRadFromTime(type, time) {
+
+			const step = radStep[type];
+
+			switch (type) {
+
+				case "second": {
+					return step * ((Math.round(time * 2)) / 2);
+				}
+		
+				default: {
+					return step * time;
+				}
+			}
+		}
 		//
 		function animate() {
 
 			requestAnimationFrame(animate);
 
 			// Get the time elapsed since the last frame
-			const startTime = clock.startTime;
-			const elapsedTime = clock.getElapsedTime();
+			const now = Date.now() + 3600000;
+
+			const time = now / 1000;
 
 			if (dials) {
+
 				dials.forEach(dial => {
 
-					const radianStep = ((2 * Math.PI) / 60);
-					const rad = radianStep * ((Math.round(elapsedTime * 2)) / 2);
-					dial.rotation.set(0, rad * -1, 0, 'XYZ')
+					dial.rotation.set(0, getRadFromTime(dial.time, time) * -1, 0, 'XYZ')
 				})
 			}
 
