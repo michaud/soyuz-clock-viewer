@@ -203,12 +203,10 @@
 							}
 						};
 
-						console.log('gltf.scene:', gltf.scene)
 						const flippedPlate = gltf.scene.children.find(child => child.name === 'flipped_plate');
 						deviceDescriptors.forEach(item => {
 
 							const found = flippedPlate.children.find(child => child.name === item.name);
-							console.log('found:', found)
 
 							if (found) {
 
@@ -334,7 +332,6 @@
 			if (devices) {
 
 				devices.clock.dials.forEach(dial => {
-				console.log('dial:', dial)
 
 					dial.rotation.set(0, getRadFromTime(dial.time, time) * -1, 0, 'XYZ')
 				})
