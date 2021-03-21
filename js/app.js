@@ -7,10 +7,14 @@ import { RoughnessMipmapper } from '../three/examples/jsm/utils/RoughnessMipmapp
 
 import { deviceElementDescriptors } from './deviceElementDescriptors.js';
 import { hiliteDescriptors } from './hiliteDescriptors.js';
-import { radSteps } from './radSteps.js';
+
+import { getRadFromTime } from './utils.js';
+
+import actions from './actions/index.js';
 
 let camera, scene, renderer, raycaster;
 let devices, hilites, hiliteTarget;
+let deviceOn = true;
 let mixer, clips;
 let open = false;
 
@@ -93,7 +97,7 @@ function init() {
             const roughnessMipmapper = new RoughnessMipmapper(renderer);
 
             const loader = new GLTFLoader().setPath('scene/');
-            loader.load('SoyuzElectroMechanicalSpaceClock_011.glb', function (gltf) {
+            loader.load('SoyuzElectroMechanicalSpaceClock_012.glb', function (gltf) {
 
                 gltf.scene.traverse(function (child) {
 
@@ -110,41 +114,55 @@ function init() {
 
                 roughnessMipmapper.dispose();
 
-                //reset_start_stop_indicator
-
                 devices = {
+                    device: {
+                        buttons: []
+                    },
                     chronometer: {
-                        dials: [],
+                        hands: [],
                         buttons: []
                     },
                     clock: {
-                        dials: [],
+                        hands: [],
                         buttons: []
                     },
                     alarm: {
-                        dials: [],
+                        hands: [],
                         buttons: []
                     },
                     mission_timer: {
-                        dials: [],
+                        hands: [],
                         buttons: []
                     }
                 };
 
+                mixer = new THREE.AnimationMixer(gltf.scene);
+                clips = gltf.animations;
+                console.log('clips:', clips)
+
                 const flippedPlate = gltf.scene.children.find(child => child.name === 'flipped_plate');
+
+                const toggleOnOffDevice = () => {
+                    deviceOn = !deviceOn;
+                };
+
+                const commands = {
+                    toggle_device_on_off: toggleOnOffDevice
+                };
+
                 deviceElementDescriptors.forEach(item => {
 
                     const found = flippedPlate.children.find(child => child.name === item.name);
 
                     if (found) {
 
-                        devices[item.device].dials.push({
+                        devices[item.device][item.type].push({
                             ...found,
-                            ...item
+                            ...item,
+                            action: item.action && actions[item.action](item.action, clips, mixer, commands[item.command])
                         });
                     }
                 });
-
 
                 hilites = [];
 
@@ -162,12 +180,8 @@ function init() {
                         })
                     }
                 });
-
-                mixer = new THREE.AnimationMixer(gltf.scene);
-                clips = gltf.animations;
             });
         });
-
 
 
     renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -188,8 +202,31 @@ function init() {
     controls.target.set(0, 0, 0);
     controls.update();
 
-    window.addEventListener('resize', onWindowResize);
+    function myMouseUp () {
 
+        const intersects = raycaster.intersectObjects(scene.children, true);
+    
+        if (intersects.length > 0) {
+
+            let button;
+
+            for(let device in devices) {
+
+                const test = devices[device].buttons && devices[device].buttons.find(button => {
+
+                    return button.name === intersects[0].object.name;
+                });
+
+                if(test) button = test;
+            }
+
+            if(button) button.action()
+        }
+    }
+    
+    container.addEventListener('pointerup', myMouseUp);
+
+    window.addEventListener('resize', onWindowResize);
 }
 
 function onWindowResize() {
@@ -202,21 +239,6 @@ function onWindowResize() {
     render();
 }
 
-function getRadFromTime(type, time) {
-
-    const step = radSteps[type];
-
-    switch (type) {
-
-        case "second": {
-            return step * ((Math.round(time * 2)) / 2);
-        }
-
-        default: {
-            return step * time;
-        }
-    }
-}
 
 function animate() {
 
@@ -233,10 +255,12 @@ function animate() {
 
     if (devices) {
 
-        devices.clock.dials.forEach(dial => {
+        if(deviceOn) {
+            devices.clock.hands.forEach(hand => {
 
-            dial.rotation.set(0, getRadFromTime(dial.time, time) * -1, 0, 'XYZ')
-        })
+                hand.rotation.set(0, getRadFromTime(hand.time, time) * -1, 0, 'XYZ')
+            })
+        }
     }
 
     raycaster.setFromCamera(mouse, camera);
