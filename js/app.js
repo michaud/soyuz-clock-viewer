@@ -97,7 +97,7 @@ function init() {
             const roughnessMipmapper = new RoughnessMipmapper(renderer);
 
             const loader = new GLTFLoader().setPath('scene/');
-            loader.load('SoyuzElectroMechanicalSpaceClock_012.glb', function (gltf) {
+            loader.load('SoyuzElectroMechanicalSpaceClock.glb', function (gltf) {
 
                 gltf.scene.traverse(function (child) {
 
