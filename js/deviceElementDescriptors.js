@@ -26,6 +26,13 @@ export const deviceElementDescriptors = [
     },
     {
         device: "clock",
+        type: "buttons",
+        name: "advance_second_hand",
+        action: "advance_second_handAction",
+        command: "advance_second_hand"
+    },
+    {
+        device: "clock",
         type: "hands",
         name: "dial_indicator_seconds",
         time: "second"

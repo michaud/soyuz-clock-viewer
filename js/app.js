@@ -50,11 +50,14 @@ function initTools () {
 
     openButton.onclick = e => {
 
-        let direction = 1;
-        if(open) direction = -1;
-
-        // Play all animations
-        clips && clips.forEach(function (clip) {
+        
+        
+        const clip = clips.find(clip => clip.name === 'flipped_plateAction');
+        
+        if(clip) {
+            
+            let direction = 1;
+            if(open) direction = -1;
 
             const action = mixer.clipAction(clip);
             action.clampWhenFinished = true;
@@ -62,9 +65,9 @@ function initTools () {
             action.setEffectiveTimeScale(direction);
             action.paused = false;
             action.play();
-        });
-
-        open = !open;
+            
+            open = !open;
+        }
     };
 }
 
@@ -136,34 +139,45 @@ function init() {
                     }
                 };
 
-                mixer = new THREE.AnimationMixer(gltf.scene);
+                mixer = new THREE.AnimationMixer(scene);
                 clips = gltf.animations;
-                console.log('clips:', clips)
-
                 const flippedPlate = gltf.scene.children.find(child => child.name === 'flipped_plate');
 
                 const toggleOnOffDevice = () => {
                     deviceOn = !deviceOn;
                 };
 
+                const advanceClockSecondHand = () => {
+                    console.log('advanceClockSecondHand')
+                };
+
                 const commands = {
-                    toggle_device_on_off: toggleOnOffDevice
+                    toggle_device_on_off: toggleOnOffDevice,
+                    advance_second_hand: advanceClockSecondHand
                 };
 
                 deviceElementDescriptors.forEach(item => {
 
-                    const found = flippedPlate.children.find(child => child.name === item.name);
+                    const found = flippedPlate.children.find(child => {
+                        return child.name === item.name;
+                    });
 
                     if (found) {
 
                         devices[item.device][item.type].push({
                             ...found,
                             ...item,
-                            action: item.action && actions[item.action](item.action, clips, mixer, commands[item.command])
+                            action: item.action && actions[item.action]({
+                                actionName: item.action,
+                                clips,
+                                mixer,
+                                command: commands[item.command]
+                            })
                         });
                     }
                 });
 
+                console.log('devices:', devices)
                 hilites = [];
 
                 hiliteDescriptors.forEach(item => {
@@ -212,8 +226,7 @@ function init() {
 
             for(let device in devices) {
 
-                const test = devices[device].buttons && devices[device].buttons.find(button => {
-
+                const test = devices[device].buttons.find(button => {
                     return button.name === intersects[0].object.name;
                 });
 

@@ -1,6 +1,6 @@
 import * as THREE from '../../three/build/three.module.js';
 
-export const switch_alarm_on_offAction = (actionName, clips, mixer) => {
+export const switch_alarm_on_offAction = ({ actionName, clips, mixer, command = () => {} }) => {
 
     const clip = clips.find(clip => clip.name === actionName);
     const action = mixer.clipAction(clip);
@@ -16,7 +16,7 @@ export const switch_alarm_on_offAction = (actionName, clips, mixer) => {
             action.setEffectiveTimeScale(open ? -1 : 1);
             action.paused = false;
             action.play();
-
+            command();
             open = !open;
         }
     }
