@@ -1,5 +1,4 @@
 import * as THREE from '../three/build/three.module.js';
-
 import { OrbitControls } from '../three/examples/jsm/controls/OrbitControls.js';
 import { GLTFLoader } from '../three/examples/jsm/loaders/GLTFLoader.js';
 import { RGBELoader } from '../three/examples/jsm/loaders/RGBELoader.js';
@@ -7,19 +6,37 @@ import { RoughnessMipmapper } from '../three/examples/jsm/utils/RoughnessMipmapp
 
 import { deviceElementDescriptors } from './deviceElementDescriptors.js';
 import { hiliteDescriptors } from './hiliteDescriptors.js';
-
 import { getRadFromTime } from './utils.js';
 
 import actions from './actions/index.js';
+import { normalizeMousePostion } from './normalizeMousePosition.js';
+import { devices } from './devices.js';
+import { deviceMachineDesc } from './deviceMachine.js';
+
+import {
+    initPicking,
+    initTools,
+    initClock
+} from './init/initialise.js';
 
 let camera, scene, renderer, raycaster;
-let devices, hilites, hiliteTarget;
-let deviceOn = true;
+let hilites, hiliteTarget;
 let mixer, clips;
-let open = false;
+
+const { Machine, actions:machineActions, interpret } = XState; // global variable: window.XState
+
+const deviceMachine = Machine(deviceMachineDesc);
+
+const deviceService = interpret(deviceMachine).onTransition(state =>
+    console.log('new state', state.value)
+);
+
+deviceService.start();
+let deviceState;
+deviceState = deviceService.send('CONNECT').value;
 
 const mouse = new THREE.Vector2();
-const clock = new THREE.Clock();
+const threeTime = new THREE.Clock();
 
 init();
 
@@ -27,55 +44,11 @@ render();
 
 animate();
 
-function onMouseMove(event) {
-
-    // calculate mouse position in normalized device coordinates
-    // (-1 to +1) for both components
-
-    mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-    mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
-
-}
-
-window.addEventListener('mousemove', onMouseMove, false);
-
-function initTools () {
-
-    const descButton = document.getElementById('desc');
-    const openButton = document.getElementById('open-close');
-
-    descButton.onclick = e => {
-
-    };
-
-    openButton.onclick = e => {
-
-        
-        
-        const clip = clips.find(clip => clip.name === 'flipped_plateAction');
-        
-        if(clip) {
-            
-            let direction = 1;
-            if(open) direction = -1;
-
-            const action = mixer.clipAction(clip);
-            action.clampWhenFinished = true;
-            action.setLoop(THREE.LoopOnce);
-            action.setEffectiveTimeScale(direction);
-            action.paused = false;
-            action.play();
-            
-            open = !open;
-        }
-    };
-}
-
 function init() {
 
-    const container = document.getElementById('scene');
+    normalizeMousePostion(mouse);
 
-    initTools();
+    const container = document.getElementById('scene');
 
     camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, .01, 20);
     camera.position.set(0, .2, 0);
@@ -83,119 +56,109 @@ function init() {
     scene = new THREE.Scene();
     raycaster = new THREE.Raycaster();
 
+    const sceneLoaderCallback = (gltf) => {
+
+        const roughnessMipmapper = new RoughnessMipmapper(renderer);
+
+        gltf.scene.traverse(function (child) {
+
+            if (child.isMesh) {
+
+                // TOFIX RoughnessMipmapper seems to be broken with WebGL 2.0
+                roughnessMipmapper.generateMipmaps( child.material );
+            }
+
+        });
+
+        scene.add(gltf.scene);
+
+        roughnessMipmapper.dispose();
+
+        mixer = new THREE.AnimationMixer(scene);
+        clips = gltf.animations;
+
+        const rootScene = scene.children[0];
+
+        const flippedPlate = rootScene.children.find(child => child.name === 'flipped_plate');
+
+        const toggleOnOffDevice = () => {
+            const eventName = deviceState?.connected?.deviceOff ?  'TURN_ON' : 'TURN_OFF';
+            deviceState = deviceService.send(eventName).value;
+        };
+
+        const advanceClockSecondHand = () => {
+            console.log('advanceClockSecondHand')
+        };
+
+        const commands = {
+            toggle_device_on_off: toggleOnOffDevice,
+            advance_second_hand: advanceClockSecondHand
+        };
+
+        deviceElementDescriptors.forEach(item => {
+
+            const found = flippedPlate.children.find(child => {
+
+                return child.name === item.name;
+            });
+
+            if (found) {
+
+                devices[item.device][item.type].push({
+                    ...found,
+                    ...item,
+                    action: item.action && actions[item.action]({
+                        actionName: item.action,
+                        clips,
+                        mixer,
+                        command: commands[item.command]
+                    })
+                });
+            }
+        });
+
+        //console.log('devices:', devices)
+        hilites = [];
+
+        hiliteDescriptors.forEach(item => {
+
+            const hitFound = gltf.scene.children.find(child => child.name === item.name);
+            const overlayFound = gltf.scene.children.find(child => child.name === item.target);
+
+            if (hitFound && overlayFound) {
+
+                hilites.push({
+                    ...item,
+                    hit: hitFound,
+                    target: overlayFound
+                })
+            }
+        });
+
+        initTools(clips, mixer);
+    }
+
+    const RGBELoaderCallback = (texture) => {
+
+        const envMap = pmremGenerator.fromEquirectangular(texture).texture;
+
+        scene.background = envMap;
+        scene.environment = envMap;
+
+        texture.dispose();
+        pmremGenerator.dispose();
+
+        // use of RoughnessMipmapper is optional
+        
+        const loader = new GLTFLoader().setPath('scene/');
+
+        loader.load('SoyuzElectroMechanicalSpaceClock.glb', sceneLoaderCallback);
+    };
+
     new RGBELoader()
         .setDataType(THREE.UnsignedByteType)
         .setPath('equirectangular/')
-        .load('vintage_measuring_lab_1k.hdr', function (texture) {
-
-            const envMap = pmremGenerator.fromEquirectangular(texture).texture;
-
-            scene.background = envMap;
-            scene.environment = envMap;
-
-            texture.dispose();
-            pmremGenerator.dispose();
-
-            // use of RoughnessMipmapper is optional
-            const roughnessMipmapper = new RoughnessMipmapper(renderer);
-
-            const loader = new GLTFLoader().setPath('scene/');
-            loader.load('SoyuzElectroMechanicalSpaceClock.glb', function (gltf) {
-
-                gltf.scene.traverse(function (child) {
-
-                    if (child.isMesh) {
-
-                        // TOFIX RoughnessMipmapper seems to be broken with WebGL 2.0
-                        // roughnessMipmapper.generateMipmaps( child.material );
-
-                    }
-
-                });
-
-                scene.add(gltf.scene);
-
-                roughnessMipmapper.dispose();
-
-                devices = {
-                    device: {
-                        buttons: []
-                    },
-                    chronometer: {
-                        hands: [],
-                        buttons: []
-                    },
-                    clock: {
-                        hands: [],
-                        buttons: []
-                    },
-                    alarm: {
-                        hands: [],
-                        buttons: []
-                    },
-                    mission_timer: {
-                        hands: [],
-                        buttons: []
-                    }
-                };
-
-                mixer = new THREE.AnimationMixer(scene);
-                clips = gltf.animations;
-                const flippedPlate = gltf.scene.children.find(child => child.name === 'flipped_plate');
-
-                const toggleOnOffDevice = () => {
-                    deviceOn = !deviceOn;
-                };
-
-                const advanceClockSecondHand = () => {
-                    console.log('advanceClockSecondHand')
-                };
-
-                const commands = {
-                    toggle_device_on_off: toggleOnOffDevice,
-                    advance_second_hand: advanceClockSecondHand
-                };
-
-                deviceElementDescriptors.forEach(item => {
-
-                    const found = flippedPlate.children.find(child => {
-                        return child.name === item.name;
-                    });
-
-                    if (found) {
-
-                        devices[item.device][item.type].push({
-                            ...found,
-                            ...item,
-                            action: item.action && actions[item.action]({
-                                actionName: item.action,
-                                clips,
-                                mixer,
-                                command: commands[item.command]
-                            })
-                        });
-                    }
-                });
-
-                console.log('devices:', devices)
-                hilites = [];
-
-                hiliteDescriptors.forEach(item => {
-
-                    const hitFound = gltf.scene.children.find(child => child.name === item.name);
-                    const overlayFound = gltf.scene.children.find(child => child.name === item.target);
-
-                    if (hitFound && overlayFound) {
-
-                        hilites.push({
-                            ...item,
-                            hit: hitFound,
-                            target: overlayFound
-                        })
-                    }
-                });
-            });
-        });
+        .load('vintage_measuring_lab_1k.hdr', RGBELoaderCallback);
 
 
     renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -216,28 +179,8 @@ function init() {
     controls.target.set(0, 0, 0);
     controls.update();
 
-    function myMouseUp () {
-
-        const intersects = raycaster.intersectObjects(scene.children, true);
-    
-        if (intersects.length > 0) {
-
-            let button;
-
-            for(let device in devices) {
-
-                const test = devices[device].buttons.find(button => {
-                    return button.name === intersects[0].object.name;
-                });
-
-                if(test) button = test;
-            }
-
-            if(button) button.action()
-        }
-    }
-    
-    container.addEventListener('pointerup', myMouseUp);
+    initPicking(raycaster, devices, scene, container);
+    initClock();
 
     window.addEventListener('resize', onWindowResize);
 }
@@ -252,29 +195,20 @@ function onWindowResize() {
     render();
 }
 
+function updateClock (currentDate = new Date()) {
 
-function animate() {
-
-    requestAnimationFrame(animate);
-    const delta = clock.getDelta();
-    
-    mixer && mixer.update(delta);
-
-    const mydate = new Date();
-    const offs = mydate.getTimezoneOffset()
-    const mill = mydate.getTime() + (-offs * 60000);
+    const offs = currentDate.getTimezoneOffset();
+    const mill = currentDate.getTime() + (-offs * 60000);
 
     const time = mill / 1000;
 
-    if (devices) {
+    devices.clock.hands.forEach(hand => {
 
-        if(deviceOn) {
-            devices.clock.hands.forEach(hand => {
+        hand.rotation.set(0, getRadFromTime(hand.time, time), 0, 'XYZ')
+    })
+}
 
-                hand.rotation.set(0, getRadFromTime(hand.time, time) * -1, 0, 'XYZ')
-            })
-        }
-    }
+function updateHilite () {
 
     raycaster.setFromCamera(mouse, camera);
 
@@ -320,6 +254,25 @@ function animate() {
 
         hiliteTarget = null;
     }
+}
+
+function animate() {
+
+    requestAnimationFrame(animate);
+
+    const delta = threeTime.getDelta();
+    
+    mixer && mixer.update(delta);
+
+    if (devices) {
+
+        if(deviceState?.connected?.deviceOn) {
+
+            updateClock();
+        }
+    }
+
+    updateHilite();
 
     renderer.render(scene, camera);
 }
