@@ -1,4 +1,4 @@
-import * as THREE from '../../three/build/three.module.js';
+import * as THREE from '../three/build/three.module.js';
 
 export const switch_device_on_offAction = ({ actionName, clips, mixer, command }) => {
 

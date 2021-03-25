@@ -1,4 +1,4 @@
-import { RoughnessMipmapper } from '../../three/examples/jsm/utils/RoughnessMipmapper.js';
+import { RoughnessMipmapper } from '../three/examples/jsm/utils/RoughnessMipmapper.js';
 
 import { deviceElementDescriptors } from '../deviceElementDescriptors.js';
 import actions from '../actions/index.js';

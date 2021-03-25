@@ -1,8 +1,8 @@
-import * as THREE from '../three/build/three.module.js';
-import { GLTFLoader } from '../../three/examples/jsm/loaders/GLTFLoader.js';
+import * as THREE from './three/build/three.module.js';
+import { GLTFLoader } from './three/examples/jsm/loaders/GLTFLoader.js';
 import { sceneLoaderCallback } from './init/sceneLoading.js';
 
-import { RGBELoader } from '../three/examples/jsm/loaders/RGBELoader.js';
+import { RGBELoader } from './three/examples/jsm/loaders/RGBELoader.js';
 import { RGBELoaderCallback } from './init/RGBELoading.js';
 import { getRadFromTime } from './utils.js';
 
