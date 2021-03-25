@@ -1,14 +1,11 @@
 import * as THREE from '../three/build/three.module.js';
-import { OrbitControls } from '../three/examples/jsm/controls/OrbitControls.js';
-import { GLTFLoader } from '../three/examples/jsm/loaders/GLTFLoader.js';
-import { RGBELoader } from '../three/examples/jsm/loaders/RGBELoader.js';
-import { RoughnessMipmapper } from '../three/examples/jsm/utils/RoughnessMipmapper.js';
+import { GLTFLoader } from '../../three/examples/jsm/loaders/GLTFLoader.js';
+import { sceneLoaderCallback } from './init/sceneLoading.js';
 
-import { deviceElementDescriptors } from './deviceElementDescriptors.js';
-import { hiliteDescriptors } from './hiliteDescriptors.js';
+import { RGBELoader } from '../three/examples/jsm/loaders/RGBELoader.js';
+import { RGBELoaderCallback } from './init/RGBELoading.js';
 import { getRadFromTime } from './utils.js';
 
-import actions from './actions/index.js';
 import { normalizeMousePostion } from './normalizeMousePosition.js';
 import { devices } from './devices.js';
 import { deviceMachineDesc } from './deviceMachine.js';
@@ -18,17 +15,17 @@ import {
     initTools,
     initClock
 } from './init/initialise.js';
+import { initScene } from './init/initScene.js';
 
-let camera, scene, renderer, raycaster;
 let hilites, hiliteTarget;
-let mixer, clips;
+const clips = [];
 
 const { Machine, actions:machineActions, interpret } = XState; // global variable: window.XState
 
 const deviceMachine = Machine(deviceMachineDesc);
 
 const deviceService = interpret(deviceMachine).onTransition(state =>
-    console.log('new state', state.value)
+    state//console.log('new state', state.value)
 );
 
 deviceService.start();
@@ -37,6 +34,30 @@ deviceState = deviceService.send('CONNECT').value;
 
 const mouse = new THREE.Vector2();
 const threeTime = new THREE.Clock();
+
+const toggleOnOffDevice = () => {
+    const eventName = deviceState?.connected?.deviceOff ?  'TURN_ON' : 'TURN_OFF';
+    deviceState = deviceService.send(eventName).value;
+};
+
+const advanceClockSecondHand = () => {
+    console.log('advanceClockSecondHand')
+};
+
+const commands = {
+    toggle_device_on_off: toggleOnOffDevice,
+    advance_second_hand: advanceClockSecondHand
+};
+
+const {
+    container,
+    camera,
+    scene,
+    renderer,
+    raycaster,
+    pmremGenerator,
+    mixer
+} = initScene();
 
 init();
 
@@ -48,139 +69,24 @@ function init() {
 
     normalizeMousePostion(mouse);
 
-    const container = document.getElementById('scene');
-
-    camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, .01, 20);
-    camera.position.set(0, .2, 0);
-
-    scene = new THREE.Scene();
-    raycaster = new THREE.Raycaster();
-
-    const sceneLoaderCallback = (gltf) => {
-
-        const roughnessMipmapper = new RoughnessMipmapper(renderer);
-
-        gltf.scene.traverse(function (child) {
-
-            if (child.isMesh) {
-
-                // TOFIX RoughnessMipmapper seems to be broken with WebGL 2.0
-                roughnessMipmapper.generateMipmaps( child.material );
-            }
-
-        });
-
-        scene.add(gltf.scene);
-
-        roughnessMipmapper.dispose();
-
-        mixer = new THREE.AnimationMixer(scene);
-        clips = gltf.animations;
-
-        const rootScene = scene.children[0];
-
-        const flippedPlate = rootScene.children.find(child => child.name === 'flipped_plate');
-
-        const toggleOnOffDevice = () => {
-            const eventName = deviceState?.connected?.deviceOff ?  'TURN_ON' : 'TURN_OFF';
-            deviceState = deviceService.send(eventName).value;
-        };
-
-        const advanceClockSecondHand = () => {
-            console.log('advanceClockSecondHand')
-        };
-
-        const commands = {
-            toggle_device_on_off: toggleOnOffDevice,
-            advance_second_hand: advanceClockSecondHand
-        };
-
-        deviceElementDescriptors.forEach(item => {
-
-            const found = flippedPlate.children.find(child => {
-
-                return child.name === item.name;
-            });
-
-            if (found) {
-
-                devices[item.device][item.type].push({
-                    ...found,
-                    ...item,
-                    action: item.action && actions[item.action]({
-                        actionName: item.action,
-                        clips,
-                        mixer,
-                        command: commands[item.command]
-                    })
-                });
-            }
-        });
-
-        //console.log('devices:', devices)
-        hilites = [];
-
-        hiliteDescriptors.forEach(item => {
-
-            const hitFound = gltf.scene.children.find(child => child.name === item.name);
-            const overlayFound = gltf.scene.children.find(child => child.name === item.target);
-
-            if (hitFound && overlayFound) {
-
-                hilites.push({
-                    ...item,
-                    hit: hitFound,
-                    target: overlayFound
-                })
-            }
-        });
-
-        initTools(clips, mixer);
-    }
-
-    const RGBELoaderCallback = (texture) => {
-
-        const envMap = pmremGenerator.fromEquirectangular(texture).texture;
-
-        scene.background = envMap;
-        scene.environment = envMap;
-
-        texture.dispose();
-        pmremGenerator.dispose();
-
-        // use of RoughnessMipmapper is optional
-        
-        const loader = new GLTFLoader().setPath('scene/');
-
-        loader.load('SoyuzElectroMechanicalSpaceClock.glb', sceneLoaderCallback);
-    };
-
     new RGBELoader()
         .setDataType(THREE.UnsignedByteType)
         .setPath('equirectangular/')
-        .load('vintage_measuring_lab_1k.hdr', RGBELoaderCallback);
+        .load('vintage_measuring_lab_1k.hdr', RGBELoaderCallback(scene, pmremGenerator));
 
-
-    renderer = new THREE.WebGLRenderer({ antialias: true });
-    renderer.setPixelRatio(window.devicePixelRatio);
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1;
-    renderer.outputEncoding = THREE.sRGBEncoding;
-    container.appendChild(renderer.domElement);
-
-    const pmremGenerator = new THREE.PMREMGenerator(renderer);
-    pmremGenerator.compileEquirectangularShader();
-
-    const controls = new OrbitControls(camera, renderer.domElement);
-    controls.addEventListener('change', render); // use if there is no animation loop
-    controls.minDistance = .1;
-    controls.maxDistance = 10;
-    controls.target.set(0, 0, 0);
-    controls.update();
+    new GLTFLoader().setPath('scene/')
+        .load('SoyuzElectroMechanicalSpaceClock.glb', sceneLoaderCallback(
+            renderer,
+            scene,
+            mixer,
+            clips,
+            devices,
+            commands
+        ));
 
     initPicking(raycaster, devices, scene, container);
     initClock();
+    initTools(clips, mixer);
 
     window.addEventListener('resize', onWindowResize);
 }
