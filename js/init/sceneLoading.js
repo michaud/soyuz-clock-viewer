@@ -24,11 +24,25 @@ export const sceneLoaderCallback = (renderer, scene, mixer, clips, devices, comm
 
     gltf.animations.forEach(anim => clips.push(anim));
 
-    const rootScene = scene.children[0];
+    const flippedPlate = scene.children[0].children[0].children[1];
 
-    const flippedPlate = rootScene.children.find(child => child.name === 'flipped_plate');
-
+    //rootScene.children.find(child => child.name === 'flipped_plate');
+    
     deviceElementDescriptors.forEach(item => {
+
+        if(item.name === 'connector_plug') {
+            const plug = scene.children[0].children[0].children[0].children[0];
+            devices[item.device][item.type].push({
+                ...plug,
+                ...item,
+                action: item.action && actions[item.action]({
+                    actionName: item.action,
+                    clips,
+                    mixer,
+                    command: commands[item.command]
+                })
+            });            
+        }
 
         const found = flippedPlate.children.find(child => {
 

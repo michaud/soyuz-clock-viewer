@@ -7,6 +7,13 @@ export const deviceElementDescriptors = [
         command: "toggle_device_on_off"
     },
     {
+        device: "device",
+        type: "buttons",
+        name: "connector_plug",
+        action: "connector_plugAction",
+        command: "connect_device"
+    },
+    {
         device: "chronometer",
         type: "hands",
         name: "chronometer_indicator_minutes",

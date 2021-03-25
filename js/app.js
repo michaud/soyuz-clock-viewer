@@ -44,9 +44,16 @@ const advanceClockSecondHand = () => {
     console.log('advanceClockSecondHand')
 };
 
+const connectDevice = () => {
+    console.log('connectDevice')
+
+};
+
+
 const commands = {
     toggle_device_on_off: toggleOnOffDevice,
-    advance_second_hand: advanceClockSecondHand
+    advance_second_hand: advanceClockSecondHand,
+    connect_device: connectDevice
 };
 
 const {

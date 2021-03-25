@@ -2,31 +2,66 @@ import * as THREE from '../three/build/three.module.js';
 
 export const initTools = (clips, mixer) => {
 
-    let open = false;
     const descButton = document.getElementById('desc');
     const openButton = document.getElementById('open-close');
+    const connectButton = document.getElementById('connect');
 
     descButton.onclick = e => {
 
     };
 
-    openButton.onclick = e => {
-        
-        const clip = clips.find(clip => clip.name === 'flipped_plateAction');
-        
-        if(clip) {
-            
-            let direction = 1;
-            if(open) direction = -1;
 
-            const action = mixer.clipAction(clip);
-            action.clampWhenFinished = true;
-            action.setLoop(THREE.LoopOnce);
-            action.setEffectiveTimeScale(direction);
-            action.paused = false;
-            action.play();
+    const handleConnectClick = () => {
+
+        let open = false;
+
+        return _ => {
+
+            const clip = clips.find(clip => clip.name === 'connect_locAction');
             
-            open = !open;
-        }
+            if(clip) {
+                
+                let direction = 1;
+                if(open) direction = -1;
+
+                const action = mixer.clipAction(clip);
+                action.clampWhenFinished = true;
+                action.setLoop(THREE.LoopOnce);
+                action.setEffectiveTimeScale(direction);
+                action.paused = false;
+                action.play();
+                
+                open = !open;
+            }
+        };
     };
-};
+
+    connectButton.onclick = handleConnectClick();
+
+    const handleOpenClick = () => {
+
+        let open = false;
+
+        return _ => {
+        
+            const clip = clips.find(clip => clip.name === 'flipped_plate_open_Action');
+            
+            if(clip) {
+                
+                let direction = 1;
+                if(open) direction = -1;
+
+                const action = mixer.clipAction(clip);
+                action.clampWhenFinished = true;
+                action.setLoop(THREE.LoopOnce);
+                action.setEffectiveTimeScale(direction);
+                action.paused = false;
+                action.play();
+                
+                open = !open;
+            }
+        };
+    };
+
+    openButton.onclick = handleOpenClick();
+}
