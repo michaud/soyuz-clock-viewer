@@ -9,6 +9,7 @@ import { getRadFromTime } from './utils.js';
 import { normalizeMousePostion } from './normalizeMousePosition.js';
 import { devices } from './devices.js';
 import { deviceMachineDesc } from './deviceMachine.js';
+import { initCommands } from './commands/initCommands.js';
 
 import {
     initPicking,
@@ -29,32 +30,11 @@ const deviceService = interpret(deviceMachine).onTransition(state =>
 );
 
 deviceService.start();
-let deviceState;
-deviceState = deviceService.send('CONNECT').value;
 
 const mouse = new THREE.Vector2();
 const threeTime = new THREE.Clock();
 
-const toggleOnOffDevice = () => {
-    const eventName = deviceState?.connected?.deviceOff ?  'TURN_ON' : 'TURN_OFF';
-    deviceState = deviceService.send(eventName).value;
-};
-
-const advanceClockSecondHand = () => {
-    console.log('advanceClockSecondHand')
-};
-
-const connectDevice = () => {
-    console.log('connectDevice')
-
-};
-
-
-const commands = {
-    toggle_device_on_off: toggleOnOffDevice,
-    advance_second_hand: advanceClockSecondHand,
-    connect_device: connectDevice
-};
+const commands = initCommands(deviceService);
 
 const {
     container,
@@ -179,7 +159,7 @@ function animate() {
 
     if (devices) {
 
-        if(deviceState?.connected?.deviceOn) {
+        if(deviceService.state.value?.connected?.deviceOn) {
 
             updateClock();
         }

@@ -5,7 +5,6 @@ import actions from '../actions/index.js';
 
 export const sceneLoaderCallback = (renderer, scene, mixer, clips, devices, commands) => (gltf) => {
 
-    console.log('sceneLoaderCallback')
     const roughnessMipmapper = new RoughnessMipmapper(renderer);
 
     gltf.scene.traverse(function (child) {
@@ -26,11 +25,10 @@ export const sceneLoaderCallback = (renderer, scene, mixer, clips, devices, comm
 
     const flippedPlate = scene.children[0].children[0].children[1];
 
-    //rootScene.children.find(child => child.name === 'flipped_plate');
-    
     deviceElementDescriptors.forEach(item => {
 
         if(item.name === 'connector_plug') {
+
             const plug = scene.children[0].children[0].children[0].children[0];
             devices[item.device][item.type].push({
                 ...plug,
