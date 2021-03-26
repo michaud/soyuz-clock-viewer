@@ -3,15 +3,17 @@ import { OrbitControls } from '../three/examples/jsm/controls/OrbitControls.js';
 
 export const initScene = () => {
 
+    const mouse = new THREE.Vector2();
+    const scene = new THREE.Scene();
+    const raycaster = new THREE.Raycaster();
+    const threeTime = new THREE.Clock();
+
     const container = document.getElementById('scene');
 
     const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, .01, 20);
     camera.position.set(0, .2, 0);
 
-    const scene = new THREE.Scene();
-    const raycaster = new THREE.Raycaster();
     const mixer = new THREE.AnimationMixer(scene);
-
 
     const renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setPixelRatio(window.devicePixelRatio);
@@ -38,6 +40,8 @@ export const initScene = () => {
         renderer,
         raycaster,
         pmremGenerator,
-        mixer
+        mixer,
+        mouse,
+        threeTime
     }
 };

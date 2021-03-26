@@ -32,9 +32,6 @@ const deviceService = interpret(deviceMachine).onTransition(state =>
 
 deviceService.start();
 
-const mouse = new THREE.Vector2();
-const threeTime = new THREE.Clock();
-
 const commands = initCommands(deviceService);
 
 const {
@@ -44,7 +41,9 @@ const {
     renderer,
     raycaster,
     pmremGenerator,
-    mixer
+    mixer,
+    mouse,
+    threeTime
 } = initScene();
 
 init();
@@ -104,8 +103,6 @@ function updateClock (currentDate = new Date()) {
 
 function updateHilite () {
 
-    raycaster.setFromCamera(mouse, camera);
-
     const intersects = raycaster.intersectObjects(scene.children, true);
 
     if (intersects.length > 0) {
@@ -153,6 +150,8 @@ function updateHilite () {
 function animate() {
 
     requestAnimationFrame(animate);
+
+    raycaster.setFromCamera(mouse, camera);
 
     const delta = threeTime.getDelta();
     
