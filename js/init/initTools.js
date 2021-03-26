@@ -10,7 +10,6 @@ export const initTools = (clips, mixer) => {
 
     };
 
-
     const handleConnectClick = () => {
 
         let open = false;

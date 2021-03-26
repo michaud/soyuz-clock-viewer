@@ -12,13 +12,14 @@ import { deviceMachineDesc } from './deviceMachine.js';
 import { initCommands } from './commands/initCommands.js';
 
 import {
+    initScene,
     initPicking,
     initTools,
     initClock
 } from './init/initialise.js';
-import { initScene } from './init/initScene.js';
 
 let hilites, hiliteTarget;
+
 const clips = [];
 
 const { Machine, actions:machineActions, interpret } = XState; // global variable: window.XState
