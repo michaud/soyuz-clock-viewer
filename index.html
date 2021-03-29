@@ -13,6 +13,7 @@
 			padding: 0;
 			font-size: 100%;
 			overflow: hidden;
+			font-family: sans-serif;
 		}
 
 		#scene {
@@ -52,6 +53,27 @@
 			gap: .5rem;
 		}
 
+		.description {
+			margin: 0;
+			padding: 1rem;
+			background-color: rgb(255 255 255 / 50%);
+			font-size: 1.125rem;
+		}
+
+		.description__term {
+			font-weight: bold;
+
+		}
+
+		.description__definition {
+			margin-inline-start: 0;
+		}
+
+		.description__definition p:first-child {
+			margin-block-start: 0;
+		}
+
+
 		.btn {
 			padding: .5rem;
 			background-color: rgba(24 104 133 / 60%);
@@ -78,6 +100,25 @@
 			<button class="btn" id="connect">connect power</button>
 			<button class="btn" id="reset-camera">reset view</button>
 		</nav>
+		<dl class="description">
+			<dt class="description__term">653b Soyuz Electro-mechanical clock</dt>
+			<dd class="description__definition">
+				<p>This is a <a href="https://www.flickr.com/photos/jurvetson/8328690534/in/album-72157623704246792/">clock</a> that was used in the early Soyuz T spacecraft in the late sixties.</br>
+					It is electro-mechanical which means there are electronic parts but there are also gears and springs.</p>
+				</p>
+				<p></p>
+				<p>Later it was also used in the Buran space shuttle.</p>
+				<p>It is part of the <a href="https://www.flickr.com/photos/jurvetson/albums/72157623704246792">Space Collection</a> of Steve Jurvetson.</p>
+			</dd>
+			<dt class="description__term">Clock</dt>
+			<dd class="description__definition"><p>The clock has the distinct 24 hour display. It has a resolution of half seconds.</p></dd>
+			<dt class="description__term">Alarm</dt>
+			<dd class="description__definition"><p>The alarm also has the distinct 24 hour display.</p></dd>
+			<dt class="description__term">Chronometer/stopwatch</dt>
+			<dd class="description__definition"><p>The stopwatch has sequential states: Reset, start and stop.</p></dd>
+			<dt class="description__term">Mission Timer</dt>
+			<dd class="description__definition"><p>The Mission Timer shows the time of the mission</p></dd>
+		</dl>
 	</aside>
 	<div id="border"></div>
 
