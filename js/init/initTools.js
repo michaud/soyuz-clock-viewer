@@ -1,14 +1,41 @@
 import * as THREE from '../three/build/three.module.js';
 
-export const initTools = (clips, mixer) => {
+export const initTools = (clips, mixer, hilites) => {
 
     const descButton = document.getElementById('desc');
     const openButton = document.getElementById('open-close');
     const connectButton = document.getElementById('connect');
 
-    descButton.onclick = e => {
+    const handleDescriptionClick = () => {
 
+        let display = false;
+
+        return _ => {
+
+            if(!display) {
+
+                const targets = [...hilites];
+
+                targets.forEach((hilite, index) => {
+
+                    setTimeout(() => {
+
+                        hilite.target.visible = true;
+
+                        setTimeout(() => {
+
+                            hilite.target.visible = false;
+                        }, 500);
+
+                    }, index * 500);
+                });
+            }
+
+            display = !display;
+        };
     };
+
+    descButton.onclick = handleDescriptionClick();
 
     const handleConnectClick = () => {
 

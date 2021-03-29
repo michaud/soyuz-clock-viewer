@@ -1,6 +1,6 @@
 import * as THREE from './three/build/three.module.js';
 import { GLTFLoader } from './three/examples/jsm/loaders/GLTFLoader.js';
-import { sceneLoaderCallback } from './init/sceneLoading.js';
+import { RoughnessMipmapper } from './three/examples/jsm/utils/RoughnessMipmapper.js';
 
 import { RGBELoader } from './three/examples/jsm/loaders/RGBELoader.js';
 import { RGBELoaderCallback } from './init/RGBELoading.js';
@@ -8,30 +8,24 @@ import { getRadFromTime } from './utils.js';
 
 import { normalizeMousePostion } from './normalizeMousePosition.js';
 import { devices } from './devices.js';
-import { deviceMachineDesc } from './deviceMachine.js';
 import { initCommands } from './commands/initCommands.js';
 
 import {
     initScene,
     initPicking,
     initTools,
-    initClock
+    initClock,
+    initMachine
 } from './init/initialise.js';
 
-let hilites, hiliteTarget;
+import { getTopPlate } from './init/getTopPlate.js';
+import { getConnector } from './init/getConnector.js';
+import { getHilites, initUpdateHilites } from './init/getHilites.js';
 
 const clips = [];
 
-const { Machine, actions:machineActions, interpret } = XState; // global variable: window.XState
-
-const deviceMachine = Machine(deviceMachineDesc);
-
-const deviceService = interpret(deviceMachine).onTransition(state =>
-    state//console.log('new state', state.value)
-);
-
-deviceService.start();
-
+const deviceService = initMachine();
+let updateHilites = () => {}, hilites = [];
 const commands = initCommands(deviceService);
 
 const {
@@ -61,19 +55,52 @@ function init() {
         .setPath('equirectangular/')
         .load('vintage_measuring_lab_1k.hdr', RGBELoaderCallback(scene, pmremGenerator));
 
-    new GLTFLoader().setPath('scene/')
-        .load('SoyuzElectroMechanicalSpaceClock.glb', sceneLoaderCallback(
-            renderer,
-            scene,
-            mixer,
-            clips,
-            devices,
-            commands
-        ));
+    new GLTFLoader()
+        .setPath('scene/')
+        .load('SoyuzElectroMechanicalSpaceClock.glb',(gltf) => {
+
+            const roughnessMipmapper = new RoughnessMipmapper(renderer);
+        
+            gltf.scene.traverse(function (child) {
+        
+                if (child.isMesh) {
+        
+                    // TOFIX RoughnessMipmapper seems to be broken with WebGL 2.0
+                    roughnessMipmapper.generateMipmaps( child.material );
+                }
+            });
+        
+            scene.add(gltf.scene);
+        
+            roughnessMipmapper.dispose();
+
+            gltf.animations.forEach(anim => clips.push(anim));
+
+            getTopPlate(
+                scene,
+                mixer,
+                clips,
+                devices,
+                commands
+            );
+
+            getConnector(
+                scene,
+                mixer,
+                clips,
+                devices,
+                commands
+            );
+
+            getHilites(scene, hilites);
+
+            updateHilites = initUpdateHilites(scene, raycaster);
+        });
 
     initPicking(raycaster, devices, scene, container);
+
     initClock();
-    initTools(clips, mixer);
+    initTools(clips, mixer, hilites);
 
     window.addEventListener('resize', onWindowResize);
 }
@@ -101,52 +128,6 @@ function updateClock (currentDate = new Date()) {
     })
 }
 
-function updateHilite () {
-
-    const intersects = raycaster.intersectObjects(scene.children, true);
-
-    if (intersects.length > 0) {
-
-        if (hiliteTarget != intersects[0].object && intersects[0].object.name.includes('hit')) {
-
-            if (hiliteTarget) {
-
-                const overlay = hilites.find(hilite => hilite.name === hiliteTarget.name);
-
-                if (overlay) {
-
-                    overlay.target.material.opacity = hiliteTarget.currOpacity;
-                }
-            }
-
-            hiliteTarget = intersects[0].object;
-
-            const overlay = hilites.find(hilite => hilite.name === hiliteTarget.name);
-
-            if (overlay) {
-
-                hiliteTarget.currOpacity = overlay.target.material.opacity;
-
-                overlay.target.material.opacity = 0.8;
-            }
-        }
-
-    } else {
-
-        if (hiliteTarget) {
-
-            const overlay = hilites.find(hilite => hilite.name === hiliteTarget.name);
-
-            if (overlay) {
-
-                overlay.target.material.opacity = hiliteTarget.currOpacity;
-            }
-        }
-
-        hiliteTarget = null;
-    }
-}
-
 function animate() {
 
     requestAnimationFrame(animate);
@@ -165,7 +146,7 @@ function animate() {
         }
     }
 
-    updateHilite();
+    updateHilites(hilites);
 
     renderer.render(scene, camera);
 }
