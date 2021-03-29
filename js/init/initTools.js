@@ -1,10 +1,17 @@
 import * as THREE from '../three/build/three.module.js';
 
-export const initTools = (clips, mixer, hilites) => {
+export const initTools = (clips, mixer, hilites, controls) => {
 
     const descButton = document.getElementById('desc');
     const openButton = document.getElementById('open-close');
     const connectButton = document.getElementById('connect');
+    const resetButton = document.getElementById('reset-camera');
+
+    const handleResetCameraClick = () => {
+        controls.reset();
+    };
+
+    resetButton.onclick = handleResetCameraClick;
 
     const handleDescriptionClick = () => {
 

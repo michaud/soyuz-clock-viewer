@@ -37,7 +37,8 @@ const {
     pmremGenerator,
     mixer,
     mouse,
-    threeTime
+    threeTime,
+    controls
 } = initScene();
 
 init();
@@ -100,7 +101,7 @@ function init() {
     initPicking(raycaster, devices, scene, container);
 
     initClock();
-    initTools(clips, mixer, hilites);
+    initTools(clips, mixer, hilites, controls);
 
     window.addEventListener('resize', onWindowResize);
 }

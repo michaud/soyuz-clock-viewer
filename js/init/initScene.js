@@ -42,6 +42,7 @@ export const initScene = () => {
         pmremGenerator,
         mixer,
         mouse,
-        threeTime
+        threeTime,
+        controls
     }
 };
