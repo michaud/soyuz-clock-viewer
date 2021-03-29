@@ -5,11 +5,14 @@
 	<meta charset="utf-8">
 	<title>Soyuz Electro mechanical space clock</title>
 	<style>
-		html, body {
+		html,
+		body {
 			box-sizing: border-box;
 			height: 100vh;
 			margin: 0;
 			padding: 0;
+			font-size: 100%;
+			overflow: hidden;
 		}
 
 		#scene {
@@ -20,15 +23,47 @@
 			height: 100%;
 		}
 
+		#border {
+			position: absolute;
+			top: -15px;
+			left: -15px;
+			right: -15px;
+			bottom: -15px;
+			border: 30px solid rgba(0, 0, 0, 0.2);
+			border-radius: 46px;
+			pointer-events: none;
+		}
+
 		#tools {
 			display: block;
 			position: absolute;
+			top: 15px;
+			width: 15rem;
+			background-color: rgb(255 255 255 / 10%);
+			left: 15px;
+			bottom: 15px;
+			border-radius: 15px 0 0 15px;
+		}
+
+		.tools_list {
+			margin: 1rem;
 			display: flex;
 			flex-direction: column;
-			top: 0;
-			width: 10vw;
-			height: 100vh;
-			background-color: rgba(255,255,255, 0.1);
+			gap: .5rem;
+		}
+
+		.btn {
+			padding: .5rem;
+			background-color: rgba(24 104 133 / 60%);
+			border: none;
+			color: white;
+			font-size: 1.125rem;
+			border-radius: .25rem;
+		}
+		.btn:hover {
+			background-color: rgba(24 104 133 / 80%);
+			border-left: 3px solid rgba(255, 255, 255, 0.5);
+			border-right: 3px solid rgba(255, 255, 255, 0.5);
 		}
 	</style>
 	<script src="https://unpkg.com/xstate@4/dist/xstate.js"></script>
@@ -37,12 +72,15 @@
 <body>
 	<div id="scene"></div>
 	<aside id="tools">
-		<button id="desc">description</button>
-		<button id="open-close">open</button>
-		<button id="connect">connect</button>
-		<button id="reset-camera">reset view</button>
-
+		<nav class="tools_list">
+			<button class="btn" id="desc">description</button>
+			<button class="btn" id="open-close">open device</button>
+			<button class="btn" id="connect">connect power</button>
+			<button class="btn" id="reset-camera">reset view</button>
+		</nav>
 	</aside>
+	<div id="border"></div>
+
 	<!-- <script src="./node_modules/three/build/three.js"></script> -->
 	<!-- <script src="./node_modules/three/build/three.module.js"></script> -->
 
