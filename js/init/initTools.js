@@ -1,50 +1,70 @@
 import * as THREE from '../three/build/three.module.js';
 
-export const initTools = (clips, mixer, hilites, controls) => {
+export const initTools = (clips, mixer, hilites, controls, state) => {
 
-    const descButton = document.getElementById('desc');
     const openButton = document.getElementById('open-close');
     const connectButton = document.getElementById('connect');
     const resetButton = document.getElementById('reset-camera');
+    const showHiliteButton = document.getElementById('show-hilite');
+    const toggleHiliteSwitch = document.getElementById('toggle-hilite-switch');
 
-    const handleResetCameraClick = () => {
-        controls.reset();
-    };
+    if(state.showHilite) {
+
+        toggleHiliteSwitch.querySelector('.hilite-switch').classList.add('on');
+
+    } else {
+
+        toggleHiliteSwitch.querySelector('.hilite-switch').classList.remove('on');
+    }
+
+    const handleToggleHiliteSwitch = e => {
+
+        e.stopPropagation();
+        const target = e.target;
+        target.querySelector('.hilite-switch').classList.toggle('on');
+        state.showHilite = !state.showHilite;
+    }
+
+    toggleHiliteSwitch.addEventListener('pointerup', handleToggleHiliteSwitch);
+
+    const handleResetCameraClick = _ => controls.reset();
 
     resetButton.onclick = handleResetCameraClick;
 
-    const handleDescriptionClick = () => {
+    const handleShowHilite = e => {
 
-        let display = false;
+        let targets = [];
 
         return _ => {
 
-            if(!display) {
+            if(targets.length === 0) targets = [...hilites];
 
-                const targets = [...hilites];
+            if(targets.length === hilites.length) {
 
-                targets.forEach((hilite, index) => {
+                hilites.forEach((hilite, index) => {
 
                     setTimeout(() => {
 
                         hilite.target.visible = true;
+                        hilite.domEl.classList.add('hilite');
 
                         setTimeout(() => {
 
                             hilite.target.visible = false;
+                            hilite.domEl.classList.remove('hilite');
+                            targets.pop();
+
                         }, 500);
 
                     }, index * 500);
                 });
             }
-
-            display = !display;
         };
     };
 
-    descButton.onclick = handleDescriptionClick();
+    showHiliteButton.onclick = handleShowHilite();
 
-    const handleConnectClick = () => {
+    const handleConnectClick = _ => {
 
         let open = false;
 
@@ -71,7 +91,7 @@ export const initTools = (clips, mixer, hilites, controls) => {
 
     connectButton.onclick = handleConnectClick();
 
-    const handleOpenClick = () => {
+    const handleOpenClick = _ => {
 
         let open = false;
 

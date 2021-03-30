@@ -6,6 +6,7 @@
 	<title>Soyuz Electro mechanical space clock</title>
 	<style>
 		@font-face {
+
 			font-family: 'chathurabold';
 			src: url('./assets/font/chathura-bold-webfont.woff2') format('woff2'),
 				url('./assets/font/chathura-bold-webfont.woff') format('woff');
@@ -14,6 +15,7 @@
 		}
 
 		@font-face {
+
 			font-family: 'chathuraextrabold';
 			src: url('./assets/font/chathura-extrabold-webfont.woff2') format('woff2'),
 				url('./assets/font/chathura-extrabold-webfont.woff') format('woff');
@@ -22,6 +24,7 @@
 		}
 
 		@font-face {
+
 			font-family: 'chathuraregular';
 			src: url('./assets/font/chathura-regular-webfont.woff2') format('woff2'),
 				url('./assets/font/chathura-regular-webfont.woff') format('woff');
@@ -30,6 +33,7 @@
 		}
 
 		@font-face {
+
 			font-family: 'inria_sansbold';
 			src: url('./assets/font/inriasans-bold-webfont.woff2') format('woff2'),
 				url('./assets/font/inriasans-bold-webfont.woff') format('woff');
@@ -38,6 +42,7 @@
 		}
 
 		@font-face {
+
 			font-family: 'inria_sansitalic';
 			src: url('./assets/font/inriasans-italic-webfont.woff2') format('woff2'),
 				url('./assets/font/inriasans-italic-webfont.woff') format('woff');
@@ -46,6 +51,7 @@
 		}
 
 		@font-face {
+
 			font-family: 'inria_sansregular';
 			src: url('./assets/font/inriasans-regular-webfont.woff2') format('woff2'),
 				url('./assets/font/inriasans-regular-webfont.woff') format('woff');
@@ -54,11 +60,13 @@
 		}
 
 		html {
+
 			font-size: 100%;
 		}
 
 		html,
 		body {
+
 			box-sizing: border-box;
 			height: 100vh;
 			margin: 0;
@@ -70,6 +78,7 @@
 		}
 
 		#scene {
+
 			position: absolute;
 			top: 0;
 			width: 100%;
@@ -78,6 +87,7 @@
 		}
 
 		#border {
+
 			position: absolute;
 			top: -15px;
 			left: -15px;
@@ -89,25 +99,34 @@
 		}
 
 		#tools {
-			display: block;
+
+			display: flex;
+			flex-direction: column;
 			position: absolute;
 			top: 15px;
 			width: 21rem;
 			left: 15px;
 			bottom: 15px;
-			padding-top: 10rem;
 			background-color: rgb(255 255 255 / 10%);
-			background-image: url(./assets/soyuz_inside.jpg);
-			background-size: contain;
-			background-repeat: no-repeat;
 			border-radius: 15px 0 0 15px;
 		}
 
 		.tools__header {
 
+			background-image: url(./assets/soyuz_inside.jpg);
+			background-size: contain;
+			background-repeat: no-repeat;
+			padding-top: 10rem;
+			padding-bottom: 1rem;
+			max-height: 15rem;
+			flex-grow: 0;
+		}
+
+		.tools__heading {
+
 			color: rgba(11, 77, 101);
 			padding: 0 1rem;
-			margin: 0 1rem 1rem;
+			margin: 0 1rem;
 			font-family: 'chathuraextrabold';
 			font-size: 4rem;
 			line-height: 1;
@@ -116,47 +135,162 @@
 		}
 
 		.tools_list {
-			margin: 1rem;
+
 			display: flex;
+			flex-grow: 0;
 			flex-direction: column;
 			gap: .5rem;
+			margin: 1rem;
 		}
 
 		.description {
+
+			flex-grow: 1;
+			overflow-y: auto;
 			margin: 0;
-			padding: 1rem;
 			background-color: rgb(255 255 255 / 50%);
 		}
 
-		.description__term {
-			font-weight: bold;
-
-		}
-
-		.description__definition {
-			margin-inline-start: 0;
-		}
-
-		.description__definition p:first-child {
-			margin-block-start: 0;
-		}
-
-
 		.btn {
-			padding: .5rem;
+
+			display: inline-block;
+			vertical-align: top;
+			padding: .25rem .5rem;
 			background-color: rgba(24 104 133 / 60%);
-			border: none;
+			border-top: none;
+			border-right: 3px solid rgba(255, 255, 255, 0);
+			border-bottom: none;
+			border-left: 3px solid rgba(255, 255, 255, 0);
+			border-radius: .25rem;
 			color: white;
 			font-family: 'inria_sansbold';
 			font-size: 1.25rem;
-			border-radius: .25rem;
+			min-height: 2.5rem;
 		}
 
+		.btn--connect-end {
+
+			border-radius: .25rem 0 0 .25rem;
+			padding: .25rem .125rem .25rem .5rem;
+		}
+
+		.btn--connect-start {
+
+			border-radius: 0 .25rem .25rem 0;
+			padding: .25rem .25rem .25rem .125rem;
+		}
+
+		.btn__label {
+
+			display: inline-block;
+			padding: 0 .5rem;
+		}
+
+
 		.btn:hover {
+
+			background-color: rgba(24 104 133 / 80%);
+		}
+		.btn--nav:hover {
+
 			background-color: rgba(24 104 133 / 80%);
 			border-left: 3px solid rgba(255, 255, 255, 0.5);
 			border-right: 3px solid rgba(255, 255, 255, 0.5);
 		}
+
+		.detail {
+
+			border-bottom: 1px solid rgb(24 104 133);
+		}
+
+		.detail summary {
+
+			position: relative;
+			padding: .5rem 1.5rem;
+		}
+
+		.detail summary:hover,
+		.detail.hilite {
+
+			background-color: rgba(255 255 255 / 25%);
+		}
+
+		.detail[open] summary:before {
+
+			content: '';
+			position: absolute;
+			left: 0;
+			top: 0;
+			bottom: 0;
+			width: .5rem;
+			background-color: rgba(11, 77, 101);
+		}
+
+		.detail h3 {
+
+			display: inline;
+			margin: 0;
+		}
+
+		.detail summary:focus {
+
+			outline: 1px solid green;
+		}
+
+		.detail summary p:first-of-type {
+
+			margin-block-start: 0;
+		}
+
+		.detail summary p:last-of-type {
+
+			margin-block-end: 0;
+		}
+
+		.detail__content {
+
+			margin: 1rem 1.5rem;
+		}
+
+		.switch {
+
+			display: inline-block;
+			width: 3rem;
+			height: 1.6rem;
+			border: 2px solid white;
+			border-radius: 2rem;
+			text-align: left;
+			background-color:rgba(255, 255, 255, 0.1);
+			pointer-events: none;
+		}
+
+		.switch.on {
+
+			text-align: right;
+		}
+
+		.switch__knob {
+
+			pointer-events: none;
+			margin: .125rem .25rem 0 .25rem;
+		}
+
+		.knob__icon {
+
+			fill: rgba(255, 255, 255, 0.5);
+		}
+
+		.on .knob__icon {
+
+			fill: white;
+		}
+
+		.toolbar {
+			display: flex;
+			gap: .5rem;
+			margin: 1rem;
+		}
+
 	</style>
 	<script src="https://unpkg.com/xstate@4/dist/xstate.js"></script>
 </head>
@@ -164,42 +298,81 @@
 <body>
 	<div id="scene"></div>
 	<aside id="tools">
-		<h2 class="tools__header">Soyuz Space clock</h2>
-		<dl class="description">
-			<dt class="description__term">The device</dt>
-			<dd class="description__definition">
-				<p>This is a <a
-						href="https://www.flickr.com/photos/jurvetson/8328690534/in/album-72157623704246792/">clock</a>
-					that was used in the early Soyuz T spacecraft in the late sixties.</br>
-					It is electro-mechanical which means there are electronic parts but there are also gears and
-					springs.</p>
-				</p>
-				<p></p>
-				<p>Later it was also used in the Buran space shuttle.</p>
-				<p>It is part of the <a href="https://www.flickr.com/photos/jurvetson/albums/72157623704246792">Space
-						Collection</a> of Steve Jurvetson.</p>
-			</dd>
-			<dt class="description__term">Clock</dt>
-			<dd class="description__definition">
-				<p>The clock has the distinct 24 hour display. It has a resolution of half seconds.</p>
-			</dd>
-			<dt class="description__term">Alarm</dt>
-			<dd class="description__definition">
-				<p>The alarm also has the distinct 24 hour display.</p>
-			</dd>
-			<dt class="description__term">Chronometer/stopwatch</dt>
-			<dd class="description__definition">
-				<p>The stopwatch has sequential states: Reset, start and stop.</p>
-			</dd>
-			<dt class="description__term">Mission Timer</dt>
-			<dd class="description__definition">
-				<p>The Mission Timer shows the time of the mission</p>
-			</dd>
-		</dl>
+		<div class="tools__header">
+			<h2 class="tools__heading">Soyuz Space clock</h2>
+		</div>
+		<div class="description">
+			<div class="toolbar">
+				<div>
+					<button title="show hilites on device" class="btn btn--connect-end" id="show-hilite">hilite</button><button class="btn btn--connect-start" title="turn hilites on or off" id="toggle-hilite-switch">
+						<div class="hilite-switch switch on">
+							<svg class="switch__knob" viewport="0 0 24 24" width="24" height="24">
+								<path class="knob__icon" fill="#fff" d="M6 14l3 3v5h6v-5l3-3V9H6v5zm5-12h2v3h-2V2zM3.5 5.88l1.41-1.41 2.12 2.12L5.62 8 3.5 5.88zm13.46.71l2.12-2.12 1.41 1.41L18.38 8l-1.42-1.41z" />
+							</svg>
+						</div>
+					</button>
+				</div>
+				<button class="btn" id="connect">connect</button>
+				<button class="btn" id="open-close">open</button>
+			</div>
+			<details data-target="device" class="detail">
+				<summary>
+					<h3>The device</h3>
+					<p>This is a <a
+							href="https://www.flickr.com/photos/jurvetson/8328690534/in/album-72157623704246792/">clock</a>
+						that was used in the early Soyuz T spacecraft in the late sixties
+					</p>
+				</summary>
+				<div class="detail__content">
+					<p>It is electro-mechanical which means there are electronic parts but there are also gears and
+						springs.</p>
+					</p>
+					<p></p>
+					<p>Later it was also used in the Buran space shuttle.</p>
+					<p>It is part of the <a
+							href="https://www.flickr.com/photos/jurvetson/albums/72157623704246792">Space
+							Collection</a> of Steve Jurvetson.
+					</p>
+				</div>
+			</details>
+			<details data-target="clock" class="detail">
+				<summary>
+					<h3>Clock</h3>
+					<p>Show the time driven by an external signal</p>
+				</summary>
+				<div class="detail__content">
+					<p>The clock has the distinct 24 hour display. It has a resolution of half seconds.</p>
+				</div>
+			</details>
+			<details data-target="alarm" class="detail">
+				<summary>
+					<h3>Alarm</h3>
+					<p>It chimes when the alarm time is reached</p>
+				</summary>
+				<div class="detail__content">
+					<p>The alarm has the distinct 24 hour display.</p>
+				</div>
+			</details>
+			<details data-target="chronometer" class="detail">
+				<summary>
+					<h3>Chronometer/stopwatch</h3>
+					<p>Has the distinct 24 hour display</p>
+				</summary>
+				<div class="detail__content">
+					<p>The stopwatch has sequential states: Reset, start and stop.</p>
+				</div>
+			</details>
+			<details data-target="mission_timer" class="detail">
+				<summary>
+					<h3>Mission Timer</h3>
+					<p>Shows the time of the mission</p>
+				</summary>
+				<div class="detail__content">
+					<p>The reset button is heavy</p>
+				</div>
+			</details>
+		</div>
 		<nav class="tools_list">
-			<button class="btn" id="desc">highlight</button>
-			<button class="btn" id="connect">connect power</button>
-			<button class="btn" id="open-close">open device</button>
 			<button class="btn" id="reset-camera">reset view</button>
 		</nav>
 	</aside>

@@ -23,7 +23,9 @@ import { getConnector } from './init/getConnector.js';
 import { getHilites, initUpdateHilites } from './init/getHilites.js';
 
 const clips = [];
-
+const state = {
+    showHilite: true
+};
 const deviceService = initMachine();
 let updateHilites = () => {}, hilites = [];
 const commands = initCommands(deviceService);
@@ -93,15 +95,15 @@ function init() {
                 commands
             );
 
-            getHilites(scene, hilites);
+            getHilites(scene, hilites, state);
 
-            updateHilites = initUpdateHilites(scene, raycaster);
+            updateHilites = initUpdateHilites(scene, raycaster, state);
         });
 
+    initTools(clips, mixer, hilites, controls, state);
     initPicking(raycaster, devices, scene, container);
 
     initClock();
-    initTools(clips, mixer, hilites, controls);
 
     window.addEventListener('resize', onWindowResize);
 }
