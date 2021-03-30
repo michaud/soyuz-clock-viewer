@@ -5,15 +5,68 @@
 	<meta charset="utf-8">
 	<title>Soyuz Electro mechanical space clock</title>
 	<style>
+		@font-face {
+			font-family: 'chathurabold';
+			src: url('./assets/font/chathura-bold-webfont.woff2') format('woff2'),
+				url('./assets/font/chathura-bold-webfont.woff') format('woff');
+			font-weight: normal;
+			font-style: normal;
+		}
+
+		@font-face {
+			font-family: 'chathuraextrabold';
+			src: url('./assets/font/chathura-extrabold-webfont.woff2') format('woff2'),
+				url('./assets/font/chathura-extrabold-webfont.woff') format('woff');
+			font-weight: normal;
+			font-style: normal;
+		}
+
+		@font-face {
+			font-family: 'chathuraregular';
+			src: url('./assets/font/chathura-regular-webfont.woff2') format('woff2'),
+				url('./assets/font/chathura-regular-webfont.woff') format('woff');
+			font-weight: normal;
+			font-style: normal;
+		}
+
+		@font-face {
+			font-family: 'inria_sansbold';
+			src: url('./assets/font/inriasans-bold-webfont.woff2') format('woff2'),
+				url('./assets/font/inriasans-bold-webfont.woff') format('woff');
+			font-weight: normal;
+			font-style: normal;
+		}
+
+		@font-face {
+			font-family: 'inria_sansitalic';
+			src: url('./assets/font/inriasans-italic-webfont.woff2') format('woff2'),
+				url('./assets/font/inriasans-italic-webfont.woff') format('woff');
+			font-weight: normal;
+			font-style: normal;
+		}
+
+		@font-face {
+			font-family: 'inria_sansregular';
+			src: url('./assets/font/inriasans-regular-webfont.woff2') format('woff2'),
+				url('./assets/font/inriasans-regular-webfont.woff') format('woff');
+			font-weight: normal;
+			font-style: normal;
+		}
+
+		html {
+			font-size: 100%;
+		}
+
 		html,
 		body {
 			box-sizing: border-box;
 			height: 100vh;
 			margin: 0;
 			padding: 0;
-			font-size: 100%;
 			overflow: hidden;
-			font-family: sans-serif;
+			font-family: 'inria_sansregular';
+			font-size: 1.125rem;
+			line-height: 1.25;
 		}
 
 		#scene {
@@ -39,11 +92,27 @@
 			display: block;
 			position: absolute;
 			top: 15px;
-			width: 15rem;
-			background-color: rgb(255 255 255 / 10%);
+			width: 21rem;
 			left: 15px;
 			bottom: 15px;
+			padding-top: 10rem;
+			background-color: rgb(255 255 255 / 10%);
+			background-image: url(./assets/soyuz_inside.jpg);
+			background-size: contain;
+			background-repeat: no-repeat;
 			border-radius: 15px 0 0 15px;
+		}
+
+		.tools__header {
+
+			color: rgba(11, 77, 101);
+			padding: 0 1rem;
+			margin: 0 1rem 1rem;
+			font-family: 'chathuraextrabold';
+			font-size: 4rem;
+			line-height: 1;
+			border-radius: 20px 44px 44px 20px;
+			background-color: rgba(255 255 255 / 85%);
 		}
 
 		.tools_list {
@@ -57,7 +126,6 @@
 			margin: 0;
 			padding: 1rem;
 			background-color: rgb(255 255 255 / 50%);
-			font-size: 1.125rem;
 		}
 
 		.description__term {
@@ -79,9 +147,11 @@
 			background-color: rgba(24 104 133 / 60%);
 			border: none;
 			color: white;
-			font-size: 1.125rem;
+			font-family: 'inria_sansbold';
+			font-size: 1.25rem;
 			border-radius: .25rem;
 		}
+
 		.btn:hover {
 			background-color: rgba(24 104 133 / 80%);
 			border-left: 3px solid rgba(255, 255, 255, 0.5);
@@ -94,32 +164,46 @@
 <body>
 	<div id="scene"></div>
 	<aside id="tools">
-		<nav class="tools_list">
-			<button class="btn" id="desc">description</button>
-			<button class="btn" id="open-close">open device</button>
-			<button class="btn" id="connect">connect power</button>
-			<button class="btn" id="reset-camera">reset view</button>
-		</nav>
+		<h2 class="tools__header">Soyuz Space clock</h2>
 		<dl class="description">
-			<dt class="description__term">653b Soyuz Electro-mechanical clock</dt>
+			<dt class="description__term">The device</dt>
 			<dd class="description__definition">
-				<p>This is a <a href="https://www.flickr.com/photos/jurvetson/8328690534/in/album-72157623704246792/">clock</a> that was used in the early Soyuz T spacecraft in the late sixties.</br>
-					It is electro-mechanical which means there are electronic parts but there are also gears and springs.</p>
+				<p>This is a <a
+						href="https://www.flickr.com/photos/jurvetson/8328690534/in/album-72157623704246792/">clock</a>
+					that was used in the early Soyuz T spacecraft in the late sixties.</br>
+					It is electro-mechanical which means there are electronic parts but there are also gears and
+					springs.</p>
 				</p>
 				<p></p>
 				<p>Later it was also used in the Buran space shuttle.</p>
-				<p>It is part of the <a href="https://www.flickr.com/photos/jurvetson/albums/72157623704246792">Space Collection</a> of Steve Jurvetson.</p>
+				<p>It is part of the <a href="https://www.flickr.com/photos/jurvetson/albums/72157623704246792">Space
+						Collection</a> of Steve Jurvetson.</p>
 			</dd>
 			<dt class="description__term">Clock</dt>
-			<dd class="description__definition"><p>The clock has the distinct 24 hour display. It has a resolution of half seconds.</p></dd>
+			<dd class="description__definition">
+				<p>The clock has the distinct 24 hour display. It has a resolution of half seconds.</p>
+			</dd>
 			<dt class="description__term">Alarm</dt>
-			<dd class="description__definition"><p>The alarm also has the distinct 24 hour display.</p></dd>
+			<dd class="description__definition">
+				<p>The alarm also has the distinct 24 hour display.</p>
+			</dd>
 			<dt class="description__term">Chronometer/stopwatch</dt>
-			<dd class="description__definition"><p>The stopwatch has sequential states: Reset, start and stop.</p></dd>
+			<dd class="description__definition">
+				<p>The stopwatch has sequential states: Reset, start and stop.</p>
+			</dd>
 			<dt class="description__term">Mission Timer</dt>
-			<dd class="description__definition"><p>The Mission Timer shows the time of the mission</p></dd>
+			<dd class="description__definition">
+				<p>The Mission Timer shows the time of the mission</p>
+			</dd>
 		</dl>
+		<nav class="tools_list">
+			<button class="btn" id="desc">highlight</button>
+			<button class="btn" id="connect">connect power</button>
+			<button class="btn" id="open-close">open device</button>
+			<button class="btn" id="reset-camera">reset view</button>
+		</nav>
 	</aside>
+
 	<div id="border"></div>
 
 	<!-- <script src="./node_modules/three/build/three.js"></script> -->
