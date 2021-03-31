@@ -59,6 +59,11 @@
 			font-style: normal;
 		}
 
+		:root {
+
+			--button-radius: .33rem;
+		}
+
 		html {
 
 			font-size: 100%;
@@ -163,7 +168,7 @@
 			border-right: 3px solid rgba(255, 255, 255, 0);
 			border-bottom: none;
 			border-left: 3px solid rgba(255, 255, 255, 0);
-			border-radius: .25rem;
+			border-radius: var(--button-radius);
 			color: white;
 			font-family: 'inria_sansbold';
 			font-size: 1.25rem;
@@ -172,13 +177,13 @@
 
 		.btn--connect-end {
 
-			border-radius: .25rem 0 0 .25rem;
+			border-radius: var(--button-radius) 0 0 var(--button-radius);
 			padding: .25rem .125rem .25rem .5rem;
 		}
 
 		.btn--connect-start {
 
-			border-radius: 0 .25rem .25rem 0;
+			border-radius: 0 var(--button-radius) var(--button-radius) 0;
 			padding: .25rem .25rem .25rem .125rem;
 		}
 
