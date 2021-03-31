@@ -46,10 +46,18 @@ export const initUpdateHilites = (scene, raycaster, state) => {
 
     let hiliteTarget;
 
-    return (hilites) => {
+    const sceneGroup = scene.children[0];
+
+    const hitTargets = sceneGroup?.children[0].children[1].children.find(item => item.name === 'hit_target');
+
+    return hilites => {
 
         if(state.showHilite) {
-     
+
+            if(hitTargets.scale.x === 0) {
+                hitTargets.scale.set(1,1,1)
+            }
+
             const intersects = raycaster.intersectObjects(scene.children, true);
 
             if (intersects.length > 0) {
@@ -95,6 +103,9 @@ export const initUpdateHilites = (scene, raycaster, state) => {
 
                 hiliteTarget = null;
             }
+
+        } else {
+            if(hitTargets.scale.x === 1) hitTargets.scale.set(0,0,0);
         }
     };
-}
+};
