@@ -6,7 +6,9 @@ import { RGBELoader } from './three/examples/jsm/loaders/RGBELoader.js';
 import { RGBELoaderCallback } from './init/RGBELoading.js';
 import { getRadFromTime } from './utils.js';
 
-import { normalizeMousePostion } from './normalizeMousePosition.js';
+import { normalizeMousePostion } from './init/initWindow.js';
+import { onWindowResize } from './init/initWindow.js';
+
 import { devices } from './devices.js';
 import { initCommands } from './commands/initCommands.js';
 
@@ -105,17 +107,7 @@ function init() {
 
     initClock();
 
-    window.addEventListener('resize', onWindowResize);
-}
-
-function onWindowResize() {
-
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-
-    renderer.setSize(window.innerWidth, window.innerHeight);
-
-    render();
+    window.addEventListener('resize', onWindowResize(camera, renderer, render));
 }
 
 function updateClock (currentDate = new Date()) {
