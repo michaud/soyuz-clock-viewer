@@ -1,5 +1,8 @@
 Make operational
 
+- use hit target to enable disable hilites
+- hide hit targets when show hilite is disabled
+
 Chronometer
 - start
 - stop
