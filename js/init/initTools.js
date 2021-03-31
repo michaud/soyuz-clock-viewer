@@ -19,7 +19,6 @@ export const initTools = (clips, mixer, hilites, controls, state) => {
 
     const handleToggleHiliteSwitch = e => {
 
-        e.stopPropagation();
         const target = e.target;
         target.querySelector('.hilite-switch').classList.toggle('on');
         state.showHilite = !state.showHilite;
