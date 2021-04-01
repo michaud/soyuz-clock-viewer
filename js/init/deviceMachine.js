@@ -1,6 +1,15 @@
+const { assign } = XState; // global variable: window.XState
+
 export const deviceMachineDesc = {
     id: 'device',
     initial: 'disconnected',
+    context: {
+        elapsed: 0,
+        duration: 5,
+        interval: .5,
+        alarmElapsed: 0,
+        missionElapsed: 0
+    },
     states: {
         disconnected: {
             on: {
@@ -12,6 +21,17 @@ export const deviceMachineDesc = {
             states: {
                 deviceOn: {
                     type: 'parallel',
+                    invoke: {
+                        src: context => cb => {
+                            const interval = setInterval(() => {
+                                cb('TICK');
+                            }, 1000 * context.interval);
+
+                            return () => {
+                                clearInterval(interval);
+                            };
+                        }
+                    },
                     states: {
                         mission_timer: {
                             initial: 'idle',
@@ -28,13 +48,21 @@ export const deviceMachineDesc = {
                                 }
                             },
                             on: {
-                                TICK: ''
+                                TICK: {
+                                    actions: () => {
+                                        //console.log('mission_timer tick')
+                                    }
+                                }
                             }
                         },
                         clock: {
                             on: {
-                                TICK: ''
-                            }
+                                TICK: {
+                                    actions: assign({
+                                        elapsed: context => +(context.elapsed + context.interval).toFixed(2)
+                                    })
+                                }
+                            },
                         },
                         chrono: {
                             initial: 'idle',
@@ -66,8 +94,12 @@ export const deviceMachineDesc = {
                                 }
                             },
                             on: {
-                                TICK: ''
-                            }
+                                TICK: {
+                                    actions: () => {
+                                        //console.log('chrono tick')
+                                    }
+                                }
+                            },
                         },
                         alarm: {
                             initial: 'idle',
@@ -84,12 +116,16 @@ export const deviceMachineDesc = {
                                 }
                             },
                             on: {
-                                TICK: ''
+                                TICK: {
+                                    actions: () => {
+                                        //console.log('alarm tick')
+                                    }
+                                }
                             }
                         },
                     },
                     on: {
-                        TURN_OFF: 'deviceOff'
+                        TURN_OFF: 'deviceOff',
                     }
                 },
                 deviceOff: {

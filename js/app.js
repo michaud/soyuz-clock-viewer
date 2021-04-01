@@ -26,9 +26,11 @@ import { getHilites, initUpdateHilites } from './init/getHilites.js';
 
 const clips = [];
 const state = {
-    showHilite: true
+    showHilite: false
 };
+
 const deviceService = initMachine();
+
 let updateHilites = () => {}, hilites = [];
 const commands = initCommands(deviceService);
 
@@ -110,12 +112,26 @@ function init() {
     window.addEventListener('resize', onWindowResize(camera, renderer, render));
 }
 
-function updateClock (currentDate = new Date()) {
+function updateTime (devices, timeVal) {
 
-    const offs = currentDate.getTimezoneOffset();
-    const mill = currentDate.getTime() + (-offs * 60000);
+    let time = 0;
 
-    const time = mill / 1000;
+    if(timeVal === undefined) {
+
+        const currentDate = new Date();
+
+        const offs = currentDate.getTimezoneOffset();
+        const mill = currentDate.getTime() + (-offs * 60000);
+    
+        time = mill / 1000;
+
+    } else {
+
+        const currentDate = new Date(timeVal * 1000);
+        const mill = currentDate.getTime();
+    
+        time = mill / 1000;
+    }
 
     devices.clock.hands.forEach(hand => {
 
@@ -137,7 +153,7 @@ function animate() {
 
         if(deviceService.state.value?.connected?.deviceOn) {
 
-            updateClock();
+            updateTime (devices, deviceService.state.context.elapsed);
         }
     }
 

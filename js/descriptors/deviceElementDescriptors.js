@@ -32,6 +32,13 @@ export const deviceElementDescriptors = [
         time: "hour"
     },
     {
+        device: "chronometer",
+        type: "buttons",
+        name: "start_stop_clear_button",
+        action: "start_stop_clear_buttonAction",
+        command: "troggle_start_stop_clear"
+    },
+    {
         device: "clock",
         type: "buttons",
         name: "advance_second_hand",
