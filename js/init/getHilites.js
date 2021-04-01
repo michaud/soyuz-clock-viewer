@@ -2,15 +2,13 @@ import { hiliteDescriptors } from '../descriptors/hiliteDescriptors.js';
 
 export const getHilites = (scene, hilites, state) => {
 
-    const sceneGroup = scene.children[0];
-
-    const overlay = sceneGroup?.children[0].children[1].children.find(item => item.name === 'overlay_target');
-    const hitTargets = sceneGroup?.children[0].children[1].children.find(item => item.name === 'hit_target');
+    const overlay = scene.getObjectByName('overlay_target');
+    const hitTargets = scene.getObjectByName('hit_target');
 
     hiliteDescriptors.forEach(item => {
 
-        const hitFound = hitTargets?.children.find(child => child.name === item.name);
-        const overlayFound = overlay?.children.find(child => child.name === item.target);
+        const hitFound = hitTargets.getObjectByName(item.name);
+        const overlayFound = overlay.getObjectByName(item.target);
 
         const domEl = document.querySelector(`[data-target=${item.element}`);
 
@@ -46,9 +44,7 @@ export const initUpdateHilites = (scene, raycaster, state) => {
 
     let hiliteTarget;
 
-    const sceneGroup = scene.children[0];
-
-    const hitTargets = sceneGroup?.children[0].children[1].children.find(item => item.name === 'hit_target');
+    const hitTargets = scene.getObjectByName('hit_target');
 
     return hilites => {
 

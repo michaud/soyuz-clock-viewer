@@ -7,29 +7,21 @@ export const getTopPlate = (
     clips,
     devices,
     commands
-) => {
+) => deviceElementDescriptors.forEach(item => {
 
-    const flippedPlate = scene.children[0].children[0].children[1];
+    const found = scene.getObjectByName(item.name);
 
-    deviceElementDescriptors.forEach(item => {
+    if (found) {
 
-        const found = flippedPlate.children.find(child => {
-
-            return child.name === item.name;
+        devices[item.device][item.type].push({
+            ...found,
+            ...item,
+            action: item.action && actions[item.action]({
+                actionName: item.action,
+                clips,
+                mixer,
+                command: commands[item.command]
+            })
         });
-
-        if (found) {
-
-            devices[item.device][item.type].push({
-                ...found,
-                ...item,
-                action: item.action && actions[item.action]({
-                    actionName: item.action,
-                    clips,
-                    mixer,
-                    command: commands[item.command]
-                })
-            });
-        }
-    });
-};
+    }
+});

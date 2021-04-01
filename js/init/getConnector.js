@@ -8,9 +8,10 @@ export const getConnector = (
     devices,
     commands
 ) => {
-
-    const found = scene.children[0].children[0].children[0].children[0];
-    const descriptor = deviceElementDescriptors.find(item => item.name === 'connector_plug')
+    
+    const found = scene.getObjectByName('connector_plug');
+    
+    const descriptor = deviceElementDescriptors.find(item => item.name === found.name)
 
     if (found) {
 
