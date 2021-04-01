@@ -4,10 +4,13 @@ Make operational
 - hide hit targets when show hilite is disabled
 
 Chronometer
-- start
-- stop
-- reset
+- start(ed)
+- stop(ped)
+- reset(ed)
 - start synchronises with clock tick
+- it shows the mode you've entered: shows stop, when click, goes to reset and resets the chrono: shows C
+  - so more like started, stopped reseted 
+- push in sets dial to less then half the current state, release (up) sets to new state 
 
 Mission Totalizer
 - reset
@@ -20,6 +23,7 @@ Mission Totalizer
 Alarm
 - advance alarm
 - alarm on - off
+- set alarm turns one direction: backwards
 
 clock
 - second advance
@@ -27,6 +31,7 @@ clock
 - time adjust button
   - pressed in
   - two directions
+  - alarm moves with time adjust only when turned backwards
   - get out of adjustment mode press on second advance
 
 device
