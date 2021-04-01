@@ -14,7 +14,9 @@
                     return intersects[0].object.name.includes(button.name);
                 });
 
-                if(test) button = test;
+                if(test) {
+                    button = test;
+                } 
             }
 
             if(button) button.action()

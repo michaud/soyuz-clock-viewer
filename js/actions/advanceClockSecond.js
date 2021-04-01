@@ -14,5 +14,5 @@ export const advance_second_handAction = ({ actionName, clips, mixer, command = 
             action.play();
             command();
         }
-    }
+    };
 };
