@@ -11,16 +11,19 @@ export const troggleStartStopClear = (deviceService) => () => {
         }
 
         case 'running': {
+
             eventName = 'CHRONO_STOP';
             break;
         }
 
         case 'stop': {
+
             eventName = 'CHRONO_RESET';
             break;
         }
 
         default: {
+
             eventName = '';
         }
     }
