@@ -8,7 +8,7 @@ import { RGBELoaderCallback } from './init/RGBELoading.js';
 import { normalizeMousePostion } from './init/initWindow.js';
 import { onWindowResize } from './init/initWindow.js';
 
-import { devices } from './devices.js';
+import { devices } from './model/devices.js';
 import { initCommands } from './commands/initCommands.js';
 
 import {
@@ -60,7 +60,7 @@ function init() {
 
     new RGBELoader()
         .setDataType(THREE.UnsignedByteType)
-        .setPath('equirectangular/')
+        .setPath('assets/equirectangular/')
         .load('vintage_measuring_lab_1k.hdr', RGBELoaderCallback(scene, pmremGenerator));
 
     new GLTFLoader()

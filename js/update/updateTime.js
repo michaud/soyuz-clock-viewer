@@ -1,4 +1,4 @@
-import { getRadFromTime } from '../utils.js';
+import { getRadFromTime } from '../utils/index.js';
 
 export const updateTime = (devices, timeVal) => {
 
