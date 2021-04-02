@@ -4,19 +4,19 @@ export const troggleStartStopClear = (deviceService) => () => {
 
     switch(deviceService.state.value?.connected?.deviceOn?.chrono) {
 
-        case 'idle' : {
+        case 'reset' : {
             
             eventName = 'CHRONO_START';
             break;
         }
 
-        case 'running': {
+        case 'started': {
 
             eventName = 'CHRONO_STOP';
             break;
         }
 
-        case 'stop': {
+        case 'stopped': {
 
             eventName = 'CHRONO_RESET';
             break;

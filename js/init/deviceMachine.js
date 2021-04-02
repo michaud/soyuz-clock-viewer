@@ -7,7 +7,8 @@ export const deviceMachineDesc = {
         elapsed: 0,
         duration: 5,
         interval: .5,
-        chronometerStart: 0,
+        chronoStart: 0,
+        chronoStop: 0,
         alarmElapsed: 0,
         missionElapsed: 0
     },
@@ -66,39 +67,35 @@ export const deviceMachineDesc = {
                             },
                         },
                         chrono: {
-                            initial: 'idle',
+                            initial: 'reset',
                             states: {
-                                idle: {
+                                stopped: {
                                     on: {
-                                        CHRONO_START: {
-                                            target: 'start',
+                                        CHRONO_RESET: {
+                                            target: 'reset',
                                             actions: assign({
-                                                chronometerStart: context => context.elapsed
+                                                chronoStart: _ => 0,
+                                                chronoStop: _ => 0
                                             })
-                                        }                                            
+                                        }
                                     }
                                 },
-                                stop: {
+                                started: {
                                     on: {
-                                        CHRONO_RESET: 'reset'
-                                    }
-                                },
-                                running: {
-                                    on: {
-                                        CHRONO_STOP: 'stop'
-                                    }
-                                },
-                                start: {
-                                    on: {
-                                        '': 'running'
+                                        CHRONO_STOP: {
+                                            target: 'stopped',
+                                            actions: assign({
+                                                chronoStop: context => context.elapsed
+                                            })
+                                        }
                                     }
                                 },
                                 reset: {
                                     on: {
-                                        '': {
-                                            target: 'idle',
+                                        CHRONO_START: {
+                                            target: 'started',
                                             actions: assign({
-                                                chronometerStart: 0
+                                                chronoStart: context => context.elapsed
                                             })
                                         }
                                     }

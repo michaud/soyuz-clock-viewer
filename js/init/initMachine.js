@@ -6,9 +6,13 @@ export const initMachine = () => {
 
     const deviceMachine = Machine(deviceMachineDesc);
     
-    const deviceService = interpret(deviceMachine).onTransition(state =>
-        state//console.log('new state', state.value)
-    );
+    const deviceService = interpret(deviceMachine).onTransition(state => {
+
+        if(state.event.type !== 'TICK') {
+            
+            console.log('state', state.event.type, JSON.stringify(state.value))
+        }
+    });
     
     deviceService.start();
     

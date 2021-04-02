@@ -26,17 +26,17 @@ import { updateTime } from './update/updateTime.js';
 import { updateChrono } from './update/updateChrono.js';
 
 const clips = [];
+let updateHilites = () => {}, hilites = [];
+
 const state = {
-    showHilite: true
+    showHilite: false
 };
 
 const deviceService = initMachine();
-
-let updateHilites = () => {}, hilites = [];
 const commands = initCommands(deviceService);
+const container = document.getElementById('scene');
 
 const {
-    container,
     camera,
     scene,
     renderer,
@@ -46,7 +46,7 @@ const {
     mouse,
     threeTime,
     controls
-} = initScene();
+} = initScene(container);
 
 init();
 
@@ -61,11 +61,16 @@ function init() {
     new RGBELoader()
         .setDataType(THREE.UnsignedByteType)
         .setPath('assets/equirectangular/')
-        .load('vintage_measuring_lab_1k.hdr', RGBELoaderCallback(scene, pmremGenerator));
+        .load(
+            'vintage_measuring_lab_1k.hdr',
+            RGBELoaderCallback(scene, pmremGenerator)
+        );
 
     new GLTFLoader()
         .setPath('scene/')
-        .load('SoyuzElectroMechanicalSpaceClock.glb',(gltf) => {
+        .load(
+            'SoyuzElectroMechanicalSpaceClock.glb',
+        (gltf) => {
 
             const roughnessMipmapper = new RoughnessMipmapper(renderer);
         
@@ -125,18 +130,21 @@ function animate() {
 
     if (devices) {
 
-        const deviceOn = deviceService.state.value?.connected?.deviceOn;
+        const deviceOn = deviceService.state.value
+            ?.connected?.deviceOn;
 
         if(deviceOn) {
 
-            updateTime (devices, deviceService.state.context.elapsed);
+            updateTime ({
+                devices,
+                ctx: deviceService.state.context
+            });
 
             if(deviceOn?.chrono) {
                 
                 updateChrono({
                     devices,
-                    start: deviceService.state.context.chronometerStart,
-                    elapsed: deviceService.state.context.elapsed,
+                    ctx: deviceService.state.context,
                     state: deviceOn?.chrono
                 });
             }

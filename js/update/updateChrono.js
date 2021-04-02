@@ -2,23 +2,42 @@ import { getRadFromTime } from '../utils/index.js';
 
 export const updateChrono = ({
     devices,
-    start,
-    elapsed,
+    ctx:{
+        chronoStart,
+        chronoStop,
+        elapsed
+    },
     state
 }) => {
 
     let time = 0;
 
-    if(elapsed && start) {
+    switch(state) {
 
-        const currentDate = new Date((elapsed - start) * 1000);
-        const mill = currentDate.getTime();
-    
-        time = mill / 1000;
+        case 'started': {
+            
+            const currentDate = new Date((elapsed - chronoStart) * 1000);
+            time = currentDate.getTime() / 1000;
+            
+            break;
+        }
+        
+        case 'stopped': {
+            
+            const currentDate = new Date((chronoStop - chronoStart) * 1000);
+            time = currentDate.getTime() / 1000;
 
-        devices.chronometer.hands.forEach(hand => {
-    
-            hand.rotation.set(0, getRadFromTime(hand.time, time), 0, 'XYZ')
-        })
+            break;
+        }
+
+        case 'reset': {
+
+            time = 0;
+        }
     }
+
+    devices.chronometer.hands.forEach(hand => {
+    
+        hand.rotation.set(0, getRadFromTime(hand.time, time), 0, 'XYZ')
+    })
 };

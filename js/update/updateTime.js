@@ -1,10 +1,12 @@
 import { getRadFromTime } from '../utils/index.js';
 
-export const updateTime = (devices, timeVal) => {
+export const updateTime = ({devices, ctx: {
+    elapsed
+}}) => {
 
     let time = 0;
 
-    if(timeVal === undefined) {
+    if(elapsed === undefined) {
 
         const currentDate = new Date();
 
@@ -15,7 +17,7 @@ export const updateTime = (devices, timeVal) => {
 
     } else {
 
-        const currentDate = new Date(timeVal * 1000);
+        const currentDate = new Date(elapsed * 1000);
         const mill = currentDate.getTime();
     
         time = mill / 1000;
