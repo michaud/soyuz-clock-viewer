@@ -4,7 +4,6 @@ import { RoughnessMipmapper } from './three/examples/jsm/utils/RoughnessMipmappe
 
 import { RGBELoader } from './three/examples/jsm/loaders/RGBELoader.js';
 import { RGBELoaderCallback } from './init/RGBELoading.js';
-import { getRadFromTime } from './utils.js';
 
 import { normalizeMousePostion } from './init/initWindow.js';
 import { onWindowResize } from './init/initWindow.js';
@@ -23,10 +22,12 @@ import {
 import { getTopPlate } from './init/getTopPlate.js';
 import { getConnector } from './init/getConnector.js';
 import { getHilites, initUpdateHilites } from './init/getHilites.js';
+import { updateTime } from './update/updateTime.js';
+import { updateChrono } from './update/updateChrono.js';
 
 const clips = [];
 const state = {
-    showHilite: false
+    showHilite: true
 };
 
 const deviceService = initMachine();
@@ -112,33 +113,6 @@ function init() {
     window.addEventListener('resize', onWindowResize(camera, renderer, render));
 }
 
-function updateTime (devices, timeVal) {
-
-    let time = 0;
-
-    if(timeVal === undefined) {
-
-        const currentDate = new Date();
-
-        const offs = currentDate.getTimezoneOffset();
-        const mill = currentDate.getTime() + (-offs * 60000);
-    
-        time = mill / 1000;
-
-    } else {
-
-        const currentDate = new Date(timeVal * 1000);
-        const mill = currentDate.getTime();
-    
-        time = mill / 1000;
-    }
-
-    devices.clock.hands.forEach(hand => {
-
-        hand.rotation.set(0, getRadFromTime(hand.time, time), 0, 'XYZ')
-    })
-}
-
 function animate() {
 
     requestAnimationFrame(animate);
@@ -151,9 +125,21 @@ function animate() {
 
     if (devices) {
 
-        if(deviceService.state.value?.connected?.deviceOn) {
+        const deviceOn = deviceService.state.value?.connected?.deviceOn;
+
+        if(deviceOn) {
 
             updateTime (devices, deviceService.state.context.elapsed);
+
+            if(deviceOn?.chrono) {
+                
+                updateChrono({
+                    devices,
+                    start: deviceService.state.context.chronometerStart,
+                    elapsed: deviceService.state.context.elapsed,
+                    state: deviceOn?.chrono
+                });
+            }
         }
     }
 

@@ -7,6 +7,7 @@ export const deviceMachineDesc = {
         elapsed: 0,
         duration: 5,
         interval: .5,
+        chronometerStart: 0,
         alarmElapsed: 0,
         missionElapsed: 0
     },
@@ -69,7 +70,12 @@ export const deviceMachineDesc = {
                             states: {
                                 idle: {
                                     on: {
-                                        CHRONO_START: 'start'
+                                        CHRONO_START: {
+                                            target: 'start',
+                                            actions: assign({
+                                                chronometerStart: context => context.elapsed
+                                            })
+                                        }                                            
                                     }
                                 },
                                 stop: {
@@ -89,7 +95,12 @@ export const deviceMachineDesc = {
                                 },
                                 reset: {
                                     on: {
-                                        '': 'idle'
+                                        '': {
+                                            target: 'idle',
+                                            actions: assign({
+                                                chronometerStart: 0
+                                            })
+                                        }
                                     }
                                 }
                             },
