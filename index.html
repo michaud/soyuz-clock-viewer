@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset="utf-8">
-	<title>Soyuz Electro mechanical space clock</title>
+	<title>[under construction]Soyuz Electro mechanical space clock</title>
 	<style>
 		@font-face {
 
@@ -131,6 +131,7 @@
 
 		.tools__heading {
 
+			position: relative;
 			color: rgba(11, 77, 101);
 			padding: 0 1rem;
 			margin: 0 1rem;
@@ -139,6 +140,21 @@
 			line-height: 1;
 			border-radius: 20px 44px 44px 20px;
 			background-color: rgba(255 255 255 / 85%);
+		}
+
+		.tools__heading:after {
+
+			content: "under construction";
+			position: absolute;
+			top: -37px;
+			left: 155px;
+			padding: 0.5rem 2rem;
+			transform: rotate(340deg);
+			background-color: rgb(56 121 126 / 90%);
+			font-family: 'inria_sansbold';
+			font-size: 1.2rem;
+			color: rgb(255 255 255);
+			text-align: center;
 		}
 
 		.tools_list {
@@ -198,6 +214,7 @@
 
 			background-color: rgba(24 104 133 / 80%);
 		}
+
 		.btn--nav:hover {
 
 			background-color: rgba(24 104 133 / 80%);
@@ -267,7 +284,7 @@
 			border: 2px solid white;
 			border-radius: 2rem;
 			text-align: left;
-			background-color:rgba(255, 255, 255, 0.1);
+			background-color: rgba(255, 255, 255, 0.1);
 			pointer-events: none;
 		}
 
@@ -297,7 +314,6 @@
 			gap: .5rem;
 			margin: 1rem;
 		}
-
 	</style>
 	<script src="https://unpkg.com/xstate@4/dist/xstate.js"></script>
 </head>
@@ -311,10 +327,13 @@
 		<div class="description">
 			<div class="toolbar">
 				<div>
-					<button title="show hilites on device" class="btn btn--connect-end" id="show-hilite">hilite</button><button class="btn btn--connect-start" title="turn hilites on or off" id="toggle-hilite-switch">
+					<button title="show hilites on device" class="btn btn--connect-end"
+						id="show-hilite">hilite</button><button class="btn btn--connect-start"
+						title="turn hilites on or off" id="toggle-hilite-switch">
 						<div class="hilite-switch switch on">
 							<svg class="switch__knob" viewport="0 0 24 24" width="24" height="24">
-								<path class="knob__icon" fill="#fff" d="M6 14l3 3v5h6v-5l3-3V9H6v5zm5-12h2v3h-2V2zM3.5 5.88l1.41-1.41 2.12 2.12L5.62 8 3.5 5.88zm13.46.71l2.12-2.12 1.41 1.41L18.38 8l-1.42-1.41z" />
+								<path class="knob__icon" fill="#fff"
+									d="M6 14l3 3v5h6v-5l3-3V9H6v5zm5-12h2v3h-2V2zM3.5 5.88l1.41-1.41 2.12 2.12L5.62 8 3.5 5.88zm13.46.71l2.12-2.12 1.41 1.41L18.38 8l-1.42-1.41z" />
 							</svg>
 						</div>
 					</button>
