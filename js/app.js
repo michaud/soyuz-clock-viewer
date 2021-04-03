@@ -111,7 +111,7 @@ function init() {
         });
 
     initTools(clips, mixer, hilites, controls, state);
-    initPicking(raycaster, devices, scene, container);
+    initPicking(raycaster, devices, scene, container, controls, deviceService);
 
     initClock();
 
@@ -133,12 +133,29 @@ function animate() {
         const deviceOn = deviceService.state.value
             ?.connected?.deviceOn;
 
+        if(!deviceOn) {
+
+            updateTime ({
+                devices,
+                ctx: deviceService.state.context
+            });
+        }
+
         if(deviceOn) {
 
             updateTime ({
                 devices,
                 ctx: deviceService.state.context
             });
+
+            if(deviceOn?.chrono) {
+                
+                updateChrono({
+                    devices,
+                    ctx: deviceService.state.context,
+                    state: deviceOn?.chrono
+                });
+            }
 
             if(deviceOn?.chrono) {
                 

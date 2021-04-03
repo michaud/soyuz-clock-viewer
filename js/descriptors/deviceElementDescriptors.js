@@ -9,6 +9,12 @@ export const deviceElementDescriptors = [
     {
         device: "device",
         type: "buttons",
+        name: "time_adjust",
+        command: "time_adjust"
+    },
+    {
+        device: "device",
+        type: "buttons",
         name: "connector_plug",
         action: "connector_plugAction",
         command: "connect_device"

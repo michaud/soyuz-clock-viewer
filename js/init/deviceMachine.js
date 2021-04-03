@@ -144,7 +144,14 @@ export const deviceMachineDesc = {
                             states: {
                                 idle: {
                                     on: {
-                                        CLOCK_ADVANCE: 'advance'
+                                        CLOCK_ADVANCE: 'advance',
+                                        UPDATE_CLOCK: {
+                                            actions: assign({
+                                                elapsed: (context, event) => {
+                                                    return event.delta
+                                                }
+                                            })
+                                        }
                                     }
                                 },
                                 advance: {
