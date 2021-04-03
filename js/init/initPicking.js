@@ -3,11 +3,13 @@
     let rotationOverlay;
     let isPointerDown = false;
     let pointerDownY = 0;
+    let button;
 
     const onPointerUp = (raycaster, devices, scene, controls) => () => {
 
         isPointerDown = false;
         controls.enabled = true;
+        button = undefined;
 
         const intersects = raycaster.intersectObjects(scene.children, true);
     
@@ -44,7 +46,7 @@
             if(intersects[0].object.name.includes('time_adjust')) {
 
                 controls.enabled = false;
-                const button = devices['device'].buttons.find(button => button.name === intersects[0].object.name);
+                button = devices['device'].buttons.find(button => button.name === intersects[0].object.name);
                 const hilite = scene.getObjectByName('time_adjust_rotation_overlay');
                 rotationOverlay = hilite;
             }
@@ -55,7 +57,7 @@
 
     const onPointerMove = (raycaster, devices, scene) => (e) => {
 
-        if(isPointerDown) {
+        if(isPointerDown && button) {
             const {
                 clientY,
                 view: {
