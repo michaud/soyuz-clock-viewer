@@ -3,13 +3,20 @@
     let rotationOverlay;
     let isPointerDown = false;
     let pointerDownY = 0;
+    let pointerDownX = 0;
     let button;
+    const biasSize = 40;
+    const biasDepth = biasSize - .1;
 
-    const onPointerUp = (raycaster, devices, scene, controls) => () => {
+    const onPointerUp = (raycaster, devices, scene, controls) => (e) => {
 
         isPointerDown = false;
         controls.enabled = true;
         button = undefined;
+
+        const {
+            clientY
+        } = e;
 
         const intersects = raycaster.intersectObjects(scene.children, true);
     
@@ -28,6 +35,14 @@
                 } 
             }
 
+            if(intersects[0].object.name.includes('time_adjust')) {
+
+                if(Math.abs(clientY - pointerDownY) < 5) {
+
+                    deviceService.send('TOGGLE_TIME_ADJUST');
+                }
+            }
+
             if(button) button.action()
         }
     }
@@ -36,6 +51,7 @@
 
     const onPointerDown = (raycaster, devices, scene) => (e) => {
 
+        pointerDownX = e.clientX;
         pointerDownY = e.clientY;
         isPointerDown = true;
 
@@ -58,21 +74,21 @@
     const onPointerMove = (raycaster, devices, scene) => (e) => {
 
         if(isPointerDown && button) {
+
             const {
+                clientX,
                 clientY,
-                view: {
-                    screen: {
-                        availHeight
-                    }
-                }
+                movementY,
             } = e;
 
-            
-            const delta = pointerDownY - clientY;
-            const scaled = (10 / availHeight) * delta;
-            deviceService.send('UPDATE_CLOCK', { delta: deviceService.state.context.elapsed + ((2 * Math.PI) * scaled) })
-            rotationOverlay.rotation.set(0,(2 * Math.PI) * scaled,0, 'XYZ');
-            //console.log('delta', delta)
+            const deltaX = pointerDownX - clientX;
+            const bias = Math.min(Math.max(1, Math.abs(deltaX) - biasSize), biasDepth);
+            const delta = deviceService.state.context
+                .elapsed - (((2 * Math.PI) * movementY) / (biasSize - bias));
+
+            deviceService.send('UPDATE_CLOCK', {delta})
+
+            rotationOverlay.rotation.set(0, clientY / 100, 0, 'XYZ');
         }
     };
 

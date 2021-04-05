@@ -1,4 +1,4 @@
-import { deviceMachineDesc } from './deviceMachine.js';
+import { deviceMachineDesc } from '../machines/deviceMachine.js';
 
 export const initMachine = () => {
 

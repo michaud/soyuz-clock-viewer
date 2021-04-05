@@ -35,6 +35,21 @@ export const deviceMachineDesc = {
                         }
                     },
                     states: {
+                        device: {
+                            initial: 'clock_time_adjust',
+                            states: {
+                                clock_time_adjust: {
+                                    on: {
+                                        TOGGLE_TIME_ADJUST: 'mission_time_adjust'
+                                    }
+                                },
+                                mission_time_adjust: {
+                                    on: {
+                                        TOGGLE_TIME_ADJUST: 'clock_time_adjust'
+                                    }
+                                }
+                            }
+                        },
                         mission_timer: {
                             initial: 'idle',
                             states: {
