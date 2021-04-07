@@ -1,4 +1,11 @@
- export const initPicking = (raycaster, devices, scene, container, controls, deviceService) => {
+export const initPicking = (
+    raycaster,
+    devices,
+    scene,
+    container,
+    controls,
+    deviceService
+) => {
 
     let rotationOverlay;
     let isPointerDown = false;
@@ -7,47 +14,6 @@
     let button;
     const biasSize = 40;
     const biasDepth = biasSize - .1;
-
-    const onPointerUp = (raycaster, devices, scene, controls) => (e) => {
-
-        isPointerDown = false;
-        controls.enabled = true;
-        button = undefined;
-
-        const {
-            clientY
-        } = e;
-
-        const intersects = raycaster.intersectObjects(scene.children, true);
-    
-        if (intersects.length > 0) {
-
-            let button;
-
-            for(let device in devices) {
-
-                const test = devices[device]
-                    .buttons
-                    .find(button => intersects[0].object.name.includes(button.name));
-
-                if(test) {
-                    button = test;
-                } 
-            }
-
-            if(intersects[0].object.name.includes('time_adjust')) {
-
-                if(Math.abs(clientY - pointerDownY) < 5) {
-
-                    deviceService.send('TOGGLE_TIME_ADJUST');
-                }
-            }
-
-            if(button) button.action()
-        }
-    }
-    
-    container.addEventListener('pointerup', onPointerUp(raycaster, devices, scene, controls));
 
     const onPointerDown = (raycaster, devices, scene) => (e) => {
 
@@ -59,10 +25,14 @@
 
         if (intersects.length > 0) {
 
-            if(intersects[0].object.name.includes('time_adjust')) {
+            console.log('intersects[0].object.name:', intersects[0].object.name)
+            
+            controls.enabled = false;
+            console.log('devices:', devices)
+            button = devices['device'].buttons.find(button => intersects[0].object.name.includes(button.name));
+            console.log('down button:', button)
 
-                controls.enabled = false;
-                button = devices['device'].buttons.find(button => button.name === intersects[0].object.name);
+            if(intersects[0].object.name.includes('time_adjust')) {
                 const hilite = scene.getObjectByName('time_adjust_rotation_overlay');
                 rotationOverlay = hilite;
             }
@@ -93,4 +63,34 @@
     };
 
     container.addEventListener('pointermove', onPointerMove(raycaster, devices, scene));
+
+    const onPointerUp = (raycaster, devices, scene, controls) => (e) => {
+
+        isPointerDown = false;
+        controls.enabled = true;
+
+        const {
+            clientY
+        } = e;
+
+        const intersects = raycaster.intersectObjects(scene.children, true);
+        console.log('up button:', button)
+        if (intersects.length > 0) {
+
+            if(intersects[0].object.name.includes('time_adjust')) {
+
+                if(Math.abs(clientY - pointerDownY) < 5) {
+
+                    deviceService.send('TOGGLE_TIME_ADJUST');
+                }
+            }
+
+            if(button) {
+                button.action()
+                button = undefined;
+            }
+        }
+    }
+    
+    container.addEventListener('pointerup', onPointerUp(raycaster, devices, scene, controls));
 };
