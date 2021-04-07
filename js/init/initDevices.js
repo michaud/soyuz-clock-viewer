@@ -1,7 +1,7 @@
 import { deviceElementDescriptors } from '../descriptors/deviceElementDescriptors.js';
 import actions from '../actions/index.js';
 
-export const initDevice = (
+export const initDevices = (
     scene,
     mixer,
     clips,
