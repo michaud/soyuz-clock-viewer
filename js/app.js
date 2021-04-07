@@ -8,7 +8,7 @@ import { RGBELoaderCallback } from './init/RGBELoading.js';
 import { normalizeMousePostion } from './init/initWindow.js';
 import { onWindowResize } from './init/initWindow.js';
 
-import { devices } from './model/devices.js';
+import { deviceModel as device } from './model/deviceModel.js';
 import { initCommands } from './commands/initCommands.js';
 
 import {
@@ -16,7 +16,7 @@ import {
     initPicking,
     initTools,
     initMachine,
-    initDevices
+    initDevice
 } from './init/initialise.js';
 
 import { getHilites, initUpdateHilites } from './init/getHilites.js';
@@ -87,11 +87,11 @@ function init() {
 
             gltf.animations.forEach(anim => clips.push(anim));
 
-            initDevices(
+            initDevice(
                 scene,
                 mixer,
                 clips,
-                devices,
+                device,
                 commands
             );
 
@@ -102,7 +102,7 @@ function init() {
 
     initTools(clips, mixer, hilites, controls, state);
 
-    initPicking(raycaster, devices, scene, container, controls, deviceService);
+    initPicking(raycaster, device, scene, container, controls, deviceService);
 
     window.addEventListener('resize', onWindowResize(camera, renderer, render));
 }
@@ -117,7 +117,7 @@ function animate() {
     
     mixer && mixer.update(delta);
 
-    if (devices) {
+    if (device) {
 
         const deviceOn = deviceService.state.value
             ?.connected?.deviceOn;
@@ -125,7 +125,7 @@ function animate() {
         if(!deviceOn) {
 
             updateTime ({
-                devices,
+                device,
                 ctx: deviceService.state.context
             });
         }
@@ -133,14 +133,14 @@ function animate() {
         if(deviceOn) {
 
             updateTime ({
-                devices,
+                device,
                 ctx: deviceService.state.context
             });
 
             if(deviceOn?.chrono) {
                 
                 updateChrono({
-                    devices,
+                    device,
                     ctx: deviceService.state.context,
                     state: deviceOn?.chrono
                 });
@@ -149,7 +149,7 @@ function animate() {
             if(deviceOn?.chrono) {
                 
                 updateChrono({
-                    devices,
+                    device,
                     ctx: deviceService.state.context,
                     state: deviceOn?.chrono
                 });

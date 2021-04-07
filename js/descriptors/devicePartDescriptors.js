@@ -1,4 +1,4 @@
-export const deviceElementDescriptors = [
+export const devicePartDescriptors = [
     {
         device: "device",
         type: "buttons",

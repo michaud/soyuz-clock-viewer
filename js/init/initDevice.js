@@ -1,13 +1,13 @@
-import { deviceElementDescriptors } from '../descriptors/deviceElementDescriptors.js';
+import { devicePartDescriptors } from '../descriptors/devicePartDescriptors.js';
 import actions from '../actions/index.js';
 
-export const initDevices = (
+export const initDevice = (
     scene,
     mixer,
     clips,
     devices,
     commands
-) => deviceElementDescriptors.forEach(item => {
+) => devicePartDescriptors.forEach(item => {
 
     const found = scene.getObjectByName(item.name);
 

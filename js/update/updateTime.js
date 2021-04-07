@@ -1,6 +1,6 @@
 import { getRadFromTime } from '../utils/index.js';
 
-export const updateTime = ({devices, ctx: {
+export const updateTime = ({device, ctx: {
     elapsed
 }}) => {
 
@@ -23,7 +23,7 @@ export const updateTime = ({devices, ctx: {
         time = mill / 1000;
     }
 
-    devices.clock.hands.forEach(hand => {
+    device.clock.hands.forEach(hand => {
 
         hand.rotation.set(0, getRadFromTime(hand.time, time), 0, 'XYZ')
     })

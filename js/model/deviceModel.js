@@ -1,4 +1,4 @@
-export const devices = {
+export const deviceModel = {
     device: {
         buttons: []
     },
