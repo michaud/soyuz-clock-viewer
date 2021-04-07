@@ -15,12 +15,10 @@ import {
     initScene,
     initPicking,
     initTools,
-    initClock,
-    initMachine
+    initMachine,
+    initDevices
 } from './init/initialise.js';
 
-import { initDevice } from './init/initDevice.js';
-import { getConnector } from './init/getConnector.js';
 import { getHilites, initUpdateHilites } from './init/getHilites.js';
 import { updateTime } from './update/updateTime.js';
 import { updateChrono } from './update/updateChrono.js';
@@ -89,21 +87,13 @@ function init() {
 
             gltf.animations.forEach(anim => clips.push(anim));
 
-            initDevice(
+            initDevices(
                 scene,
                 mixer,
                 clips,
                 devices,
                 commands
             );
-
-            // getConnector(
-            //     scene,
-            //     mixer,
-            //     clips,
-            //     devices,
-            //     commands
-            // );
 
             getHilites(scene, hilites, state);
 
@@ -113,8 +103,6 @@ function init() {
     initTools(clips, mixer, hilites, controls, state);
 
     initPicking(raycaster, devices, scene, container, controls, deviceService);
-
-    initClock();
 
     window.addEventListener('resize', onWindowResize(camera, renderer, render));
 }
