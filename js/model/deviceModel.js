@@ -1,4 +1,5 @@
 export const deviceModel = {
+    buttons: {},
     device: {
         buttons: []
     },

@@ -5,25 +5,27 @@ export const initDevice = (
     scene,
     mixer,
     clips,
-    devices,
+    device,
     commands
 ) => devicePartDescriptors.forEach(item => {
 
-    const found = scene.getObjectByName(item.name);
+    const partFromScene = scene.getObjectByName(item.name);
 
-    if (found) {
+    if (partFromScene) {
 
-        const deviceFound = {
-            ...found,
+        const part = {
+            ...partFromScene,
             ...item,
             action: item.action && actions[item.action]({
                 actionName: item.action,
                 clips,
                 mixer,
                 command: commands[item.command]
-            })
+            }),
         };
 
-        devices[item.device][item.type].push(deviceFound);
+        if(item.type === 'buttons') device[item.type][item.name] = part;
+
+        device[item.component][item.type].push(part);
     }
 });

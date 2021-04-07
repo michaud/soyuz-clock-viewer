@@ -1,125 +1,125 @@
 export const devicePartDescriptors = [
     {
-        device: "device",
+        component: "device",
         type: "buttons",
         name: "switch_device_on_off",
         action: "switch_device_on_offAction",
         command: "toggle_device_on_off"
     },
     {
-        device: "device",
+        component: "device",
         type: "buttons",
         name: "time_adjust",
-        command: "time_adjust"
+        command: "time_adjust",
     },
     {
-        device: "device",
+        component: "device",
         type: "buttons",
         name: "connector_plug",
         action: "connector_plugAction",
-        command: "connect_device"
+        command: "connect_device",
     },
     {
-        device: "chronometer",
+        component: "chronometer",
         type: "hands",
         name: "chronometer_indicator_minutes",
         time: "minute"
     },
     {
-        device: "chronometer",
+        component: "chronometer",
         type: "hands",
         name: "chronometer_indicator_seconds",
         time: "second"
     },
     {
-        device: "chronometer",
+        component: "chronometer",
         type: "hands",
         name: "chronometer_indicator_hours",
         time: "hour"
     },
     {
-        device: "chronometer",
+        component: "chronometer",
         type: "buttons",
         name: "start_stop_clear_button",
         action: "start_stop_clear_buttonAction",
         command: "troggle_start_stop_clear"
     },
     {
-        device: "clock",
+        component: "clock",
         type: "buttons",
         name: "advance_second_hand",
         action: "advance_second_handAction",
         command: "advance_second_hand"
     },
     {
-        device: "clock",
+        component: "clock",
         type: "hands",
         name: "dial_indicator_seconds",
         time: "second"
     },
     {
-        device: "clock",
+        component: "clock",
         type: "hands",
         name: "dial_indicator_minutes",
         time: "minute"
     },
     {
-        device: "clock",
+        component: "clock",
         type: "hands",
         name: "dial_indicator_hours",
         time: "hour"
     },
     {
-        device: "alarm",
+        component: "alarm",
         type: "hands",
         name: "alarm_indicator_minutes",
         time: "minute"
     },
     {
-        device: "alarm",
+        component: "alarm",
         type: "hands",
         name: "alarm_indicator_hours",
         time: "hour"
     },
     {
-        device: "alarm",
+        component: "alarm",
         type: "buttons",
         name: "switch_alarm_on_off",
         action: "switch_alarm_on_offAction"
     },
 
     {
-        device: "mission_timer",
+        component: "mission_timer",
         type: "hands",
         name: "mission_clock_day_deca",
         time: "day"
     },
     {
-        device: "mission_timer",
+        component: "mission_timer",
         type: "hands",
         name: "mission_clock_day_digit",
         time: "day"
     },
     {
-        device: "mission_timer",
+        component: "mission_timer",
         type: "hands",
         name: "mission_clock_hours",
         time: "hour"
     },
     {
-        device: "mission_timer",
+        component: "mission_timer",
         type: "hands",
         name: "mission_clock_minutes_deca",
         time: "minute"
     },
     {
-        device: "mission_timer",
+        component: "mission_timer",
         type: "hands",
         name: "mission_clock_minutes_digit",
         time: "minute"
     },
     {
-        device: "mission_timer",
+        component: "mission_timer",
         type: "buttons",
         name: "clear_to_zero_nob",
         command: "clear_to_zero_nob"
