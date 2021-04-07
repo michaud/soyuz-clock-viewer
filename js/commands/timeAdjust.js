@@ -1,6 +1,6 @@
 export const timeAdjust = (deviceService) => () => {
-console.log('timeAdjust:', timeAdjust)
 
+    //TODO implement time adjust
     const eventName = '';
 
     deviceService.send(eventName);

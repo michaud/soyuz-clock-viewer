@@ -25,12 +25,8 @@ export const initPicking = (
 
         if (intersects.length > 0) {
 
-            console.log('intersects[0].object.name:', intersects[0].object.name)
-            
             controls.enabled = false;
-            console.log('devices:', devices)
             button = devices['device'].buttons.find(button => intersects[0].object.name.includes(button.name));
-            console.log('down button:', button)
 
             if(intersects[0].object.name.includes('time_adjust')) {
                 const hilite = scene.getObjectByName('time_adjust_rotation_overlay');
