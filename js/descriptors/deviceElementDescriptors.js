@@ -117,5 +117,11 @@ export const deviceElementDescriptors = [
         type: "hands",
         name: "mission_clock_minutes_digit",
         time: "minute"
-    }
+    },
+    {
+        device: "mission_timer",
+        type: "buttons",
+        name: "clear_to_zero_nob",
+        command: "clear_to_zero_nob"
+    },
 ];

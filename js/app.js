@@ -19,7 +19,7 @@ import {
     initMachine
 } from './init/initialise.js';
 
-import { getTopPlate } from './init/getTopPlate.js';
+import { initDevice } from './init/initDevice.js';
 import { getConnector } from './init/getConnector.js';
 import { getHilites, initUpdateHilites } from './init/getHilites.js';
 import { updateTime } from './update/updateTime.js';
@@ -89,7 +89,7 @@ function init() {
 
             gltf.animations.forEach(anim => clips.push(anim));
 
-            getTopPlate(
+            initDevice(
                 scene,
                 mixer,
                 clips,
@@ -97,13 +97,13 @@ function init() {
                 commands
             );
 
-            getConnector(
-                scene,
-                mixer,
-                clips,
-                devices,
-                commands
-            );
+            // getConnector(
+            //     scene,
+            //     mixer,
+            //     clips,
+            //     devices,
+            //     commands
+            // );
 
             getHilites(scene, hilites, state);
 
@@ -111,6 +111,7 @@ function init() {
         });
 
     initTools(clips, mixer, hilites, controls, state);
+
     initPicking(raycaster, devices, scene, container, controls, deviceService);
 
     initClock();

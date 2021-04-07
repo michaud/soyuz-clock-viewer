@@ -1,7 +1,7 @@
 import { deviceElementDescriptors } from '../descriptors/deviceElementDescriptors.js';
 import actions from '../actions/index.js';
 
-export const getTopPlate = (
+export const initDevice = (
     scene,
     mixer,
     clips,
@@ -13,7 +13,7 @@ export const getTopPlate = (
 
     if (found) {
 
-        devices[item.device][item.type].push({
+        const deviceFound = {
             ...found,
             ...item,
             action: item.action && actions[item.action]({
@@ -22,6 +22,8 @@ export const getTopPlate = (
                 mixer,
                 command: commands[item.command]
             })
-        });
+        };
+
+        devices[item.device][item.type].push(deviceFound);
     }
 });
