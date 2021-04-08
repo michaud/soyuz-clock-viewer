@@ -1,5 +1,7 @@
 import * as THREE from './three/build/three.module.js';
 import { GLTFLoader } from './three/examples/jsm/loaders/GLTFLoader.js';
+import { DRACOLoader } from './three/examples/jsm/loaders/DRACOLoader.js';
+
 import { RoughnessMipmapper } from './three/examples/jsm/utils/RoughnessMipmapper.js';
 
 import { RGBELoader } from './three/examples/jsm/loaders/RGBELoader.js';
@@ -64,8 +66,12 @@ function init() {
             RGBELoaderCallback(scene, pmremGenerator)
         );
 
+    const dracoLoader = new DRACOLoader();
+    dracoLoader.setDecoderPath( 'js/three/examples/js/libs/draco/' );
+
     new GLTFLoader()
         .setPath('scene/')
+        .setDRACOLoader( dracoLoader )
         .load(
             'SoyuzElectroMechanicalSpaceClock.glb',
         (gltf) => {
@@ -136,15 +142,6 @@ function animate() {
                 device,
                 ctx: deviceService.state.context
             });
-
-            if(deviceOn?.chrono) {
-                
-                updateChrono({
-                    device,
-                    ctx: deviceService.state.context,
-                    state: deviceOn?.chrono
-                });
-            }
 
             if(deviceOn?.chrono) {
                 
