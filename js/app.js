@@ -125,23 +125,16 @@ function animate() {
 
     if (device) {
 
+        updateTime ({
+            device,
+            ctx: deviceService.state.context
+        });
+
         const deviceOn = deviceService.state.value
             ?.connected?.deviceOn;
 
-        if(!deviceOn) {
-
-            updateTime ({
-                device,
-                ctx: deviceService.state.context
-            });
-        }
 
         if(deviceOn) {
-
-            updateTime ({
-                device,
-                ctx: deviceService.state.context
-            });
 
             if(deviceOn?.chrono) {
                 
