@@ -10,7 +10,6 @@ export const devicePartDescriptors = [
         component: "device",
         type: "buttons",
         name: "time_adjust",
-        command: "time_adjust",
         move: "time_adjust",
         up: "time_adjust",
         over: "time_adjust"
