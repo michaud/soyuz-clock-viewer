@@ -1,3 +1,3 @@
-export const advanceClockSecondHand = () => {
-    console.log('advanceClockSecondHand')
+export const advanceClockSecondHand = (deviceService) => () => {
+    deviceService.send('TICK')
 };

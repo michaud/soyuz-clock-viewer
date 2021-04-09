@@ -159,7 +159,6 @@ export const deviceMachineDesc = {
                             states: {
                                 idle: {
                                     on: {
-                                        CLOCK_ADVANCE: 'advance',
                                         UPDATE_CLOCK: {
                                             actions: assign({
                                                 elapsed: (context, event) => {
@@ -168,17 +167,15 @@ export const deviceMachineDesc = {
                                             })
                                         }
                                     }
-                                },
-                                advance: {
-                                    on: {
-                                        '': 'idle',
-                                        actions: []
-                                    }
-                                },
-                                setTime: {
-
                                 }
-                            }
+                            },
+                            on: {
+                                TICK: {
+                                    actions: assign({
+                                        elapsed: context => +(context.elapsed + context.interval).toFixed(2)
+                                    })
+                                }
+                            },
                         },
                         chrono: {
                             initial: 'idle',
