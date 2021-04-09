@@ -25,8 +25,8 @@ export const initPicking = (
 
         if (intersects.length > 0) {
 
-            controls.enabled = false;
             button = device.buttons[intersects[0].object?.userData.hit_target];
+            if(button) controls.enabled = false;
         }
     };
 
@@ -91,11 +91,8 @@ export const initPicking = (
 
     const onPointerUp = e => {
 
+        const { clientY } = e;
         controls.enabled = true;
-
-        const {
-            clientY
-        } = e;
 
         button?.action && button.action();
         isPointerMove && button?.pointerUp && button.pointerUp(clientY, pointerDownY, deviceService);
