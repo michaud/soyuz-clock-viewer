@@ -12,10 +12,24 @@ export const deviceMachineDesc = {
         alarmElapsed: 0,
         missionElapsed: 0
     },
+    on: {
+        TICK: {
+            actions: assign({
+                elapsed: context => +(context.elapsed + context.interval).toFixed(2)
+            })
+        },
+        UPDATE_CLOCK: {
+            actions: assign({
+                elapsed: (context, event) => {
+                    return event.delta
+                }
+            })
+        }
+    },
     states: {
         disconnected: {
             on: {
-                CONNECT: 'connected'
+                CONNECT: 'connected',
             }
         },
         connected: {
@@ -158,15 +172,6 @@ export const deviceMachineDesc = {
                             initial: 'idle',
                             states: {
                                 idle: {
-                                    on: {
-                                        UPDATE_CLOCK: {
-                                            actions: assign({
-                                                elapsed: (context, event) => {
-                                                    return event.delta
-                                                }
-                                            })
-                                        }
-                                    }
                                 }
                             },
                             on: {
