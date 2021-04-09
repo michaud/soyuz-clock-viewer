@@ -11,6 +11,9 @@ export const devicePartDescriptors = [
         type: "buttons",
         name: "time_adjust",
         command: "time_adjust",
+        move: "time_adjust",
+        up: "time_adjust",
+        over: "time_adjust"
     },
     {
         component: "device",
@@ -87,7 +90,12 @@ export const devicePartDescriptors = [
         name: "switch_alarm_on_off",
         action: "switch_alarm_on_offAction"
     },
-
+    {
+        component: "alarm",
+        type: "buttons",
+        name: "alarm_adjust_nob",
+        command: "alarm_adjust_nob"
+    },
     {
         component: "mission_timer",
         type: "hands",

@@ -5,6 +5,9 @@ export const getHilites = (scene, hilites, state) => {
     const overlay = scene.getObjectByName('overlay_target');
     const hitTargets = scene.getObjectByName('hit_target');
 
+    const hilite = scene.getObjectByName('time_adjust_rotation_overlay');
+    hilite.visible = false;
+
     hiliteDescriptors.forEach(item => {
 
         const hitFound = hitTargets.getObjectByName(item.name);
@@ -101,6 +104,7 @@ export const initUpdateHilites = (scene, raycaster, state) => {
             }
 
         } else {
+
             if(hitTargets.scale.x === 1) hitTargets.scale.set(0,0,0);
         }
     };
