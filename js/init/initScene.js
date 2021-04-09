@@ -9,7 +9,7 @@ export const initScene = (container) => {
     const threeTime = new THREE.Clock();
 
     const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, .01, 20);
-    camera.position.set(0, .2, 0);
+    camera.position.set(0, .199, .1);
 
     const mixer = new THREE.AnimationMixer(scene);
 
