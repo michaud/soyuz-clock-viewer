@@ -116,6 +116,21 @@
 			border-radius: 15px 0 0 15px;
 		}
 
+		#debugContainer {
+
+			position: absolute;
+			top: 30px;
+			width: 22rem;
+			right: 30px;
+			bottom: 30px;
+			padding: 1rem;
+			background-color: rgb(255 255 255 / 10%);
+			border-radius: 0 15px 15px 0;
+			word-wrap: break-word;
+			font-weight: bold;
+			font-size: 1.5rem;
+		}
+
 		.tools__header {
 
 			flex-grow: 0;
@@ -417,7 +432,7 @@
 			<button class="btn" id="reset-camera">reset view</button>
 		</nav>
 	</aside>
-
+	<aside id="debugContainer"><pre id="debug"></pre></aside>
 	<div id="border"></div>
 
 	<!-- <script src="./node_modules/three/build/three.js"></script> -->
