@@ -1,17 +1,17 @@
 
 Todo:
   ☐ Make operational
-    ☐ use hit target to enable disable hilites
-    ☐ hide hit targets when show hilite is disabled
+    ✔ use hit target to enable disable hilites @done(21-04-09 02:30)
+    ✔ hide hit targets when show hilite is disabled @done(21-04-09 02:30)
   
   ☐ Chronometer
-    ☐ start(ed)
-    ☐ stop(ped)
-    ☐ reset(ed)
-    ☐ start synchronises with clock tick
-    ☐ it shows the mode you've entered: shows stop, when click, goes to reset and resets the chrono: shows C
-      ☐ so more like started, stopped reseted 
-      ☐ push in sets dial to less then half the current state, release (up) sets to new state 
+    ✔ start(ed) @done(21-04-09 02:30)
+    ✔ stop(ped) @done(21-04-09 02:30)
+    ✔ reset(ed) @done(21-04-09 02:30)
+    ✔ start synchronises with clock tick @done(21-04-09 02:30)
+    ✔ it shows the mode you've entered: shows stop, when click, goes to reset and resets the chrono: shows C @done(21-04-09 02:30)
+      ✔ so more like started, stopped reseted @done(21-04-09 02:31)
+      ✔ push in sets dial to less then half the current state, release (up) sets to new state @done(21-04-09 02:31)
   
   ☐ Mission Totalizer
     ☐ reset
@@ -22,14 +22,14 @@ Todo:
         ☐ always counts up when turning left or right 
   
   Alarm
-  - advance alarm
-  - alarm on - off
-  - set alarm turns one direction: backwards
+  ☐ advance alarm
+  ☐ alarm on - off
+  ☐ set alarm turns one direction: backwards
   
   clock
-  - second advance
-    - half second steps
-  - time adjust button
+  ☐ second advance
+    ☐ half second steps
+  ☐ time adjust button
     - pressed in
     - two directions
     - alarm moves with time adjust only when turned backwards
