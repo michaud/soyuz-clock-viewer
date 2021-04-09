@@ -9,7 +9,7 @@ export const deviceMachineDesc = {
         interval: .5,
         chronoStart: 0,
         chronoStop: 0,
-        alarmElapsed: 0,
+        alarmTime: 0,
         missionElapsed: 0
     },
     on: {
@@ -24,7 +24,14 @@ export const deviceMachineDesc = {
                     return event.delta
                 }
             })
-        }
+        },
+        UPDATE_ALARM: {
+            actions: assign({
+                alarmTime: (context, event) => {
+                    return event.delta
+                }
+            })
+        },
     },
     states: {
         disconnected: {
@@ -148,18 +155,25 @@ export const deviceMachineDesc = {
                                 },
                                 alarmOn: {
                                     on: {
+                                        TICK: [
+                                            {
+                                                target: 'alarmSound',
+                                                cond: {
+                                                    type: 'alarmTimeReached'
+                                                }
+                                            }
+                                        ],
+                                        ALARM_OFF: 'idle'
+                                    }
+                                },
+                                alarmSound: {
+                                    activities: ['soundTheAlarm'],
+                                    on: {
                                         ALARM_OFF: 'idle'
                                     }
                                 }
-                            },
-                            on: {
-                                TICK: {
-                                    actions: () => {
-                                        //console.log('alarm tick')
-                                    }
-                                }
                             }
-                        },
+                        }
                     },
                     on: {
                         TURN_OFF: 'deviceOff',

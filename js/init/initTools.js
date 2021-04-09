@@ -69,6 +69,8 @@ export const initTools = (clips, mixer, hilites, controls, state) => {
 
         return _ => {
 
+            state.ac = new AudioContext();
+    
             const clip = clips.find(clip => clip.name === 'connect_locAction');
             
             if(clip) {

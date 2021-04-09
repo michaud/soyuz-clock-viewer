@@ -4,5 +4,5 @@ export const timeAdjustOver = (
 ) => {
 
     const hilite = scene.getObjectByName('time_adjust_rotation_overlay');
-    hilite.visible = visible;
+    if(hilite) hilite.visible = visible;
 };

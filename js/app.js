@@ -18,23 +18,29 @@ import {
     initPicking,
     initTools,
     initMachine,
-    initDevice
+    initDevice,
+    initSounds
 } from './init/initialise.js';
 
 import { getHilites, initUpdateHilites } from './init/getHilites.js';
 import { updateTime } from './update/updateTime.js';
+import { updateAlarm } from './update/updateAlarm.js';
+
 import { updateChrono } from './update/updateChrono.js';
 
 const clips = [];
 let updateHilites = () => {}, hilites = [];
+let ac;
 
 const state = {
-    showHilite: false
+    showHilite: false,
+    ac: null
 };
 
-const deviceService = initMachine();
+const deviceService = initMachine(state);
 const commands = initCommands(deviceService);
 const container = document.getElementById('scene');
+const debugContainer = document.getElementById('debug');
 
 const {
     camera,
@@ -123,9 +129,17 @@ function animate() {
     
     mixer && mixer.update(delta);
 
+    const newDebugText = JSON.stringify(deviceService.state.context, null, '  ') + '\n' + JSON.stringify(deviceService.state.value, null, '  ');
+    debugContainer.textContent = newDebugText;
+
     if (device) {
 
         updateTime ({
+            device,
+            ctx: deviceService.state.context
+        });
+
+        updateAlarm ({
             device,
             ctx: deviceService.state.context
         });

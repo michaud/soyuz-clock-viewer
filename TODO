@@ -1,4 +1,9 @@
 
+
+Bug:
+  ☐ when not connected and turn on device, the device is turned on but doesn't run, if then connect, clock doesn't run and when toggle device off the clock starts running
+    ☐ when not connected, turn on should be possible but if then connect clock should start running 
+
 Todo:
   ☐ Make operational
     ✔ use hit target to enable disable hilites @done(21-04-09 02:30)

@@ -74,26 +74,29 @@ export const devicePartDescriptors = [
     {
         component: "alarm",
         type: "hands",
-        name: "alarm_indicator_minutes",
+        name: "alarm_hand_minutes",
         time: "minute"
     },
     {
         component: "alarm",
         type: "hands",
-        name: "alarm_indicator_hours",
+        name: "alarm_hand_hours",
         time: "hour"
     },
     {
         component: "alarm",
         type: "buttons",
         name: "switch_alarm_on_off",
-        action: "switch_alarm_on_offAction"
+        action: "switch_alarm_on_offAction",
+        command: "switch_alarm_on_off"
     },
     {
         component: "alarm",
         type: "buttons",
         name: "alarm_adjust_nob",
-        command: "alarm_adjust_nob"
+        move: "alarm_adjust_nob",
+        up: "alarm_adjust_nob",
+        over: "alarm_adjust_nob"
     },
     {
         component: "mission_timer",

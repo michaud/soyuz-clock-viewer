@@ -5,8 +5,11 @@ export const getHilites = (scene, hilites, state) => {
     const overlay = scene.getObjectByName('overlay_target');
     const hitTargets = scene.getObjectByName('hit_target');
 
-    const hilite = scene.getObjectByName('time_adjust_rotation_overlay');
-    hilite.visible = false;
+    const timeAdjustHilite = scene.getObjectByName('time_adjust_rotation_overlay');
+    timeAdjustHilite.visible = false;
+
+    const alarmAdjustHilite = scene.getObjectByName('alarm_adjust_rotation_overlay');
+    alarmAdjustHilite.visible = false;
 
     hiliteDescriptors.forEach(item => {
 
