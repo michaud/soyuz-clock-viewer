@@ -18,8 +18,7 @@ import {
     initPicking,
     initTools,
     initMachine,
-    initDevice,
-    initSounds
+    initDevice
 } from './init/initialise.js';
 
 import { getHilites, initUpdateHilites } from './init/getHilites.js';
@@ -33,7 +32,7 @@ let updateHilites = () => {}, hilites = [];
 let ac;
 
 const state = {
-    showHilite: true,
+    showHilite: false,
     ac: null
 };
 
