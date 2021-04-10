@@ -8,6 +8,7 @@ Todo:
   ☐ Make operational
     ✔ use hit target to enable disable hilites @done(21-04-09 02:30)
     ✔ hide hit targets when show hilite is disabled @done(21-04-09 02:30)
+    ☐ add clicks for switches, nobs and running clock?
   
   ☐ Chronometer
     ✔ start(ed) @done(21-04-09 02:30)
@@ -20,6 +21,7 @@ Todo:
   
   ☐ Mission Totalizer
     ☐ reset
+    ☐ turn off the device
     ☐ time adjust button
       ☐ pull out & seconds in 0 position
       ☐ when not in 0 pos turning button doesn't do anything but turn
@@ -28,17 +30,21 @@ Todo:
   
   Alarm
   ☐ advance alarm
-  ☐ alarm on - off
+  ✔ alarm on - off @done(21-04-10 16:58)
   ☐ set alarm turns one direction: backwards
   
   clock
-  ☐ second advance
-    ☐ half second steps
+  ✔ second advance @done(21-04-10 16:58)
+    ✔ half second steps @done(21-04-10 16:58)
+  
   ☐ time adjust button
-    - pressed in
-    - two directions
-    - alarm moves with time adjust only when turned backwards
-    - get out of adjustment mode press on second advance
+    ☐ press in
+      ☐ but also turn to find the mode
+        ☐ should we implement that?
+    ☐ two directions
+    ☐ alarm moves with time adjust only when turned backwards
+    ☐ get out of adjustment mode press on second advance
+      ☐ to what state does the time adjust button move? seems to go to Mission time adjust
   
   device
   - off
