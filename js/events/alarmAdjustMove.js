@@ -12,11 +12,15 @@ export const alarmAdjustMove = (
     const biasDepth = biasSize - .1;
 
     const deltaX = pointerDownX - clientX;
-    const bias = Math.min(Math.max(1, Math.abs(deltaX) - biasSize), biasDepth);
-    const delta = deviceService
-        .state.context.alarmTime - (((2 * Math.PI) * movementY) / (biasSize - bias));
 
-    deviceService.send('UPDATE_ALARM', { delta })
+    if(movementY < 0) {
 
-    hilite?.rotation.set(0, clientY / 100, 0, 'XYZ');
+        const bias = Math.min(Math.max(1, Math.abs(deltaX) - biasSize), biasDepth);
+        const delta = deviceService.state.context
+            .alarmTime - Math.abs((((2 * Math.PI) * movementY) / (biasSize - bias)));
+    
+        deviceService.send('UPDATE_ALARM', { delta })
+    
+        hilite?.rotation.set(0, clientY / 100, 0, 'XYZ');
+    }
 };
