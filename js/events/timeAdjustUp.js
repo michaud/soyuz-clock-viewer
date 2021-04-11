@@ -4,8 +4,8 @@ export const timeAdjustUp = (
     deviceService,
 ) => {
 
-    if(Math.abs(clientY - pointerDownY) < 5) {
+    // if(Math.abs(clientY - pointerDownY) < 5) {
 
-        deviceService.send('TOGGLE_TIME_ADJUST');
-    }
+    //     deviceService.send('TOGGLE_TIME_ADJUST');
+    // }
 };

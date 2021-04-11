@@ -26,6 +26,7 @@ export const initPicking = (
         if (intersects.length > 0) {
 
             button = device.buttons[intersects[0].object?.userData.hit_target];
+
             if(button) controls.enabled = false;
         }
     };
@@ -33,18 +34,19 @@ export const initPicking = (
     container.addEventListener('pointerdown', onPointerDown);
 
     const onPointerMove = e => {
+        
+        const {
+            clientX,
+            clientY,
+            movementY,
+        } = e;
+
+        isPointerMove = Math.abs(movementY) > 3;
 
         if(isPointerDown) {
 
-            if(button?.move) {
 
-                const {
-                    clientX,
-                    clientY,
-                    movementY,
-                } = e;
-
-                isPointerMove = Math.abs(movementY) > 3;
+            if(isPointerMove && button?.move) {
 
                 button.move(
                     pointerDownX,
@@ -94,9 +96,12 @@ export const initPicking = (
         const { clientY } = e;
         controls.enabled = true;
 
-        button?.action && button.action();
-        isPointerMove && button?.pointerUp && button.pointerUp(clientY, pointerDownY, deviceService);
+        button?.action && button.action(isPointerMove);
+        button?.pointerUp && button.pointerUp(clientY, pointerDownY, deviceService);
+
+        isPointerMove = false;
         isPointerDown = false;
+
         button = undefined;
     }
     
