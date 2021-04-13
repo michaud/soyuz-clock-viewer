@@ -1,8 +1,8 @@
 const { assign } = XState; // global variable: window.XState
 
 export const deviceMachineDesc = {
-    id: 'device',
-    initial: 'disconnected',
+    id: 'soyuzClock',
+    type: 'parallel',
     context: {
         elapsed: 0,
         duration: 5,
@@ -13,16 +13,9 @@ export const deviceMachineDesc = {
         missionElapsed: 0
     },
     on: {
-        TICK: {
-            actions: assign({
-                elapsed: context => {
-                    return +(context.elapsed + context.interval).toFixed(2);
-                }
-            })
-        },
         UPDATE_CLOCK: {
             actions: assign({
-                elapsed: (context, event) => {
+                elapsed: (context, event, meta) => {
                     return event.delta
                 }
             })
@@ -36,20 +29,111 @@ export const deviceMachineDesc = {
         },
     },
     states: {
-        disconnected: {
-            on: {
-                CONNECT: 'connected',
+        connect: {
+            initial: 'disconnected',
+            states: {
+                disconnected: {
+                    on: {
+                        CONNECT: 'connected',
+                    }
+                },
+                connected: {
+                    on: {
+                        DISCONNECT: 'disconnected'
+                    }
+                }
             }
         },
-        connected: {
-            initial: 'deviceOff',
+        time_adjust: {
+            initial: 'clock_time_adjust',
             states: {
-                deviceOn: {
-                    type: 'parallel',
+                clock_time_adjust: {
+                    on: {
+                        TOGGLE_TIME_ADJUST: 'mission_time_adjust'
+                    }
+                },
+                mission_time_adjust: {
+                    on: {
+                        TOGGLE_TIME_ADJUST: 'clock_time_adjust'
+                    }
+                },
+            }
+        },
+        chrono: {
+            initial: 'reset',
+            states: {
+                stopped: {
+                    on: {
+                        CHRONO_RESET: {
+                            target: 'reset',
+                            actions: assign({
+                                chronoStart: _ => 0,
+                                chronoStop: _ => 0
+                            })
+                        }
+                    }
+                },
+                started: {
+                    on: {
+                        CHRONO_STOP: {
+                            target: 'stopped',
+                            actions: assign({
+                                chronoStop: context => context.elapsed
+                            })
+                        }
+                    }
+                },
+                reset: {
+                    on: {
+                        CHRONO_START: {
+                            target: 'started',
+                            actions: assign({
+                                chronoStart: context => context.elapsed
+                            })
+                        }
+                    }
+                }
+            },
+            on: {
+                TICK: {
+                    actions: () => {
+                        //console.log('chrono tick')
+                    }
+                }
+            },
+        },
+        mission_timer: {
+            initial: 'idle',
+            states: {
+                idle: {
+                    on: {
+                        MISSION_TIMER_RESET: 'reset'
+                    }
+                },
+                reset: {
+                    on: {
+                        '': 'idle'
+                    }
+                }
+            },
+            on: {
+                TICK: {
+                    actions: () => {
+                        //console.log('mission_timer tick')
+                    }
+                }
+            }
+        },
+        device: {
+            id:'device',
+            initial: 'powerOff',
+            states: {
+                powerOn: {
                     invoke: {
-                        src: context => cb => {
+                        src: context =>  callback => {
+
                             const interval = setInterval(() => {
-                                cb('TICK');
+                                callback('TICK');
                             }, 1000 * context.interval);
 
                             return () => {
@@ -57,203 +141,51 @@ export const deviceMachineDesc = {
                             };
                         },
                     },
-                    states: {
-                        device: {
-                            initial: 'clock_time_adjust',
-                            states: {
-                                clock_time_adjust: {
-                                    on: {
-                                        TOGGLE_TIME_ADJUST: 'mission_time_adjust'
-                                    }
-                                },
-                                mission_time_adjust: {
-                                    on: {
-                                        TOGGLE_TIME_ADJUST: 'clock_time_adjust'
-                                    }
-                                }
-                            },
-                            on: {
-                                TICK: {
-                                    actions: assign({
-                                        elapsed: context => {
-                                            return +(context.elapsed + context.interval).toFixed(2);
-                                        }
-                                    })
-                                }
-                            }
-                        },
-                        mission_timer: {
-                            initial: 'idle',
-                            states: {
-                                idle: {
-                                    on: {
-                                        MISSION_TIMER_RESET: 'reset'
-                                    }
-                                },
-                                reset: {
-                                    on: {
-                                        '': 'idle'
-                                    }
-                                }
-                            },
-                            on: {
-                                TICK: {
-                                    actions: () => {
-                                        // console.log('mission_timer tick')
-                                    }
-                                }
-                            }
-                        },
-                        chrono: {
-                            initial: 'reset',
-                            states: {
-                                stopped: {
-                                    on: {
-                                        CHRONO_RESET: {
-                                            target: 'reset',
-                                            actions: assign({
-                                                chronoStart: _ => 0,
-                                                chronoStop: _ => 0
-                                            })
-                                        }
-                                    }
-                                },
-                                started: {
-                                    on: {
-                                        CHRONO_STOP: {
-                                            target: 'stopped',
-                                            actions: assign({
-                                                chronoStop: context => context.elapsed
-                                            })
-                                        }
-                                    }
-                                },
-                                reset: {
-                                    on: {
-                                        CHRONO_START: {
-                                            target: 'started',
-                                            actions: assign({
-                                                chronoStart: context => context.elapsed
-                                            })
-                                        }
-                                    }
-                                }
-                            },
-                            on: {
-                                TICK: {
-                                    actions: () => {
-                                        //console.log('chrono tick')
-                                    }
-                                }
-                            },
-                        },
-                        alarm: {
-                            initial: 'idle',
-                            states: {
-                                idle: {
-                                    on: {
-                                        ALARM_ON: 'alarmOn'
-                                    }
-                                },
-                                alarmOn: {
-                                    on: {
-                                        TICK: [
-                                            {
-                                                target: 'alarmSound',
-                                                cond: {
-                                                    type: 'alarmTimeReached'
-                                                }
-                                            }
-                                        ],
-                                        ALARM_OFF: 'idle'
-                                    }
-                                },
-                                alarmSound: {
-                                    activities: ['soundTheAlarm'],
-                                    on: {
-                                        ALARM_OFF: 'idle'
-                                    }
-                                }
-                            }
-                        }
-                    },
                     on: {
-                        TURN_OFF: 'deviceOff',
+                        POWER_OFF: 'powerOff'
                     }
                 },
-                deviceOff: {
-                    type: 'parallel',
-                    states: {
-                        clock: {
-                            initial: 'idle',
-                            states: {
-                                idle: {
-                                }
-                            },
-                        },
-                        chrono: {
-                            initial: 'idle',
-                            states: {
-                                idle: {
-                                    on: {
-                                        CHRONO_RESET: 'reset'
-                                    }
-                                },
-                                stop: {
-                                    on: {
-                                        CHRONO_RESET: 'reset'
-                                    }
-                                },
-                                running: {
-                                    on: {
-                                        CHRONO_STOP: 'stop'
-                                    }
-                                },
-                                start: {
-                                    on: {
-                                        '': 'running'
-                                    }
-                                },
-                                reset: {
-                                    on: {
-                                        '': 'idle'
-                                    }
-                                }
-                            }
-                        },
-                        alarm: {
-                            initial: 'idle',
-                            states: {
-                                idle: {
-                                    on: {
-                                        ALARM_SET: 'idle'
-                                    }
-                                }
-                            }
-                        },
-                        mission_timer: {
-                            initial: 'idle',
-                            states: {
-                                idle: {
-                                    on: {
-                                        MISSION_TIMER_RESET: 'reset'
-                                    }
-                                },
-                                reset: {
-                                    on: {
-                                        '': 'idle'
-                                    }
-                                }
-                            }
-                        }
-                    },
+                powerOff: {
                     on: {
-                        TURN_ON: 'deviceOn'
+                        POWER_ON: 'powerOn'
                     }
                 }
             },
             on: {
-                DISCONNECT: 'disconnected'
+                TICK: {
+                    actions: assign({
+                        elapsed: context => +(context.elapsed + context.interval).toFixed(2)
+                    })
+                }
+            },
+        },
+        alarm: {
+            initial: 'idle',
+            states: {
+                idle: {
+                    on: {
+                        ALARM_ON: 'alarmOn'
+                    }
+                },
+                alarmOn: {
+                    on: {
+                        TICK: [
+                            {
+                                target: 'alarmSound',
+                                cond: {
+                                    type: 'alarmTimeReached'
+                                }
+                            }
+                        ],
+                        ALARM_OFF: 'idle'
+                    }
+                },
+                alarmSound: {
+                    activities: ['soundTheAlarm'],
+                    on: {
+                        ALARM_OFF: 'idle'
+                    }
+                }
             }
         }
     }

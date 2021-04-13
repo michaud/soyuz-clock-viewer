@@ -143,20 +143,15 @@ function animate() {
             ctx: deviceService.state.context
         });
 
-        const deviceOn = deviceService.state.value
-            ?.connected?.deviceOn;
-
+        const deviceOn = deviceService.state.value?.connect?.connected === 'powerOn';
 
         if(deviceOn) {
 
-            if(deviceOn?.chrono) {
-                
-                updateChrono({
-                    device,
-                    ctx: deviceService.state.context,
-                    state: deviceOn?.chrono
-                });
-            }
+            updateChrono({
+                device,
+                ctx: deviceService.state.context,
+                state: deviceService.state.value.chrono
+            });
         }
     }
 
