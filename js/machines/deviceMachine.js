@@ -13,6 +13,13 @@ export const deviceMachineDesc = {
         missionElapsed: 0
     },
     on: {
+        TICK: {
+            actions: assign({
+                elapsed: context => {
+                    return +(context.elapsed + context.interval).toFixed(2);
+                }
+            })
+        },
         UPDATE_CLOCK: {
             actions: assign({
                 elapsed: (context, event) => {
