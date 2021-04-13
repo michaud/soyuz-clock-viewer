@@ -13,11 +13,6 @@ export const deviceMachineDesc = {
         missionElapsed: 0
     },
     on: {
-        TICK: {
-            actions: assign({
-                elapsed: context => +(context.elapsed + context.interval).toFixed(2)
-            })
-        },
         UPDATE_CLOCK: {
             actions: assign({
                 elapsed: (context, event) => {
@@ -53,7 +48,7 @@ export const deviceMachineDesc = {
                             return () => {
                                 clearInterval(interval);
                             };
-                        }
+                        },
                     },
                     states: {
                         device: {
@@ -68,6 +63,15 @@ export const deviceMachineDesc = {
                                     on: {
                                         TOGGLE_TIME_ADJUST: 'clock_time_adjust'
                                     }
+                                }
+                            },
+                            on: {
+                                TICK: {
+                                    actions: assign({
+                                        elapsed: context => {
+                                            return +(context.elapsed + context.interval).toFixed(2);
+                                        }
+                                    })
                                 }
                             }
                         },
@@ -88,19 +92,10 @@ export const deviceMachineDesc = {
                             on: {
                                 TICK: {
                                     actions: () => {
-                                        //console.log('mission_timer tick')
+                                        // console.log('mission_timer tick')
                                     }
                                 }
                             }
-                        },
-                        clock: {
-                            on: {
-                                TICK: {
-                                    actions: assign({
-                                        elapsed: context => +(context.elapsed + context.interval).toFixed(2)
-                                    })
-                                }
-                            },
                         },
                         chrono: {
                             initial: 'reset',
@@ -186,13 +181,6 @@ export const deviceMachineDesc = {
                             initial: 'idle',
                             states: {
                                 idle: {
-                                }
-                            },
-                            on: {
-                                TICK: {
-                                    actions: assign({
-                                        elapsed: context => +(context.elapsed + context.interval).toFixed(2)
-                                    })
                                 }
                             },
                         },
