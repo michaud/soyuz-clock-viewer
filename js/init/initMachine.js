@@ -12,7 +12,7 @@ const options = {
 
 export const initMachine = (state) => {
 
-    const { Machine, actions: machineActions, interpret } = XState; // global variable: window.XState
+    const { createMachine, interpret } = XState; // global variable: window.XState
 
 
     const activities = {
@@ -55,14 +55,14 @@ export const initMachine = (state) => {
         }
     }
 
-    const deviceMachine = Machine(deviceMachineDesc, { ...options, ...activities });
+    const deviceMachine = createMachine(deviceMachineDesc, { ...options, ...activities });
 
     const deviceService = interpret(deviceMachine).onTransition(state => {
 
-        if (state.event.type !== 'TICK') {
+        // if (state.event.type !== 'TICK') {
 
-            //console.log('state', state.event.type, JSON.stringify(state.value))
-        }
+            console.log('state', state.event.type, JSON.stringify(state.value))
+        // }
     });
 
     deviceService.start();
