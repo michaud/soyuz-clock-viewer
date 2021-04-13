@@ -81,4 +81,18 @@ Todo:
       - switch alarm on
       - switch alarm off
       - set alarm time
-  
+
+- can you adjust the clock, alarm, stopwatch, mission timer when the device is not connected?
+  - Yes
+
+-  can you advance the clock ticks/half seconds when the device is turned on and the clock is running?
+  - Yes. It’s just a mechanical link that pulls down the advance electro-magnet. So the advance is a mechanical OR of the electrical input and the adjustment button input.
+
+- can you reset the mission time when the device is turned on and the clock is running?
+  - I have not tried, but I suspect yes. The reset is entirely mechanical.
+
+- does the mission time / clock adjust hours minutes button have three states? adjust clock, adjust mission time and 'idle'? or just  adjust clock, adjust mission time?
+  - It’s two and a half states. It adjusts the clock hours (both up and down) if it’s pressed down. To get out of that mode and release the adjust button, you need to manually press the ½ second advance button. When it’s released, it adjusts the mission time. But only forwards, independent of the direction that you turn the knob. But most of the time it’s disabled. It will only work if the seconds hand is pretty close to zero. In other words, it has three states, but the two last states (disabled/adjust mission time) is automatically controlled by the position of the seconds hand. I demonstrate that in the second video.
+
+- if you push the advance clock half a second button to get out of 'clock adjust time' mode, does it go into mission time adjust mode? or in an 'idle' mode?
+  - Correct, but then whether you end up  in idle or mission adjustment depends on where the seconds hand is, as explained above.- 
