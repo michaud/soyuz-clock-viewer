@@ -8,7 +8,7 @@ const options = {
     guards: {
         alarmTimeReached // optional, if the implementation doesn't change
     }
-}
+};
 
 export const initMachine = (state) => {
 
@@ -61,7 +61,7 @@ export const initMachine = (state) => {
 
         // if (state.event.type !== 'TICK') {
 
-            console.log('state', state.event.type, JSON.stringify(state.value))
+            //console.log('state', state.event.type, JSON.stringify(state.value))
         // }
     });
 

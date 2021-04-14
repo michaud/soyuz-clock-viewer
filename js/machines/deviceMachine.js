@@ -1,4 +1,4 @@
-const { assign } = XState; // global variable: window.XState
+const { assign, send } = XState; // global variable: window.XState
 
 export const deviceMachineDesc = {
     id: 'soyuzClock',
@@ -29,7 +29,72 @@ export const deviceMachineDesc = {
         },
     },
     states: {
+        ticker: {
+            id: 'ticker',
+            initial: 'tickerOff',
+            states: {
+                tickerOn: {
+                    invoke: {
+                        src: context => callback => {
+
+                            const interval = setInterval(() => {
+                                callback('TICK');
+                            }, 1000 * context.interval);
+
+                            return () => {
+                                clearInterval(interval);
+                            };
+                        },
+                    },
+                    on: {
+                        TICKER_OFF: 'tickerOff'
+                    }
+                },
+                tickerOff: {
+                    on: {
+                        TICKER_ON: 'tickerOn'
+                    }
+                }
+            }
+        },
+        power: {
+            id: 'power',
+            initial: 'powerOff',
+            states: {
+                powerOn: {
+                    on: {
+                        POWER_OFF: {
+                            target: [
+                                '#ticker.tickerOff',
+                                'powerOff'
+                            ]
+                        }
+                    }
+                },
+                powerOff: {
+                    on: {
+                        POWER_ON: [
+                            {
+                                target: '#ticker.tickerOn',
+                                cond: (context, event, meta) => meta.state.value.connect === 'connected'
+                            },
+                            {
+                                target: 'powerOn'
+                            }
+                        ]
+                    }
+                }
+            },
+            on: {
+                TICK: {
+                    actions: assign({
+                        elapsed: context => +(context.elapsed + context.interval).toFixed(2)
+                    })
+                }
+            },
+        },
         connect: {
+            id: 'connect',
             initial: 'disconnected',
             states: {
                 disconnected: {
@@ -123,41 +188,6 @@ export const deviceMachineDesc = {
                     }
                 }
             }
-        },
-        device: {
-            id:'device',
-            initial: 'powerOff',
-            states: {
-                powerOn: {
-                    invoke: {
-                        src: context =>  callback => {
-
-                            const interval = setInterval(() => {
-                                callback('TICK');
-                            }, 1000 * context.interval);
-
-                            return () => {
-                                clearInterval(interval);
-                            };
-                        },
-                    },
-                    on: {
-                        POWER_OFF: 'powerOff'
-                    }
-                },
-                powerOff: {
-                    on: {
-                        POWER_ON: 'powerOn'
-                    }
-                }
-            },
-            on: {
-                TICK: {
-                    actions: assign({
-                        elapsed: context => +(context.elapsed + context.interval).toFixed(2)
-                    })
-                }
-            },
         },
         alarm: {
             initial: 'idle',

@@ -32,55 +32,98 @@ const soyuzClockMachine = Machine({
         alarmTime: 0,
         missionElapsed: 0
     },
+    on: {
+        UPDATE_CLOCK: {
+            actions: assign({
+                elapsed: (context, event, meta) => {
+                    return event.delta
+                }
+            })
+        },
+        UPDATE_ALARM: {
+            actions: assign({
+                alarmTime: (context, event) => {
+                    return event.delta
+                }
+            })
+        },
+    },
     states: {
-        connect: {
-            initial: 'disconnected',
+        ticker: {
+            id: 'ticker',
+            initial: 'tickerOff',
             states: {
-                disconnected: {
-                    initial: 'powerOff',
-                    on: {
-                        CONNECT: 'connected',
-                    },
-                    states: {
-                        powerOn: {
-                            on: {
-                                POWER_OFF: 'powerOff'
-                            }
+                tickerOn: {
+                    invoke: {
+                        src: context => callback => {
+
+                            const interval = setInterval(() => {
+                                callback('TICK');
+                            }, 1000 * context.interval);
+
+                            return () => {
+                                clearInterval(interval);
+                            };
                         },
-                        powerOff: {
-                            on: {
-                                POWER_ON: 'powerOn'
-                            }
+                    },
+                    on: {
+                        TICKER_OFF: 'tickerOff'
+                    }
+                },
+                tickerOff: {
+                    on: {
+                        TICKER_ON: 'tickerOn'
+                    }
+                }
+            }
+        },
+        power: {
+            id: 'power',
+            initial: 'powerOff',
+            states: {
+                powerOn: {
+                    on: {
+                        POWER_OFF: {
+                            target: [
+                                '#ticker.tickerOff',
+                                'powerOff'
+                            ]
                         }
                     }
                 },
+                powerOff: {
+                    on: {
+                        POWER_ON: [
+                            {
+                                target: '#ticker.tickerOn'
+                            },
+                            {
+                                target: 'powerOn'
+                            }
+                        ]
+                    }
+                }
+            },
+            on: {
+                TICK: {
+                    actions: assign({
+                        elapsed: context => +(context.elapsed + context.interval).toFixed(2)
+                    })
+                }
+            },
+        },
+        connect: {
+            id: 'connect',
+            initial: 'disconnected',
+            states: {
+                disconnected: {
+                    on: {
+                        CONNECT: 'connected',
+                    }
+                },
                 connected: {
-                    initial: 'powerOff',
                     on: {
                         DISCONNECT: 'disconnected'
-                    },
-                    states: {
-                        powerOn: {
-                            invoke: {
-                                src: context => cb => {
-                                    const interval = setInterval(() => {
-                                        cb('TICK');
-                                    }, 1000 * context.interval);
-
-                                    return () => {
-                                        clearInterval(interval);
-                                    };
-                                }
-                            },
-                            on: {
-                                POWER_OFF: 'powerOff'
-                            }
-                        },
-                        powerOff: {
-                            on: {
-                                POWER_ON: 'powerOn'
-                            }
-                        }
                     }
                 }
             }
@@ -164,15 +207,6 @@ const soyuzClockMachine = Machine({
                     }
                 }
             }
-        },
-        device: {
-            on: {
-                TICK: {
-                    actions: assign({
-                        elapsed: context => +(context.elapsed + context.interval).toFixed(2)
-                    })
-                }
-            },
         },
         alarm: {
             initial: 'idle',
