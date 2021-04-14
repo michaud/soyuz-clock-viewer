@@ -10,7 +10,9 @@ export const deviceMachineDesc = {
         chronoStart: 0,
         chronoStop: 0,
         alarmTime: 0,
-        missionElapsed: 0
+        missionElapsed: 0,
+        isConnected: false,
+        isPowerOn: false
     },
     on: {
         UPDATE_CLOCK: {
@@ -27,69 +29,54 @@ export const deviceMachineDesc = {
                 }
             })
         },
-    },
-    states: {
-        ticker: {
-            id: 'ticker',
-            initial: 'tickerOff',
-            states: {
-                tickerOn: {
-                    invoke: {
-                        src: context => callback => {
-
-                            const interval = setInterval(() => {
-                                callback('TICK');
-                            }, 1000 * context.interval);
-
-                            return () => {
-                                clearInterval(interval);
-                            };
-                        },
-                    },
-                    on: {
-                        TICKER_OFF: 'tickerOff'
-                    }
-                },
-                tickerOff: {
-                    on: {
-                        TICKER_ON: 'tickerOn'
-                    }
-                }
+        on: {
+            TICK: {
+                actions: assign({
+                    elapsed: context => +(context.elapsed + context.interval).toFixed(2)
+                })
             }
         },
+    },
+    states: {
         power: {
             id: 'power',
             initial: 'powerOff',
             states: {
                 powerOn: {
+                    invoke: {
+                        src: context => callback => {
+
+                            if (context.isConnected) {
+
+                                const interval = setInterval(() => {
+                                    callback('soyuzClock.TICK');
+                                }, 1000 * context.interval);
+
+                                return () => {
+                                    clearInterval(interval);
+                                };
+                            }
+                        },
+                    },
                     on: {
+                        POWER_ON: 'powerOn',
                         POWER_OFF: {
-                            target: [
-                                '#ticker.tickerOff',
-                                'powerOff'
-                            ]
+                            actions: assign({
+                                isPowerOn: false
+                            }),
+                            target: 'powerOff'
                         }
                     }
                 },
                 powerOff: {
                     on: {
-                        POWER_ON: [
-                            {
-                                target: '#ticker.tickerOn',
-                                cond: (context, event, meta) => meta.state.value.connect === 'connected'
-                            },
-                            {
-                                target: 'powerOn'
-                            }
-                        ]
+                        POWER_ON: {
+                            actions: assign({
+                                isPowerOn: true
+                            }),
+                            target: 'powerOn'
+                        }
                     }
-                }
-            },
-            on: {
-                TICK: {
-                    actions: assign({
-                        elapsed: context => +(context.elapsed + context.interval).toFixed(2)
-                    })
                 }
             },
         },
@@ -98,13 +85,29 @@ export const deviceMachineDesc = {
             initial: 'disconnected',
             states: {
                 disconnected: {
+                    invoke: {
+                        src: context => callback => context.isPowerOn && callback('POWER_ON')
+                    },
                     on: {
-                        CONNECT: 'connected',
+                        TOGGLE_CONNECT: {
+                            actions: assign({
+                                isConnected: true
+                            }),
+                            target: 'connected',
+                        }
                     }
                 },
                 connected: {
+                    invoke: {
+                        src: context => callback => context.isPowerOn && callback('POWER_ON')
+                    },
                     on: {
-                        DISCONNECT: 'disconnected'
+                        TOGGLE_CONNECT: {
+                            actions: assign({
+                                isConnected: false
+                            }),
+                            target: 'disconnected'
+                        }
                     }
                 }
             }

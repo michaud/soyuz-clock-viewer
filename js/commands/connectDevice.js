@@ -1,3 +1,3 @@
 export const connectDevice = (deviceService) => () => {
-    deviceService.send('CONNECT');
+    deviceService.send('TOGGLE_CONNECT');
 };

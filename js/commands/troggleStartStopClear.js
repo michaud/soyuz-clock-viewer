@@ -2,7 +2,7 @@ export const troggleStartStopClear = (deviceService) => () => {
 
     let eventName = '';
 
-    switch(deviceService.state.value?.chrono ) {
+    switch(deviceService.state.value.chrono) {
 
         case 'reset' : {
             

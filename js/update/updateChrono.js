@@ -10,34 +10,37 @@ export const updateChrono = ({
     state
 }) => {
 
-    let time = 0;
+    if(state.power === 'powerOn' && state.connect === 'connected') {
 
-    switch(state) {
+        let time = 0;
 
-        case 'started': {
+        switch(state.chrono) {
+
+            case 'started': {
+                
+                const currentDate = new Date((elapsed - chronoStart) * 1000);
+                time = currentDate.getTime() / 1000;
+                
+                break;
+            }
             
-            const currentDate = new Date((elapsed - chronoStart) * 1000);
-            time = currentDate.getTime() / 1000;
-            
-            break;
-        }
-        
-        case 'stopped': {
-            
-            const currentDate = new Date((chronoStop - chronoStart) * 1000);
-            time = currentDate.getTime() / 1000;
-
-            break;
-        }
-
-        case 'reset': {
-
-            time = 0;
-        }
-    }
-
-    device.chronometer.hands.forEach(hand => {
+            case 'stopped': {
+                
+                const currentDate = new Date((chronoStop - chronoStart) * 1000);
+                time = currentDate.getTime() / 1000;
     
-        hand.rotation.set(0, getRadFromTime(hand.time, time), 0, 'XYZ')
-    })
+                break;
+            }
+    
+            case 'reset': {
+    
+                time = 0;
+            }
+        }
+    
+        device.chronometer.hands.forEach(hand => {
+        
+            hand.rotation.set(0, getRadFromTime(hand.time, time), 0, 'XYZ')
+        })
+    }
 };
