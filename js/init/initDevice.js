@@ -14,12 +14,14 @@ export const initDevice = (
 
     if (partFromScene) {
 
-        const action = item.action ? { action: actions[item.action]({
-            actionName: item.action,
-            clips,
-            mixer,
-            command: commands[item.command]
-        }) } : {};
+        const action = item.action ? {
+                action: actions[item.action]({
+                actionName: item.action,
+                clips,
+                mixer,
+                command: commands[item.command]
+            })
+        } : {};
 
         const move = item.move ? { move: events.moves[item.move] } : {};
         const up = item.up ? { pointerUp: events.ups[item.up] } : {};
