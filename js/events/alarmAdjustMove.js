@@ -1,3 +1,5 @@
+import { CONST } from '../utils/index.js';
+
 export const alarmAdjustMove = (
     pointerDownX,
     clientX,
@@ -16,9 +18,10 @@ export const alarmAdjustMove = (
     if(movementY < 0) {
 
         const bias = Math.min(Math.max(1, Math.abs(deltaX) - biasSize), biasDepth);
-        const delta = deviceService.state.context
-            .alarmTime - Math.abs((((2 * Math.PI) * movementY) / (biasSize - bias)));
-    
+
+        let delta = deviceService.state.context.alarmTime - (Math.abs((CONST.TWO_PI * movementY) / (biasSize - bias)));
+        delta = delta < 0 ? CONST.secondsInDay - Math.abs(delta) : delta;
+
         deviceService.send('UPDATE_ALARM', { delta })
     
         hilite?.rotation.set(0, clientY / 100, 0, 'XYZ');

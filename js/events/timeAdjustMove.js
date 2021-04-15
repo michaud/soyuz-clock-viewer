@@ -1,3 +1,5 @@
+import { CONST } from '../utils/index.js';
+
 export const timeAdjustMove = (
     pointerDownX,
     clientX,
@@ -13,8 +15,8 @@ export const timeAdjustMove = (
 
     const deltaX = pointerDownX - clientX;
     const bias = Math.min(Math.max(1, Math.abs(deltaX) - biasSize), biasDepth);
-    const delta = deviceService
-        .state.context.clockTime - (((2 * Math.PI) * movementY) / (biasSize - bias));
+    let delta = deviceService.state.context.clockTime - ((CONST.TWO_PI * movementY) / (biasSize - bias));
+    delta = delta > CONST.secondsInDay ? delta - CONST.secondsInDay : delta;
 
     deviceService.send('UPDATE_CLOCK', { delta })
 

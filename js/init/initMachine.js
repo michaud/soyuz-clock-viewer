@@ -28,8 +28,8 @@ export const initMachine = (state) => {
 
     deviceService.start();
 
-    deviceService.send('TOGGLE_CONNECT')
-    deviceService.send('POWER_ON')
+    // deviceService.send('TOGGLE_CONNECT')
+    // deviceService.send('POWER_ON')
 
     return deviceService;
 };
