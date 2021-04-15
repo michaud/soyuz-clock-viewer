@@ -3,11 +3,11 @@ const { assign } = XState;
 export const actions = {
 
     updateElapsed: assign({
-        elapsed: (_, event) => event.delta
+        clockTime: (_, event) => event.delta
     }),
 
     advanceElapsed: assign({
-        elapsed: context => +(context.elapsed + context.interval).toFixed(2)
+        clockTime: context => +(context.clockTime + context.interval).toFixed(2)
     }),
 
     updateAlarmTime: assign({
@@ -36,10 +36,10 @@ export const actions = {
     }),
 
     setChronoStopTime: assign({
-        chronoStop: context => context.elapsed
+        chronoStop: context => context.clockTime
     }),
 
     setChronoStartTime: assign({
-        chronoStart: context => context.elapsed
+        chronoStart: context => context.clockTime
     })
 };

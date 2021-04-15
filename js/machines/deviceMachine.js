@@ -4,8 +4,7 @@ export const deviceMachineDesc = {
     id: 'soyuzClock',
     type: 'parallel',
     context: {
-        elapsed: 0,
-        duration: 5,
+        clockTime: 0,
         interval: .5,
         chronoStart: 0,
         chronoStop: 0,

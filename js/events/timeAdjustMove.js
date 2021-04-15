@@ -14,7 +14,7 @@ export const timeAdjustMove = (
     const deltaX = pointerDownX - clientX;
     const bias = Math.min(Math.max(1, Math.abs(deltaX) - biasSize), biasDepth);
     const delta = deviceService
-        .state.context.elapsed - (((2 * Math.PI) * movementY) / (biasSize - bias));
+        .state.context.clockTime - (((2 * Math.PI) * movementY) / (biasSize - bias));
 
     deviceService.send('UPDATE_CLOCK', { delta })
 

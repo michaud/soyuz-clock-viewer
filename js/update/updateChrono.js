@@ -5,7 +5,7 @@ export const updateChrono = ({
     ctx:{
         chronoStart,
         chronoStop,
-        elapsed
+        clockTime
     },
     state
 }) => {
@@ -18,7 +18,7 @@ export const updateChrono = ({
 
             case 'started': {
                 
-                const currentDate = new Date((elapsed - chronoStart) * 1000);
+                const currentDate = new Date((clockTime - chronoStart) * 1000);
                 time = currentDate.getTime() / 1000;
                 
                 break;
