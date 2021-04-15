@@ -16,26 +16,11 @@ export const deviceMachineDesc = {
     },
     on: {
         UPDATE_CLOCK: {
-            actions: assign({
-                elapsed: (context, event, meta) => {
-                    return event.delta
-                }
-            })
+            actions: ['updateElapsed']
         },
         UPDATE_ALARM: {
-            actions: assign({
-                alarmTime: (context, event) => {
-                    return event.delta
-                }
-            })
-        },
-        on: {
-            TICK: {
-                actions: assign({
-                    elapsed: context => +(context.elapsed + context.interval).toFixed(2)
-                })
-            }
-        },
+            actions: ['updateAlarmTime']
+        }
     },
     states: {
         power: {
@@ -44,36 +29,23 @@ export const deviceMachineDesc = {
             states: {
                 powerOn: {
                     invoke: {
-                        src: context => callback => {
-
-                            if (context.isConnected) {
-
-                                const interval = setInterval(() => {
-                                    callback('soyuzClock.TICK');
-                                }, 1000 * context.interval);
-
-                                return () => {
-                                    clearInterval(interval);
-                                };
-                            }
-                        },
+                        src: 'startTick',
                     },
                     on: {
                         POWER_ON: 'powerOn',
                         POWER_OFF: {
-                            actions: assign({
-                                isPowerOn: false
-                            }),
+                            actions: ['setPowerOff'],
                             target: 'powerOff'
+                        },
+                        TICK: {
+                            actions: ['advanceElapsed']
                         }
                     }
                 },
                 powerOff: {
                     on: {
                         POWER_ON: {
-                            actions: assign({
-                                isPowerOn: true
-                            }),
+                            actions: ['setPowerOn'],
                             target: 'powerOn'
                         }
                     }
@@ -86,26 +58,22 @@ export const deviceMachineDesc = {
             states: {
                 disconnected: {
                     invoke: {
-                        src: context => callback => context.isPowerOn && callback('POWER_ON')
+                        src: 'bumpPowerOn'
                     },
                     on: {
                         TOGGLE_CONNECT: {
-                            actions: assign({
-                                isConnected: true
-                            }),
+                            actions: ['setIsConnected'],
                             target: 'connected',
                         }
                     }
                 },
                 connected: {
                     invoke: {
-                        src: context => callback => context.isPowerOn && callback('POWER_ON')
+                        src: 'bumpPowerOn'
                     },
                     on: {
                         TOGGLE_CONNECT: {
-                            actions: assign({
-                                isConnected: false
-                            }),
+                            actions: ['setIsDisconnected'],
                             target: 'disconnected'
                         }
                     }
@@ -134,10 +102,7 @@ export const deviceMachineDesc = {
                     on: {
                         CHRONO_RESET: {
                             target: 'reset',
-                            actions: assign({
-                                chronoStart: _ => 0,
-                                chronoStop: _ => 0
-                            })
+                            actions: ['resetChrono']
                         }
                     }
                 },
@@ -145,9 +110,7 @@ export const deviceMachineDesc = {
                     on: {
                         CHRONO_STOP: {
                             target: 'stopped',
-                            actions: assign({
-                                chronoStop: context => context.elapsed
-                            })
+                            actions: ['setChronoStopTime']
                         }
                     }
                 },
@@ -155,9 +118,7 @@ export const deviceMachineDesc = {
                     on: {
                         CHRONO_START: {
                             target: 'started',
-                            actions: assign({
-                                chronoStart: context => context.elapsed
-                            })
+                            actions: ['setChronoStartTime']
                         }
                     }
                 }
