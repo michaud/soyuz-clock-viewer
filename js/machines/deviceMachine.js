@@ -25,6 +25,11 @@ export const deviceMachineDesc = {
         power: {
             id: 'power',
             initial: 'powerOff',
+            on: {
+                TICK: {
+                    actions: ['advanceClockTime']
+                }
+            },
             states: {
                 powerOn: {
                     invoke: {
@@ -35,9 +40,6 @@ export const deviceMachineDesc = {
                         POWER_OFF: {
                             actions: ['setPowerOff'],
                             target: 'powerOff'
-                        },
-                        TICK: {
-                            actions: ['advanceElapsed']
                         }
                     }
                 },

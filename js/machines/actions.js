@@ -6,7 +6,7 @@ export const actions = {
         clockTime: (_, event) => event.delta
     }),
 
-    advanceElapsed: assign({
+    advanceClockTime: assign({
         clockTime: context => +(context.clockTime + context.interval).toFixed(2)
     }),
 
