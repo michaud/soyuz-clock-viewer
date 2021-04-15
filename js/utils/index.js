@@ -5,18 +5,5 @@ export const radSteps = {
     second: (2 * Math.PI) / 60
 };
 
-export const getRadFromTime = (type, time) => {
+export const getRadFromTime = (type, time) => radSteps[type] * time * -1;
 
-    const step = radSteps[type];
-
-    switch (type) {
-
-        case "second": {
-            return step * ((Math.round(time * 2)) / 2)  * -1;
-        }
-
-        default: {
-            return step * time  * -1;
-        }
-    }
-};
