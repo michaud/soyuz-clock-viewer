@@ -1,6 +1,6 @@
 import { CONST } from '../utils/index.js';
 
-export const timeAdjustMove = (
+const clockTimeAdjust = (
     pointerDownX,
     clientX,
     clientY,
@@ -21,4 +21,39 @@ export const timeAdjustMove = (
     deviceService.send('UPDATE_CLOCK', { delta })
 
     hilite.rotation.set(0, delta / 100, 0, 'XYZ');
+};
+
+const missionTimeAdjust = (
+    pointerDownX,
+    clientX,
+    clientY,
+    deviceService,
+    movementY,
+    scene
+) => {
+
+};
+
+const timeAdjust = {
+    clock_time_adjust: clockTimeAdjust,
+    mission_time_adjust: missionTimeAdjust
+}
+
+export const timeAdjustMove = (
+    pointerDownX,
+    clientX,
+    clientY,
+    deviceService,
+    movementY,
+    scene
+) => {
+
+    timeAdjust[deviceService.state.value.time_adjust](
+        pointerDownX,
+        clientX,
+        clientY,
+        deviceService,
+        movementY,
+        scene
+    )
 };

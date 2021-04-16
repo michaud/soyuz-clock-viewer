@@ -20,10 +20,10 @@ export const initMachine = (state) => {
 
     const deviceService = interpret(deviceMachine).onTransition(state => {
 
-        // if (state.event.type !== '#soyuzClock.TICK') {
+        if (state.event.type !== '#soyuzClock.TICK') {
 
-        //     console.log('state', state.event.type, JSON.stringify(state.value))
-        // }
+            //console.log('state', state.event.type, JSON.stringify(state.value))
+        }
     });
 
     deviceService.start();

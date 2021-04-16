@@ -15,7 +15,10 @@ export const deviceMachineDesc = {
     },
     on: {
         UPDATE_CLOCK: {
-            actions: ['updateElapsed']
+            actions: ['updateClockTime']
+        },
+        UPDATE_MISSION_TIME: {
+            actions: ['updateMissionTime']
         },
         UPDATE_ALARM: {
             actions: ['updateAlarmTime']
@@ -32,9 +35,7 @@ export const deviceMachineDesc = {
             },
             states: {
                 powerOn: {
-                    invoke: {
-                        src: 'startTick',
-                    },
+                    invoke: { src: 'startTick' },
                     on: {
                         POWER_ON: 'powerOn',
                         POWER_OFF: {
@@ -58,9 +59,7 @@ export const deviceMachineDesc = {
             initial: 'disconnected',
             states: {
                 disconnected: {
-                    invoke: {
-                        src: 'bumpPowerOn'
-                    },
+                    invoke: { src: 'bumpPowerOn' },
                     on: {
                         TOGGLE_CONNECT: {
                             actions: ['setIsConnected'],
@@ -69,9 +68,7 @@ export const deviceMachineDesc = {
                     }
                 },
                 connected: {
-                    invoke: {
-                        src: 'bumpPowerOn'
-                    },
+                    invoke: { src: 'bumpPowerOn' },
                     on: {
                         TOGGLE_CONNECT: {
                             actions: ['setIsDisconnected'],
@@ -85,14 +82,10 @@ export const deviceMachineDesc = {
             initial: 'clock_time_adjust',
             states: {
                 clock_time_adjust: {
-                    on: {
-                        TOGGLE_TIME_ADJUST: 'mission_time_adjust'
-                    }
+                    on: { TOGGLE_TIME_ADJUST: 'mission_time_adjust' }
                 },
                 mission_time_adjust: {
-                    on: {
-                        TOGGLE_TIME_ADJUST: 'clock_time_adjust'
-                    }
+                    on: { TOGGLE_TIME_ADJUST: 'clock_time_adjust' }
                 },
             }
         },
@@ -136,14 +129,10 @@ export const deviceMachineDesc = {
             initial: 'idle',
             states: {
                 idle: {
-                    on: {
-                        MISSION_TIMER_RESET: 'reset'
-                    }
+                    on: { MISSION_TIMER_RESET: 'reset' }
                 },
                 reset: {
-                    on: {
-                        '': 'idle'
-                    }
+                    on: { '': 'idle' }
                 }
             },
             on: {
@@ -158,9 +147,7 @@ export const deviceMachineDesc = {
             initial: 'idle',
             states: {
                 idle: {
-                    on: {
-                        ALARM_ON: 'alarmOn'
-                    }
+                    on: { ALARM_ON: 'alarmOn' }
                 },
                 alarmOn: {
                     on: {
@@ -177,9 +164,7 @@ export const deviceMachineDesc = {
                 },
                 alarmSound: {
                     activities: ['soundTheAlarm'],
-                    on: {
-                        ALARM_OFF: 'idle'
-                    }
+                    on: { ALARM_OFF: 'idle' }
                 }
             }
         }

@@ -2,7 +2,7 @@ const { assign } = XState;
 
 export const actions = {
 
-    updateElapsed: assign({
+    updateClockTime: assign({
         clockTime: (_, event) => event.delta
     }),
 

@@ -32,7 +32,7 @@ let updateHilites = () => {}, hilites = [];
 let ac;
 
 const state = {
-    showHilite: true,
+    showHilite: false,
     ac: null
 };
 
