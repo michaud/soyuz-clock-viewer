@@ -39,6 +39,4 @@ export const CONST = getConstants();
 
 export const getClockHandRadFromTime = (type, time) => CONST.radSteps[type] * time * -1;
 
-export const getMissionHandRadFromTime = (type, time) => {
-    return CONST.radSteps[type] * time * -1
-}
+export const getMissionHandRadFromTime = (type, time) => CONST.radSteps[type] * time * -1;
