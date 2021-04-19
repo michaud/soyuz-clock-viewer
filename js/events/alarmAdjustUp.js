@@ -1,7 +1,6 @@
 export const alarmAdjustUp = (
-    clientY,
-    pointerDownY,
-    deviceService,
+    isPointerMove,
+    deviceService
 ) => {
     console.log('what here?')
 };

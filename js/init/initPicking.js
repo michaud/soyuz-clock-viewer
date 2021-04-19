@@ -10,7 +10,6 @@ export const initPicking = (
     let isPointerDown = false;
     let pointerDownY = 0;
     let pointerDownX = 0;
-    let isPointerMove = false;
     let button;
     let overButton;
     let prevOverButton;
@@ -41,12 +40,9 @@ export const initPicking = (
             movementY,
         } = e;
 
-        isPointerMove = Math.abs(movementY) > 3;
-
         if(isPointerDown) {
 
-
-            if(isPointerMove && button?.move) {
+            if(button?.move) {
 
                 button.move(
                     pointerDownX,
@@ -93,13 +89,17 @@ export const initPicking = (
 
     const onPointerUp = e => {
 
-        const { clientY } = e;
+        const {
+            clientX,
+            clientY,
+        } = e;
+
         controls.enabled = true;
 
+        const isPointerMove = Math.abs(pointerDownX - clientX) > 5 || Math.abs(pointerDownY - clientY) > 5;
         button?.action && button.action(isPointerMove);
-        button?.pointerUp && button.pointerUp(clientY, pointerDownY, deviceService);
+        button?.pointerUp && button.pointerUp(isPointerMove, deviceService);
 
-        isPointerMove = false;
         isPointerDown = false;
 
         button = undefined;
