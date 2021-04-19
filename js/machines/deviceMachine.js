@@ -9,7 +9,7 @@ export const deviceMachineDesc = {
         chronoStart: 0,
         chronoStop: 0,
         alarmTime: 86400,
-        missionElapsed: 0,
+        missionElapsed: 0, //863990
         isConnected: false,
         isPowerOn: false
     },
@@ -30,7 +30,7 @@ export const deviceMachineDesc = {
             initial: 'powerOff',
             on: {
                 TICK: {
-                    actions: ['advanceClockTime']
+                    actions: ['advanceClockTime', 'advanceMissionTime']
                 }
             },
             states: {
