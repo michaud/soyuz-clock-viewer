@@ -17,7 +17,7 @@ const clockTimeAdjust = (
     const bias = Math.min(Math.max(1, Math.abs(deltaX) - biasSize), biasDepth);
     let delta = deviceService.state.context.clockTime - ((CONST.TWO_PI * movementY) / (biasSize - bias));
     delta = delta > CONST.secondsInDay ? delta - CONST.secondsInDay : delta;
-
+    delta = Math.round(delta * 2)/2;
     deviceService.send('UPDATE_CLOCK', { delta })
 
     hilite.rotation.set(0, delta / 100, 0, 'XYZ');
@@ -40,7 +40,7 @@ const missionTimeAdjust = (
     const bias = Math.min(Math.max(1, Math.abs(deltaX) - biasSize), biasDepth);
     let delta = deviceService.state.context.missionElapsed + ((CONST.TWO_PI * Math.abs(movementY)) / (biasSize - bias));
     delta = delta > CONST.secondsIn99Days ? CONST.secondsIn99Days - delta : delta;
-
+    delta = Math.round(delta * 2)/2;
     deviceService.send('UPDATE_MISSION_TIME', { delta })
 
     hilite?.rotation.set(0, delta / 100, 0, 'XYZ');
