@@ -4,13 +4,19 @@ const { Duration } = luxon;
 
 const getNthDigitFromRight = (number, n) => Math.floor((number / Math.pow(10, n - 1)) % 10);
 
-export const updateMissionTime = ({device, ctx: {
-    missionElapsed
-}}) => {
+export const updateMissionTime = ({
+    device,
+    ctx: {
+        missionElapsed
+    }
+}) => {
 
-    const time = Duration.fromObject({seconds:missionElapsed});
+    const time = Duration.fromObject({
+        seconds: missionElapsed
+    });
+
     const days = time.shiftTo('days').get('days');
-    const hours = time.shiftTo('hours').get('hours') % 24;
+    const hours = Math.round(time.shiftTo('hours').get('hours') % 24);
     const minutes = time.shiftTo('minutes').get('minutes') % 60;
 
     const timeCalcs = {
