@@ -32,6 +32,18 @@ const missionTimeAdjust = (
     scene
 ) => {
 
+    const hilite = scene.getObjectByName('time_adjust_rotation_overlay');
+    const biasSize = 20;
+    const biasDepth = biasSize - .2;
+
+    const deltaX = pointerDownX - clientX;
+    const bias = Math.min(Math.max(1, Math.abs(deltaX) - biasSize), biasDepth);
+    let delta = deviceService.state.context.missionElapsed + ((CONST.TWO_PI * Math.abs(movementY)) / (biasSize - bias));
+    delta = delta > CONST.secondsIn99Days ? CONST.secondsIn99Days - delta : delta;
+
+    deviceService.send('UPDATE_MISSION_TIME', { delta })
+
+    hilite?.rotation.set(0, delta / 100, 0, 'XYZ');
 };
 
 const timeAdjust = {

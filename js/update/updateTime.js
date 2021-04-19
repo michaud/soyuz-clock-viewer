@@ -1,4 +1,4 @@
-import { getRadFromTime } from '../utils/index.js';
+import { getClockHandRadFromTime } from '../utils/index.js';
 
 export const updateTime = ({device, ctx: {
     clockTime
@@ -25,6 +25,6 @@ export const updateTime = ({device, ctx: {
 
     device.clock.hands.forEach(hand => {
 
-        hand.rotation.set(0, getRadFromTime(hand.time, time), 0, 'XYZ')
+        hand.rotation.set(0, getClockHandRadFromTime(hand.time, time), 0, 'XYZ')
     })
 }

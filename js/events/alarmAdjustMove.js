@@ -50,6 +50,7 @@ export const alarmAdjustMove = (
     if(movementY < 0) {
 
         let delta = deviceService.state.context.alarmTime - (Math.abs((CONST.TWO_PI * movementY) / bias));
+        //keep between 0 and a day
         delta = delta < 0 ? CONST.secondsInDay - Math.abs(delta) : delta;
 
         deviceService.send('UPDATE_ALARM', { delta })

@@ -24,8 +24,8 @@ import {
 import { getHilites, initUpdateHilites } from './init/getHilites.js';
 import { updateTime } from './update/updateTime.js';
 import { updateAlarm } from './update/updateAlarm.js';
-
 import { updateChrono } from './update/updateChrono.js';
+import { updateMissionTime } from './update/updateMissionTime.js';
 
 const clips = [];
 let updateHilites = () => {}, hilites = [];
@@ -148,6 +148,11 @@ function animate() {
             ctx: deviceService.state.context,
             state: deviceService.state.value
         });
+
+        updateMissionTime({
+            device,
+            ctx: deviceService.state.context,
+        })
     }
 
     updateHilites(hilites);

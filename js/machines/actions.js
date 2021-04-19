@@ -10,6 +10,10 @@ export const actions = {
         clockTime: context => +(context.clockTime + context.interval).toFixed(2)
     }),
 
+    updateMissionTime: assign({
+        missionElapsed: (_, event) => event.delta
+    }),
+
     updateAlarmTime: assign({
         alarmTime: (_, event) => event.delta
     }),

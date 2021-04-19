@@ -1,4 +1,4 @@
-import { getRadFromTime } from '../utils/index.js';
+import { getClockHandRadFromTime } from '../utils/index.js';
 
 export const updateChrono = ({
     device,
@@ -40,7 +40,7 @@ export const updateChrono = ({
     
         device.chronometer.hands.forEach(hand => {
         
-            hand.rotation.set(0, getRadFromTime(hand.time, time), 0, 'XYZ')
+            hand.rotation.set(0, getClockHandRadFromTime(hand.time, time), 0, 'XYZ')
         })
     }
 };
