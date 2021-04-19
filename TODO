@@ -1,8 +1,8 @@
 
 
 Bug:
-  ☐ when not connected and turn on device, the device is turned on but doesn't run, if then connect, clock doesn't run and when toggle device off the clock starts running
-    ☐ when not connected, turn on should be possible but if then connect clock should start running 
+  ✔ when not connected and turn on device, the device is turned on but doesn't run, if then connect, clock doesn't run and when toggle device off the clock starts running @done(21-04-19 19:59)
+    ✔ when not connected, turn on should be possible but if then connect clock should start running @done(21-04-19 19:59)
 
 Todo:
   ☐ Make operational
@@ -25,8 +25,8 @@ Todo:
     ☐ time adjust button
       ☐ pull out & seconds in 0 position
       ☐ when not in 0 pos turning button doesn't do anything but turn
-      ☐ adjust minutes by turning
-        ☐ always counts up when turning left or right 
+      ✔ adjust minutes by turning @done(21-04-19 20:00)
+        ✔ always counts up when turning left or right @done(21-04-19 20:00)
   
   Alarm
   ☐ advance alarm
