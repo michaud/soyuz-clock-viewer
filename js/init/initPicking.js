@@ -96,7 +96,7 @@ export const initPicking = (
 
         controls.enabled = true;
 
-        const isPointerMove = Math.abs(pointerDownX - clientX) > 5 || Math.abs(pointerDownY - clientY) > 5;
+        const isPointerMove = Math.abs(pointerDownY - clientY) > 5;
         button?.action && button.action(isPointerMove);
         button?.pointerUp && button.pointerUp(isPointerMove, deviceService);
 

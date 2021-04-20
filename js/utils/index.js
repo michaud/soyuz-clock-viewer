@@ -44,3 +44,12 @@ export const getMissionHandRadFromTime = (type, time) => CONST.radSteps[type] * 
 export const roundAccurately = (number, decimalPlaces) => {
     return Number(Math.round(number + "e" + decimalPlaces) + "e-" + decimalPlaces);
 };
+
+export const calculateAlarmAdjustTime = (time, loopTime, movementY, bias) => {
+
+    let delta =  time - (Math.abs((CONST.TWO_PI * movementY) / bias));
+    //keep between 0 and a day
+    delta = delta < 0 ? loopTime - Math.abs(delta) : delta;
+    return delta;
+};
+
