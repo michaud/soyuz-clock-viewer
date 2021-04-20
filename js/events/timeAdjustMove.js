@@ -22,11 +22,12 @@ const clockTimeAdjust = (
     let delta = deviceService.state.context.clockTime - biasAdjusted;
     //keep between within a day
     delta = delta > CONST.secondsInDay ? delta - CONST.secondsInDay : delta;
+    delta = delta < 0 ? delta + CONST.secondsInDay : delta;
     //round to nearest half a second
     delta = Math.round(delta * 2) / 2;
-    
+
     deviceService.send('UPDATE_CLOCK', { delta })
-    
+
     if(movementY > 0) {
 
         const alarmTime = calculateAlarmAdjustTime(
@@ -51,6 +52,7 @@ const missionTimeAdjust = (
     scene
 ) => {
 
+    //if(deviceService.state.context.clockTime % 60 <  )
     const hilite = scene.getObjectByName('time_adjust_rotation_overlay');
 
     const biasSize = 20;
