@@ -1,4 +1,4 @@
-const soundTheAlarmActivity = (state) => (context, event) => {
+const soundTheAlarmActivity = state => _ => {
 
     const soundInterval = setInterval(() => {
 
