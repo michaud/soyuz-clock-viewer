@@ -13,6 +13,10 @@ export const getHilites = (scene, hilites, state) => {
 
     const overlayAlarmRotateHighLight = scene.getObjectByName('overlay_alarm_rotate');
     overlayAlarmRotateHighLight.visible = false;
+    const overlayClockRotateHighLight = scene.getObjectByName('overlay_clock_rotate');
+    overlayClockRotateHighLight.visible = false;
+    const overlayMissionRotateHighLight = scene.getObjectByName('overlay_mission_rotate');
+    overlayMissionRotateHighLight.visible = false;
 
     hiliteDescriptors.forEach(item => {
 

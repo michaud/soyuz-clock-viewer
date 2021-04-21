@@ -63,21 +63,21 @@ export const initPicking = (
                 if(!overButton) {
 
                     overButton = device.buttons[intersects[0].object?.userData.hit_target];
-                    overButton?.pointerOver && overButton.pointerOver(scene, true);
+                    overButton?.pointerOver && overButton.pointerOver(scene, deviceService, true);
 
                 } else {
 
                     prevOverButton = overButton;
-                    prevOverButton?.pointerOver && prevOverButton.pointerOver(scene, false);
+                    prevOverButton?.pointerOver && prevOverButton.pointerOver(scene, deviceService, false);
 
                     overButton = device.buttons[intersects[0].object?.userData.hit_target];
-                    overButton?.pointerOver && overButton.pointerOver(scene, true);
+                    overButton?.pointerOver && overButton.pointerOver(scene, deviceService, true);
                 }
 
             } else {
 
-                overButton?.pointerOver && overButton.pointerOver(scene, false);
-                prevOverButton?.pointerOver && prevOverButton.pointerOver(scene, false);
+                overButton?.pointerOver && overButton.pointerOver(scene, deviceService, false);
+                prevOverButton?.pointerOver && prevOverButton.pointerOver(scene, deviceService, false);
 
                 overButton = undefined;
                 prevOverButton = undefined;
