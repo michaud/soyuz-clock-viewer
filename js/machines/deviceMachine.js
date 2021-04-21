@@ -89,6 +89,35 @@ export const deviceMachineDesc = {
                 },
             }
         },
+        clock: {
+            initial: 'near_zero',
+            states: {
+                near_zero: {
+                    on: {
+                        UPDATE_CLOCK: {
+                            target: 'not_near_zero',
+                            cond: { type: 'clockTimeAwayForZero' }
+                        },
+                        TICK: {
+                            target: 'not_near_zero',
+                            cond: { type: 'clockTimeAwayForZero' }
+                        }
+                    }
+                },
+                not_near_zero: {
+                    on: {
+                        UPDATE_CLOCK: {
+                            target: 'near_zero',
+                            cond: { type: 'clockTimeNearZero'}
+                        },
+                        TICK: {
+                            target: 'near_zero',
+                            cond: { type: 'clockTimeNearZero'}
+                        }
+                    }
+                }
+            }
+        },
         chrono: {
             initial: 'reset',
             states: {
