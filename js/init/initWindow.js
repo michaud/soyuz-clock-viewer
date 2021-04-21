@@ -20,5 +20,5 @@ export const normalizeMousePostion = (mouse) => {
     
     }
 
-    window.addEventListener('mousemove', onMouseMove, false);
+    window.addEventListener('pointermove', onMouseMove, false);
 } 
