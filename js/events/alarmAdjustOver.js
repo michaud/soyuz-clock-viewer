@@ -1,5 +1,6 @@
 export const alarmAdjustOver = (
     scene,
+    _,
     visible
 ) => {
 
