@@ -98,7 +98,7 @@ export const initPicking = (
 
         const isPointerMove = Math.abs(pointerDownY - clientY) > 5;
         button?.action && button.action(isPointerMove);
-        button?.pointerUp && button.pointerUp(isPointerMove, deviceService);
+        button?.pointerUp && button.pointerUp(isPointerMove, deviceService, scene);
 
         isPointerDown = false;
 

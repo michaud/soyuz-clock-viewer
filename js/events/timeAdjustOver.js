@@ -8,16 +8,16 @@ export const timeAdjustOver = (
     if (hilite) hilite.visible = visible;
 
     const scaleClockOverlay = scene.getObjectByName('overlay_clock_rotate');        
-    const scaleMissioOverlay = scene.getObjectByName('overlay_mission_rotate');        
+    const scaleMissionOverlay = scene.getObjectByName('overlay_mission_rotate');        
     
-    if(scaleClockOverlay && scaleMissioOverlay && deviceService.state.value.time_adjust === 'clock_time_adjust') {
+    if(scaleClockOverlay && scaleMissionOverlay && deviceService.state.value.time_adjust === 'clock_time_adjust') {
 
         scaleClockOverlay.visible = visible;
-        scaleMissioOverlay.visible = false;
+        scaleMissionOverlay.visible = false;
 
     } else {
 
         scaleClockOverlay.visible = false;
-        scaleMissioOverlay.visible = visible;
+        scaleMissionOverlay.visible = visible;
     }
 };
