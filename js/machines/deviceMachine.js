@@ -22,6 +22,11 @@ export const deviceMachineDesc = {
         },
         UPDATE_ALARM: {
             actions: ['updateAlarmTime']
+        },
+        ADVANCE_CLOCK: {
+            actions: ['advanceClockTime'],
+            target: 'time_adjust.mission_time_adjust',
+            cond: { type: 'isClockAdjust' }
         }
     },
     states: {

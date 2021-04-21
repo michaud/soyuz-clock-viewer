@@ -53,7 +53,8 @@ export const devicePartDescriptors = [
         type: "buttons",
         name: "advance_second_hand",
         action: "advance_second_handAction",
-        command: "advance_second_hand"
+        command: "advance_second_hand",
+        up: "advance_second_hand",
     },
     {
         component: "clock",
@@ -134,6 +135,9 @@ export const devicePartDescriptors = [
         component: "mission_timer",
         type: "buttons",
         name: "clear_to_zero_nob",
-        command: "clear_to_zero_nob"
+        command: "clear_to_zero_nob",
+        move: "clear_to_zero_nob",
+        up: "clear_to_zero_nob",
+        over: "clear_to_zero_nob"
     },
 ];

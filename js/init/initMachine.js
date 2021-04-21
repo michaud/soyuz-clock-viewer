@@ -22,7 +22,12 @@ export const initMachine = (state) => {
 
         if (state.event.type !== '#soyuzClock.TICK') {
 
-            // console.log('state', state.event.type, JSON.stringify(state.value))
+            if(
+                state.event.type === 'ADVANCE_CLOCK'
+                && state.value.time_adjust === 'mission_time_adjust'
+                && state.value.clock === 'near_zero') {
+            }
+            //console.log('state', state.event.type, JSON.stringify(state.value))
         }
     });
 

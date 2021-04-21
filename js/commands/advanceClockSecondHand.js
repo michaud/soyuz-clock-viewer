@@ -1,3 +1,3 @@
 export const advanceClockSecondHand = (deviceService) => () => {
-    deviceService.send('TICK')
+    deviceService.send('ADVANCE_CLOCK')
 };
