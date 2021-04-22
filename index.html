@@ -346,6 +346,8 @@
 		</div>
 		<div class="description">
 			<div class="toolbar">
+				<button class="btn" id="connect">connect</button>
+				<button class="btn" id="open-close">open</button>
 				<div>
 					<button title="show hilites on device" class="btn btn--connect-end"
 						id="show-hilite">hilite</button><button class="btn btn--connect-start"
@@ -358,8 +360,6 @@
 						</div>
 					</button>
 				</div>
-				<button class="btn" id="connect">connect</button>
-				<button class="btn" id="open-close">open</button>
 			</div>
 			<details data-target="device" class="detail">
 				<summary>
@@ -373,7 +373,6 @@
 					<p>It is electro-mechanical which means there are electronic parts but there are also gears and
 						springs.</p>
 					</p>
-					<p></p>
 					<p>Later it was also used in the Buran space shuttle.</p>
 					<p>It is part of the <a
 							href="https://www.flickr.com/photos/jurvetson/albums/72157623704246792">Space
@@ -387,7 +386,10 @@
 					<p>Show the time driven by an external signal</p>
 				</summary>
 				<div class="detail__content">
-					<p>The clock has the distinct 24 hour display. It has a resolution of half seconds.</p>
+					<p>The clock has the distinctive 24 hour display. It has a resolution of half second. This means every tick of the clock is half a second.</p>
+					<p>With the Hours &amp; Minutes button in the pressed position the clock time can be adjusted forward forward and backwards. When adjusted backwards, the alarm time is automatically adjusted backwards.</p>
+					<p>The second button has two functions. When pressed, it advances the time with half a second.<br>
+					When the Hours &amp; Minutes button is in the clock time mode position, and the second hand advance button is pressed, it moves the Hours &amp; Minutes button out into the Mission Time adjust mode.</p>
 				</div>
 			</details>
 			<details data-target="alarm" class="detail">
@@ -396,16 +398,17 @@
 					<p>It chimes when the alarm time is reached</p>
 				</summary>
 				<div class="detail__content">
-					<p>The alarm has the distinct 24 hour display.</p>
+					<p>The alarm also has the distinctive 24 hour display. It shows the hours and minutes. With the alarm button, the alarm time can bet set. But thealarm knob can only be turned clockwise, and the alarm time is adjusted backwards! With the alarm on switch the alarm is turned on.<br>
+					When the alarm time is reached the alarm sounds. To turn off the alarm sound, turn off the alarm.</p>
 				</div>
 			</details>
 			<details data-target="chronometer" class="detail">
 				<summary>
 					<h3>Chronometer/stopwatch</h3>
-					<p>Has the distinct 24 hour display</p>
+					<p>The dials show the hours, minutes and seconds.</p>
 				</summary>
 				<div class="detail__content">
-					<p>The stopwatch has sequential states: Reset, start and stop.</p>
+					<p>The stopwatch has sequential states: Reset, start and stop set by the start, stop, clear button. The dial shows the state the chronometer is in with the initials. Press the button ans it cycles through the states.</p>
 				</div>
 			</details>
 			<details data-target="mission_timer" class="detail">
@@ -423,13 +426,13 @@
 					<p>This is build with Blender &amp; Threejs</p>
 				</summary>
 				<div class="detail__content">
-					<p>Curious Marc posted a video about the opening of the Soyuz Space clock and Ken said: 'Now
+					<p>Curious Marc posted a <a href="https://www.youtube.com/playlist?list=PL-_93BVApb5-951yH6TlPobwnQkLYWnDW">series of videos</a> about the opening of the Soyuz Space clock and Ken said: 'Now
 						somebody needs to make a 3D model of it'. And I thought: hey, I can do that!</p>
 					<p>It seemed a worthwhile project and I would learn a lot. At first I was just thinking of making
 						the 3D model but there was a lot you could explain about the device so making the model
 						interactive and adding explanations became the next challenge.</p>
-					<p>The model was made in Blender and exported in the gltf format. It is loaded and displayed on the
-						webpage with the Threejs library.</p>
+					<p>The model was made in <a href="https://www.blender.org/">Blender</a> and exported in the gltf format. It is loaded and displayed on the
+						webpage with the <a href="https://threejs.org/">three.js</a> library.</p>
 				</div>
 			</details>
 		</div>
