@@ -35,11 +35,6 @@ import { updateMissionTime } from './update/updateMissionTime.js';
 
 const clips = [];
 let updateHilites = () => { }, hilites = [];
-let updateTimeStep,
-    updateAlarmStep,
-    updateTimeStep,
-    updateChronoStep,
-    updateMissionTimeStep;
 
 const state = {
     showHilite: false,
