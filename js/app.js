@@ -35,17 +35,20 @@ import { updateMissionTime } from './update/updateMissionTime.js';
 
 const clips = [];
 let updateHilites = () => { }, hilites = [];
-let ac;
+let updateTimeStep,
+    updateAlarmStep,
+    updateTimeStep,
+    updateChronoStep,
+    updateMissionTimeStep;
 
 const state = {
     showHilite: false,
     ac: null
 };
 
-const deviceService = initMachine(state);
+const deviceService = initMachine(state, device);
 const commands = initCommands(deviceService);
 const container = document.getElementById('scene');
-const debugContainer = document.getElementById('debug');
 const minuteHand = document.getElementById('minuteHand');
 const hourHand = document.getElementById('hourHand');
 const loader = document.getElementById('loader');
@@ -167,9 +170,6 @@ function animate() {
     const delta = threeTime.getDelta();
 
     mixer && mixer.update(delta);
-
-    const newDebugText = JSON.stringify(deviceService.state.context, null, '  ') + '\n' + JSON.stringify(deviceService.state.value, null, '  ');
-    debugContainer.textContent = newDebugText;
 
     if (device) {
 
