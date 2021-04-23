@@ -1,27 +1,42 @@
-import * as THREE from '../three/build/three.module.js';
+import {
+    Vector2,
+    Scene,
+    Raycaster,
+    Clock,
+    PerspectiveCamera,
+    AnimationMixer,
+    WebGLRenderer,
+    ACESFilmicToneMapping,
+    PMREMGenerator,
+    sRGBEncoding
+} from '../three/build/three.module.js';
+
 import { OrbitControls } from '../three/examples/jsm/controls/OrbitControls.js';
 
-export const initScene = (container) => {
+export const initScene = container => {
 
-    const mouse = new THREE.Vector2();
-    const scene = new THREE.Scene();
-    const raycaster = new THREE.Raycaster();
-    const threeTime = new THREE.Clock();
+    const mouse = new Vector2();
+    const scene = new Scene();
+    const raycaster = new Raycaster();
+    const threeTime = new Clock();
 
-    const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, .01, 20);
+    const camera = new PerspectiveCamera(45, window.innerWidth / window.innerHeight, .01, 20);
     camera.position.set(0, .2, 0);
 
-    const mixer = new THREE.AnimationMixer(scene);
+    const mixer = new AnimationMixer(scene);
 
-    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    const renderer = new WebGLRenderer({
+        antialias: true,
+        alpha: true
+    });
     renderer.setPixelRatio(window.devicePixelRatio);
     renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMapping = ACESFilmicToneMapping;
     renderer.toneMappingExposure = 1;
-    renderer.outputEncoding = THREE.sRGBEncoding;
+    renderer.outputEncoding = sRGBEncoding;
     container.appendChild(renderer.domElement);
 
-    const pmremGenerator = new THREE.PMREMGenerator(renderer);
+    const pmremGenerator = new PMREMGenerator(renderer);
     pmremGenerator.compileEquirectangularShader();
 
     const controls = new OrbitControls(camera, renderer.domElement);

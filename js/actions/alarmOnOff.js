@@ -1,4 +1,4 @@
-import * as THREE from '../three/build/three.module.js';
+import { LoopOnce } from '../three/build/three.module.js';
 
 export const switch_alarm_on_offAction = ({ actionName, clips, mixer, command = () => {} }) => {
 
@@ -12,7 +12,7 @@ export const switch_alarm_on_offAction = ({ actionName, clips, mixer, command = 
         if(!action.isRunning()) {
             
             action.clampWhenFinished = true;
-            action.setLoop(THREE.LoopOnce);
+            action.setLoop(LoopOnce);
             action.setEffectiveTimeScale(open ? -1 : 1);
             action.paused = false;
             action.play();

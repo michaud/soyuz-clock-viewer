@@ -1,4 +1,4 @@
-import * as THREE from '../three/build/three.module.js';
+import { LoopOnce } from '../three/build/three.module.js';
 
 export const start_stop_clear_buttonAction = ({ actionName, clips, mixer, command = () => {} }) => {
 
@@ -6,7 +6,7 @@ export const start_stop_clear_buttonAction = ({ actionName, clips, mixer, comman
     const action = mixer.clipAction(clips.find(clip => clip.name === actionName));
 
     action.clampWhenFinished = true;
-    action.setLoop(THREE.LoopOnce);
+    action.setLoop(LoopOnce);
 
     const fullPos = ((2*Math.PI)/ 360) * 96;
     const halfPos = ((2*Math.PI)/ 360) * 24;

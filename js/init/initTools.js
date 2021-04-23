@@ -1,4 +1,4 @@
-import * as THREE from '../three/build/three.module.js';
+import { LoopOnce } from '../three/build/three.module.js';
 
 export const initTools = (clips, mixer, hilites, controls, state) => {
 
@@ -80,7 +80,7 @@ export const initTools = (clips, mixer, hilites, controls, state) => {
 
                 const action = mixer.clipAction(clip);
                 action.clampWhenFinished = true;
-                action.setLoop(THREE.LoopOnce);
+                action.setLoop(LoopOnce);
                 action.setEffectiveTimeScale(direction);
                 action.paused = false;
                 action.play();
@@ -107,7 +107,7 @@ export const initTools = (clips, mixer, hilites, controls, state) => {
 
                 const action = mixer.clipAction(clip);
                 action.clampWhenFinished = true;
-                action.setLoop(THREE.LoopOnce);
+                action.setLoop(LoopOnce);
                 action.setEffectiveTimeScale(direction);
                 action.paused = false;
                 action.play();
