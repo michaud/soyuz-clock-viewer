@@ -79,7 +79,7 @@
 			font-family: 'inria_sansregular';
 			font-size: 1.125rem;
 			line-height: 1.25;
-			background-color: rgb(53 82 76);
+			background: linear-gradient(rgb(53 82 76), rgb(53 82 76));
 		}
 
 		#scene {
@@ -90,6 +90,8 @@
 			bottom: 100vh;
 			height: 100%;
 			cursor: move;
+			background: linear-gradient(rgb(53 82 76 / 0%), rgb(39 69 63)),
+				linear-gradient(rgb(53 82 76), rgb(53 82 76 / 0%));
 		}
 
 		#border {
@@ -333,6 +335,36 @@
 			gap: .5rem;
 			margin: 1rem;
 		}
+
+		#loader {
+			display: none;
+			margin: 0 auto;
+			width: 142px;
+			position: absolute;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			top: 50%;
+			background: rgb(255 255 255);
+			border-radius: 71px;
+		}
+
+		#loader img {
+			display: block;
+		}
+
+		#minuteHandSvg,
+		#hourHandSvg {
+
+			position: absolute;
+			top: 0;
+			left: 0;
+		}
+
+		#minuteHand,
+		#hourHand {
+
+			transform-origin: center;
+		}
 	</style>
 	<script src="/js/lib/luxon.min.js"></script>
 	<script src="https://unpkg.com/xstate@4/dist/xstate.js"></script>
@@ -340,6 +372,16 @@
 
 <body>
 	<div id="scene"></div>
+	<div id="loader"><img src="assets/clock_small_face.png">
+		<svg id="minuteHandSvg" viewBox="0 0 37.835416 37.835418" height="143" width="143">
+			<path id="minuteHand" style="fill:#000000;stroke:none;stroke-linecap:round;stroke-linejoin:round"
+				d="m 18.830581,1.8242132 c 0.0281,0 -0.05016,0.022516 -0.05116,0.050641 l -0.385506,8.8769796 -0.11472,4.404381 a 3.833735,3.833735 0 0 0 -3.246832,3.7884 3.833735,3.833735 0 0 0 3.833876,3.833873 3.833735,3.833735 0 0 0 3.833357,-3.833873 3.833735,3.833735 0 0 0 -3.244762,-3.7884 l -0.115756,-4.55786 -0.38654,-8.7235006 c -0.0013,-0.028099 -0.02254,-0.050641 -0.05064,-0.050641 z" />
+		</svg>
+		<svg id="hourHandSvg" viewBox="0 0 37.835416 37.835418" height="143" width="143">
+			<path id="hourHand" style="fill:#000000;stroke:none;stroke-linecap:round;stroke-linejoin:round"
+				d="m 18.847429,4.0721031 c 0.0281,0 -0.04864,0.022569 -0.05064,0.050643 l -0.386023,6.6290531 -0.114722,4.404382 a 3.833735,3.833735 0 0 0 -3.24683,3.788399 3.833735,3.833735 0 0 0 3.833875,3.833875 3.833735,3.833735 0 0 0 3.833874,-3.833875 3.833735,3.833735 0 0 0 -3.24528,-3.788399 L 19.355925,10.59832 18.969902,4.1227459 c -0.0016,-0.028091 -0.02307,-0.050643 -0.05116,-0.050643 z" />
+		</svg>
+	</div>
 	<aside id="tools">
 		<div class="tools__header">
 			<h2 class="tools__heading">Soyuz Space clock</h2>
@@ -386,10 +428,15 @@
 					<p>Show the time driven by an external signal</p>
 				</summary>
 				<div class="detail__content">
-					<p>The clock has the distinctive 24 hour display. It has a resolution of half second. This means every tick of the clock is half a second.</p>
-					<p>With the Hours &amp; Minutes button in the pressed position the clock time can be adjusted forward forward and backwards. When adjusted backwards, the alarm time is automatically adjusted backwards.</p>
+					<p>The clock has the distinctive 24 hour display. It has a resolution of half second. This means
+						every tick of the clock is half a second.</p>
+					<p>With the Hours &amp; Minutes button in the pressed position the clock time can be adjusted
+						forward forward and backwards. When adjusted backwards, the alarm time is automatically adjusted
+						backwards.</p>
 					<p>The second button has two functions. When pressed, it advances the time with half a second.<br>
-					When the Hours &amp; Minutes button is in the clock time mode position, and the second hand advance button is pressed, it moves the Hours &amp; Minutes button out into the Mission Time adjust mode.</p>
+						When the Hours &amp; Minutes button is in the clock time mode position, and the second hand
+						advance button is pressed, it moves the Hours &amp; Minutes button out into the Mission Time
+						adjust mode.</p>
 				</div>
 			</details>
 			<details data-target="alarm" class="detail">
@@ -398,8 +445,11 @@
 					<p>It chimes when the alarm time is reached</p>
 				</summary>
 				<div class="detail__content">
-					<p>The alarm also has the distinctive 24 hour display. It shows the hours and minutes. With the alarm button, the alarm time can bet set. But thealarm knob can only be turned clockwise, and the alarm time is adjusted backwards! With the alarm on switch the alarm is turned on.<br>
-					When the alarm time is reached the alarm sounds. To turn off the alarm sound, turn off the alarm.</p>
+					<p>The alarm also has the distinctive 24 hour display. It shows the hours and minutes. With the
+						alarm button, the alarm time can bet set. But thealarm knob can only be turned clockwise, and
+						the alarm time is adjusted backwards! With the alarm on switch the alarm is turned on.<br>
+						When the alarm time is reached the alarm sounds. To turn off the alarm sound, turn off the
+						alarm.</p>
 				</div>
 			</details>
 			<details data-target="chronometer" class="detail">
@@ -408,7 +458,9 @@
 					<p>The dials show the hours, minutes and seconds.</p>
 				</summary>
 				<div class="detail__content">
-					<p>The stopwatch has sequential states: Reset, start and stop set by the start, stop, clear button. The dial shows the state the chronometer is in with the initials. Press the button ans it cycles through the states.</p>
+					<p>The stopwatch has sequential states: Reset, start and stop set by the start, stop, clear button.
+						The dial shows the state the chronometer is in with the initials. Press the button ans it cycles
+						through the states.</p>
 				</div>
 			</details>
 			<details data-target="mission_timer" class="detail">
@@ -426,12 +478,15 @@
 					<p>This is build with Blender &amp; Threejs</p>
 				</summary>
 				<div class="detail__content">
-					<p>Curious Marc posted a <a href="https://www.youtube.com/playlist?list=PL-_93BVApb5-951yH6TlPobwnQkLYWnDW">series of videos</a> about the opening of the Soyuz Space clock and Ken said: 'Now
+					<p>Curious Marc posted a <a
+							href="https://www.youtube.com/playlist?list=PL-_93BVApb5-951yH6TlPobwnQkLYWnDW">series of
+							videos</a> about the opening of the Soyuz Space clock and Ken said: 'Now
 						somebody needs to make a 3D model of it'. And I thought: hey, I can do that!</p>
 					<p>It seemed a worthwhile project and I would learn a lot. At first I was just thinking of making
 						the 3D model but there was a lot you could explain about the device so making the model
 						interactive and adding explanations became the next challenge.</p>
-					<p>The model was made in <a href="https://www.blender.org/">Blender</a> and exported in the gltf format. It is loaded and displayed on the
+					<p>The model was made in <a href="https://www.blender.org/">Blender</a> and exported in the gltf
+						format. It is loaded and displayed on the
 						webpage with the <a href="https://threejs.org/">three.js</a> library.</p>
 				</div>
 			</details>
@@ -440,7 +495,9 @@
 			<button class="btn" id="reset-camera">reset view</button>
 		</nav>
 	</aside>
-	<aside id="debugContainer"><pre id="debug"></pre></aside>
+	<aside id="debugContainer">
+		<pre id="debug"></pre>
+	</aside>
 	<div id="border"></div>
 
 	<!-- <script src="./node_modules/three/build/three.js"></script> -->

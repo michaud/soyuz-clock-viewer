@@ -1,4 +1,8 @@
-import * as THREE from './three/build/three.module.js';
+import {
+    LoadingManager,
+    UnsignedByteType
+} from './three/build/three.module.js';
+
 import { GLTFLoader } from './three/examples/jsm/loaders/GLTFLoader.js';
 import { DRACOLoader } from './three/examples/jsm/loaders/DRACOLoader.js';
 
@@ -12,6 +16,8 @@ import { onWindowResize } from './init/initWindow.js';
 
 import { deviceModel as device } from './model/deviceModel.js';
 import { initCommands } from './commands/initCommands.js';
+
+import { loadingPanel } from './components/loadPanel.js';
 
 import {
     initScene,
@@ -28,7 +34,7 @@ import { updateChrono } from './update/updateChrono.js';
 import { updateMissionTime } from './update/updateMissionTime.js';
 
 const clips = [];
-let updateHilites = () => {}, hilites = [];
+let updateHilites = () => { }, hilites = [];
 let ac;
 
 const state = {
@@ -40,6 +46,9 @@ const deviceService = initMachine(state);
 const commands = initCommands(deviceService);
 const container = document.getElementById('scene');
 const debugContainer = document.getElementById('debug');
+const minuteHand = document.getElementById('minuteHand');
+const hourHand = document.getElementById('hourHand');
+const loader = document.getElementById('loader');
 
 const {
     camera,
@@ -61,39 +70,62 @@ animate();
 
 function init() {
 
+
+    const loadingDisplay = loadingPanel(loader, minuteHand, hourHand);
+
     normalizeMousePostion(mouse);
 
-    new RGBELoader()
-        .setDataType(THREE.UnsignedByteType)
+    const manager1 = new LoadingManager();
+    manager1.onStart = function (url, itemsLoaded, itemsTotal) {
+
+        loadingDisplay.addLoader({ url, loaded: 0, total: 1632977 })
+    };
+
+    const manager2 = new LoadingManager();
+    manager2.onStart = function (url, itemsLoaded, itemsTotal) {
+
+        loadingDisplay.addLoader({ url, loaded: 0, total: 2753452 })
+    };
+
+    const RGBELoad = new RGBELoader(manager1)
+        .setDataType(UnsignedByteType)
         .setPath('assets/equirectangular/')
-        .load(
-            'vintage_measuring_lab_1k.hdr',
-            RGBELoaderCallback(scene, pmremGenerator)
-        );
 
     const dracoLoader = new DRACOLoader();
-    dracoLoader.setDecoderPath( 'js/three/examples/js/libs/draco/' );
+    dracoLoader.setDecoderPath('js/three/examples/js/libs/draco/');
 
-    new GLTFLoader()
+    loadingDisplay.show();
+
+    const GLTFLoad = new GLTFLoader(manager2)
         .setPath('scene/')
-        .setDRACOLoader( dracoLoader )
-        .load(
-            'SoyuzElectroMechanicalSpaceClock.glb',
+        .setDRACOLoader(dracoLoader);
+
+    RGBELoad.load(
+        'vintage_measuring_lab_1k.hdr',
+        RGBELoaderCallback(scene, pmremGenerator),
+        xhr => loadingDisplay.updateLoaded({
+            url: 'assets/equirectangular/vintage_measuring_lab_1k.hdr',
+            loaded: xhr.loaded
+        })
+    );
+
+    GLTFLoad.load(
+        'SoyuzElectroMechanicalSpaceClock.glb',
         (gltf) => {
 
             const roughnessMipmapper = new RoughnessMipmapper(renderer);
-        
+
             gltf.scene.traverse(function (child) {
-        
+
                 if (child.isMesh) {
-        
+
                     // TOFIX RoughnessMipmapper seems to be broken with WebGL 2.0
-                    roughnessMipmapper.generateMipmaps( child.material );
+                    roughnessMipmapper.generateMipmaps(child.material);
                 }
             });
-        
+
             scene.add(gltf.scene);
-        
+
             roughnessMipmapper.dispose();
 
             gltf.animations.forEach(anim => clips.push(anim));
@@ -109,6 +141,15 @@ function init() {
             getHilites(scene, hilites, state);
 
             updateHilites = initUpdateHilites(scene, raycaster, state);
+        },
+        xhr => loadingDisplay.updateLoaded({
+            url: 'SoyuzElectroMechanicalSpaceClock.glb',
+            loaded: xhr.loaded
+        }),
+        function (error) {
+
+            console.log('An error happened');
+
         });
 
     initTools(clips, mixer, hilites, controls, state);
@@ -125,7 +166,7 @@ function animate() {
     raycaster.setFromCamera(mouse, camera);
 
     const delta = threeTime.getDelta();
-    
+
     mixer && mixer.update(delta);
 
     const newDebugText = JSON.stringify(deviceService.state.context, null, '  ') + '\n' + JSON.stringify(deviceService.state.value, null, '  ');
@@ -133,12 +174,12 @@ function animate() {
 
     if (device) {
 
-        updateTime ({
+        updateTime({
             device,
             ctx: deviceService.state.context
         });
 
-        updateAlarm ({
+        updateAlarm({
             device,
             ctx: deviceService.state.context
         });
