@@ -6,7 +6,7 @@ import {
 const clockTimeAdjust = (
     pointerDownX,
     clientX,
-    clientY,
+    _,
     deviceService,
     movementY,
     scene
@@ -53,14 +53,14 @@ const clockTimeAdjust = (
     const bias = Math.min(Math.max(1, Math.abs(deltaX) - biasSize), biasDepth);
 
     const biasAdjusted = (CONST.TWO_PI * movementY) / (biasSize - bias);
-    let delta = deviceService.state.context.clockTime - biasAdjusted;
+    let time = deviceService.state.context.clockTime - biasAdjusted;
     //keep between within a day
-    delta = delta > CONST.secondsInDay ? delta - CONST.secondsInDay : delta;
-    delta = delta < 0 ? delta + CONST.secondsInDay : delta;
+    time = time >= CONST.secondsInDay ? time - CONST.secondsInDay : time;
+    time = time < 0 ? time + CONST.secondsInDay : time;
     //round to nearest half a second
-    delta = Math.round(delta * 2) / 2;
+    time = Math.round(time * 2) / 2;
 
-    deviceService.send('UPDATE_CLOCK', { delta })
+    deviceService.send('UPDATE_CLOCK', { delta: time })
 
     if(movementY > 0) {
 
