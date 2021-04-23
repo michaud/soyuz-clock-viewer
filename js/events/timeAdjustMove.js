@@ -74,7 +74,7 @@ const clockTimeAdjust = (
         deviceService.send('UPDATE_ALARM', { delta: alarmTime })
     }
 
-    hilite.rotation.set(0, delta / 100, 0, 'XYZ');
+    hilite.rotation.set(0, time / 100, 0, 'XYZ');
 };
 
 const missionTimeAdjust = (
