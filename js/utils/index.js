@@ -50,6 +50,8 @@ export const calculateAlarmAdjustTime = (time, loopTime, movementY, bias) => {
     let delta =  time - (Math.abs((CONST.TWO_PI * movementY) / bias));
     //keep between 0 and a day
     delta = delta < 0 ? loopTime - Math.abs(delta) : delta;
+    //round to nearest half a second
+    delta = Math.round(delta * 2) / 2;
     return delta;
 };
 

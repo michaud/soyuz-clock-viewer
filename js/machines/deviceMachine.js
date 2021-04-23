@@ -8,7 +8,7 @@ export const deviceMachineDesc = {
         interval: .5,
         chronoStart: 0,
         chronoStop: 0,
-        alarmTime: 86400,
+        alarmTime: 0,
         missionElapsed: 0, //863990
         isConnected: false,
         isPowerOn: false

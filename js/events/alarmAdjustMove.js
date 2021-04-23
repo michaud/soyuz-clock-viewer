@@ -17,7 +17,7 @@ export const alarmAdjustMove = (
     const scaleOverlayMinutes = scene.getObjectByName('overlay_alarm_rotate_minute_bg');
     const scaleOverlaySeconds = scene.getObjectByName('overlay_alarm_rotate_sec_bg');
 
-    let bias = 40;
+    let bias = 20;
 
     const deltaX = pointerDownX - clientX;
 
@@ -31,7 +31,7 @@ export const alarmAdjustMove = (
 
     } else if(absDeltaX > 90 && absDeltaX <= 180) {
 
-        bias = 20;
+        bias = 10;
         scaleOverlaySeconds.material.color.g = 0;
         scaleOverlayMinutes.material.color.g = .5;
         scaleOverlayHours.material.color.g = 0;
