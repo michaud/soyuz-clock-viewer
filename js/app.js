@@ -70,24 +70,23 @@ animate();
 
 function init() {
 
-
     const loadingDisplay = loadingPanel(loader, minuteHand, hourHand);
 
     normalizeMousePostion(mouse);
 
-    const manager1 = new LoadingManager();
-    manager1.onStart = function (url, itemsLoaded, itemsTotal) {
+    const rgbeLoadManager = new LoadingManager();
+    rgbeLoadManager.onStart = function (url, itemsLoaded, itemsTotal) {
 
         loadingDisplay.addLoader({ url, loaded: 0, total: 1632977 })
     };
 
-    const manager2 = new LoadingManager();
-    manager2.onStart = function (url, itemsLoaded, itemsTotal) {
+    const gltfLoadmanager = new LoadingManager();
+    gltfLoadmanager.onStart = function (url, itemsLoaded, itemsTotal) {
 
         loadingDisplay.addLoader({ url, loaded: 0, total: 2753452 })
     };
 
-    const RGBELoad = new RGBELoader(manager1)
+    const RGBELoad = new RGBELoader(rgbeLoadManager)
         .setDataType(UnsignedByteType)
         .setPath('assets/equirectangular/')
 
@@ -96,7 +95,7 @@ function init() {
 
     loadingDisplay.show();
 
-    const GLTFLoad = new GLTFLoader(manager2)
+    const GLTFLoad = new GLTFLoader(gltfLoadmanager)
         .setPath('scene/')
         .setDRACOLoader(dracoLoader);
 
