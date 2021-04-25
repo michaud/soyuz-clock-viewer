@@ -3,7 +3,8 @@
 Bug:
   ✔ when not connected and turn on device, the device is turned on but doesn't run, if then connect, clock doesn't run and when toggle device off the clock starts running @done(21-04-19 19:59)
     ✔ when not connected, turn on should be possible but if then connect clock should start running @done(21-04-19 19:59)
- ☐ click on second hand advance toggles state but shouldn't when in clock time make explicit iso TOGGLE ?
+  ✔ click on second hand advance toggles state but shouldn't when in clock time make explicit iso TOGGLE ? @done(21-04-25 18:18)
+  ☐ click on second hand advance when outside round zero for the first time clock doesn't advance half a second
 
 Todo:
   ☐ Make operational
@@ -21,11 +22,10 @@ Todo:
       ✔ push in sets dial to less then half the current state, release (up) sets to new state @done(21-04-09 02:31)
   
   ☐ Mission Totalizer
-    ☐ reset
-    ☐ turn off the device
-    ☐ time adjust button
-      ☐ pull out & seconds in 0 position
-      ☐ when not in 0 pos turning button doesn't do anything but turn
+    ✔ reset @done(21-04-25 18:20)
+    ✔ time adjust button @done(21-04-25 18:20)
+      ✔ pull out & seconds in 0 position @done(21-04-25 18:20)
+      ✔ when not in 0 pos turning button doesn't do anything but turn @done(21-04-25 18:20)
       ✔ adjust minutes by turning @done(21-04-19 20:00)
         ✔ always counts up when turning left or right @done(21-04-19 20:00)
   
@@ -39,13 +39,13 @@ Todo:
     ✔ half second steps @done(21-04-10 16:58)
   
   ☐ time adjust button
-    ☐ press in
+    ✔ press in @done(21-04-25 18:20)
       ☐ but also turn to find the mode
         ☐ should we implement that?
-    ☐ two directions
-    ☐ alarm moves with time adjust only when turned backwards
-    ☐ get out of adjustment mode press on second advance
-      ☐ to what state does the time adjust button move? seems to go to Mission time adjust
+    ✔ two directions @done(21-04-25 18:20)
+    ✔ alarm moves with time adjust only when turned backwards @done(21-04-25 18:21)
+    ✔ get out of adjustment mode press on second advance @done(21-04-25 18:21)
+      ✔ to what state does the time adjust button move? seems to go to Mission time adjust @done(21-04-25 18:21)
   
   device
   - off
