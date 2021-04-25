@@ -164,13 +164,6 @@ export const deviceMachineDesc = {
                     }
                 }
             },
-            on: {
-                TICK: {
-                    actions: () => {
-                        //console.log('chrono tick')
-                    }
-                }
-            },
         },
         mission_timer: {
             initial: 'idle',
@@ -182,13 +175,6 @@ export const deviceMachineDesc = {
                     on: { '': 'idle' }
                 }
             },
-            on: {
-                TICK: {
-                    actions: () => {
-                        //console.log('mission_timer tick')
-                    }
-                }
-            }
         },
         alarm: {
             initial: 'idle',
