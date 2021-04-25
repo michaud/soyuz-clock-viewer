@@ -5,6 +5,7 @@ Bug:
     ✔ when not connected, turn on should be possible but if then connect clock should start running @done(21-04-19 19:59)
   ✔ click on second hand advance toggles state but shouldn't when in clock time make explicit iso TOGGLE ? @done(21-04-25 18:18)
   ☐ click on second hand advance when outside round zero for the first time clock doesn't advance half a second
+  ☐ should switch near_to_zero state when powerOn and clock running?
 
 Todo:
   ☐ Make operational

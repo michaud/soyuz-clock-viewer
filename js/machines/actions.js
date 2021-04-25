@@ -2,7 +2,7 @@ const { assign, send } = XState;
 
 export const actions = {
     updateClockTime: assign({
-        clockTime: (_, event) => event.delta
+        clockTime: (_, event) => event.time
     }),
 
     advanceClockTime: assign({
@@ -14,11 +14,11 @@ export const actions = {
     }),
 
     updateMissionTime: assign({
-        missionElapsed: (_, event) => event.delta
+        missionElapsed: (_, event) => event.time
     }),
 
     updateAlarmTime: assign({
-        alarmTime: (_, event) => event.delta
+        alarmTime: (_, event) => event.time
     }),
 
     setPowerOn: assign({

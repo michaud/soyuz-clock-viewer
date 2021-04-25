@@ -60,7 +60,7 @@ const clockTimeAdjust = (
     //round to nearest half a second
     time = Math.round(time * 2) / 2;
 
-    deviceService.send('UPDATE_CLOCK', { delta: time })
+    deviceService.send('UPDATE_CLOCK', { time })
 
     if(movementY > 0) {
 
@@ -71,7 +71,7 @@ const clockTimeAdjust = (
             bias
         );
 
-        deviceService.send('UPDATE_ALARM', { delta: alarmTime })
+        deviceService.send('UPDATE_ALARM', { time: alarmTime })
     }
 
     hilite.rotation.set(0, time / 100, 0, 'XYZ');
@@ -128,13 +128,13 @@ const missionTimeAdjust = (
     
         let bias = Math.min(Math.max(1, Math.abs(deltaX) - biasSize), biasDepth);
     
-        let delta = deviceService.state.context.missionElapsed + ((CONST.TWO_PI * Math.abs(movementY)) / (biasSize - bias));
-        delta = delta > CONST.secondsIn99Days ? CONST.secondsIn99Days - delta : delta;
-        delta = Math.round(delta * 2) / 2;
+        let time = deviceService.state.context.missionElapsed + ((CONST.TWO_PI * Math.abs(movementY)) / (biasSize - bias));
+        time = time > CONST.secondsIn99Days ? CONST.secondsIn99Days - time : time;
+        time = Math.round(time * 2) / 2;
     
-        deviceService.send('UPDATE_MISSION_TIME', { delta })
+        deviceService.send('UPDATE_MISSION_TIME', { time })
     
-        hilite?.rotation.set(0, delta / 100, 0, 'XYZ');
+        hilite?.rotation.set(0, time / 100, 0, 'XYZ');
 
     } else {
 

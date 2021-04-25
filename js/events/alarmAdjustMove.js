@@ -59,7 +59,7 @@ export const alarmAdjustMove = (
             bias
         );
 
-        deviceService.send('UPDATE_ALARM', { delta: time })
+        deviceService.send('UPDATE_ALARM', { time })
     
         hilite?.rotation.set(0, clientY / 100, 0, 'XYZ');
     }
