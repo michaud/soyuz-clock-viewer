@@ -1,7 +1,6 @@
-const { assign } = XState;
+const { assign, send } = XState;
 
 export const actions = {
-
     updateClockTime: assign({
         clockTime: (_, event) => event.delta
     }),

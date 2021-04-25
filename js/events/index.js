@@ -18,7 +18,6 @@ const moves = {
 const ups = {
     time_adjust: timeAdjustUp,
     alarm_adjust_nob: alarmAdjustUp,
-    advance_second_hand: () => console.log('advance_second_hand'),
     clear_to_zero_nob: missionResetUp
 };
 
