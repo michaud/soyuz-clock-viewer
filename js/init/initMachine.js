@@ -24,20 +24,18 @@ export const initMachine = (state, device) => {
 
         const newDebugText = JSON.stringify(state.context, null, '  ') + '\n' + JSON.stringify(state.value, null, '  ');
         debugContainer.textContent = newDebugText;
-    
+
         if (state.event.type !== '#soyuzClock.TICK') {
 
             if(
-                state.event.type === 'ADVANCE_CLOCK'
+                state.event.type === 'COND_TOGGLE_TIME_ADJUST'
                 // the switch from clock_time_adjust to mission_time_adjust has already happened
                 && state.matches('time_adjust.mission_time_adjust') 
                 && state.matches('clock.near_zero')
             ) {
-
-                    const timeAdjustButton = device.device.buttons.find(btn => btn.name === 'time_adjust');
-                    timeAdjustButton.action(false);
+                const timeAdjustButton = device.device.buttons.find(btn => btn.name === 'time_adjust');
+                timeAdjustButton.action(false);
             }
-            //console.log('state', state.event.type, JSON.stringify(state.value))
         }
     });
 

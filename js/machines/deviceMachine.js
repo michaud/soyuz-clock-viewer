@@ -24,9 +24,14 @@ export const deviceMachineDesc = {
             actions: ['updateAlarmTime']
         },
         ADVANCE_CLOCK: {
-            actions: ['advanceClockTime'],
-            target: 'time_adjust.mission_time_adjust',
-            cond: { type: 'isClockAdjust' }
+            actions: [
+                'advanceClockTime',
+                send('COND_TOGGLE_TIME_ADJUST')
+            ]
+        },
+        COND_TOGGLE_TIME_ADJUST: {
+            cond: 'isClockAdjustAndclockTimeNearZero',
+            target: 'time_adjust.mission_time_adjust'
         }
     },
     states: {
@@ -103,6 +108,10 @@ export const deviceMachineDesc = {
                             target: 'not_near_zero',
                             cond: { type: 'clockTimeAwayForZero' }
                         },
+                        ADVANCE_CLOCK: {
+                            target: 'not_near_zero',
+                            cond: { type: 'clockTimeAwayForZero' }
+                        },
                         TICK: {
                             target: 'not_near_zero',
                             cond: { type: 'clockTimeAwayForZero' }
@@ -112,6 +121,10 @@ export const deviceMachineDesc = {
                 not_near_zero: {
                     on: {
                         UPDATE_CLOCK: {
+                            target: 'near_zero',
+                            cond: { type: 'clockTimeNearZero'}
+                        },
+                        ADVANCE_CLOCK: {
                             target: 'near_zero',
                             cond: { type: 'clockTimeNearZero'}
                         },
@@ -185,14 +198,10 @@ export const deviceMachineDesc = {
                 },
                 alarmOn: {
                     on: {
-                        TICK: [
-                            {
-                                target: 'alarmSound',
-                                cond: {
-                                    type: 'alarmTimeReached'
-                                }
-                            }
-                        ],
+                        TICK: [{
+                            target: 'alarmSound',
+                            cond: { type: 'alarmTimeReached' }
+                        }],
                         ALARM_OFF: 'idle'
                     }
                 },
