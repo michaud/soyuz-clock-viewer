@@ -4,11 +4,20 @@ export const loadingPanel = (loader, minuteHand, hourHand) => {
 
     return ({
         addLoader: (loader) => loaders.push(loader),
-        updateLoaded: ({ loaded, url }) => {
+        updateLoaded: ({ loaded, dynTotal, url }) => {
 
             //update the loader
             const updateIndex = loaders.findIndex(item => item.url === url);
             loaders[updateIndex].loaded = loaded;
+
+            if(dynTotal) {
+
+                loaders[updateIndex].total = dynTotal;
+
+            } else {
+
+                loaders[updateIndex].total = loaders[updateIndex].staticTotal;
+            }
 
             //accumulate loaded & total
             const totalLoaded = loaders.reduce((acc, { loaded, total }) => {

@@ -75,13 +75,13 @@ function init() {
     const rgbeLoadManager = new LoadingManager();
     rgbeLoadManager.onStart = function (url, itemsLoaded, itemsTotal) {
 
-        loadingDisplay.addLoader({ url, loaded: 0, total: 1632977 })
+        loadingDisplay.addLoader({ url, loaded: 0, staticTotal: 1632977 })
     };
 
     const gltfLoadmanager = new LoadingManager();
     gltfLoadmanager.onStart = function (url, itemsLoaded, itemsTotal) {
 
-        loadingDisplay.addLoader({ url, loaded: 0, total: 2759336 })
+        loadingDisplay.addLoader({ url, loaded: 0, staticTotal: 2759336 })
     };
 
     const RGBELoad = new RGBELoader(rgbeLoadManager)
@@ -102,7 +102,8 @@ function init() {
         RGBELoaderCallback(scene, pmremGenerator),
         xhr => loadingDisplay.updateLoaded({
             url: 'assets/equirectangular/vintage_measuring_lab_1k.hdr',
-            loaded: xhr.loaded
+            loaded: xhr.loaded,
+            total: xhr.total
         })
     );
 
@@ -140,10 +141,11 @@ function init() {
             updateHilites = initUpdateHilites(scene, raycaster, state);
         },
         xhr => {
-            console.log('xhr:', xhr.total)
+
             loadingDisplay.updateLoaded({
             url: 'SoyuzElectroMechanicalSpaceClock.glb',
-            loaded: xhr.loaded
+            loaded: xhr.loaded,
+            total: xhr.total
         })},
         function (error) {
             
