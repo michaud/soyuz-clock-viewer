@@ -21,7 +21,8 @@ export const initScene = container => {
     const threeTime = new Clock();
 
     const camera = new PerspectiveCamera(45, window.innerWidth / window.innerHeight, .01, 20);
-    camera.position.set(0, .2, 0);
+    camera.position.set(0, .175, .065);
+    //camera.position.set(0, .2, 0);
 
     const mixer = new AnimationMixer(scene);
 

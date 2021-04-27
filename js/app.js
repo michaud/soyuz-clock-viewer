@@ -37,7 +37,7 @@ const clips = [];
 let updateHilites = () => { }, hilites = [];
 
 const state = {
-    showHilite: false,
+    showHilite: true,
     ac: null
 };
 
@@ -81,7 +81,7 @@ function init() {
     const gltfLoadmanager = new LoadingManager();
     gltfLoadmanager.onStart = function (url, itemsLoaded, itemsTotal) {
 
-        loadingDisplay.addLoader({ url, loaded: 0, total: 2760620 })
+        loadingDisplay.addLoader({ url, loaded: 0, total: 2759332 })
     };
 
     const RGBELoad = new RGBELoader(rgbeLoadManager)
@@ -140,6 +140,7 @@ function init() {
             updateHilites = initUpdateHilites(scene, raycaster, state);
         },
         xhr => {
+
             loadingDisplay.updateLoaded({
             url: 'SoyuzElectroMechanicalSpaceClock.glb',
             loaded: xhr.loaded
