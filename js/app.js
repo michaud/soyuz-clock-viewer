@@ -73,16 +73,18 @@ function init() {
     normalizeMousePostion(mouse);
 
     const rgbeLoadManager = new LoadingManager();
-    rgbeLoadManager.onStart = function (url, itemsLoaded, itemsTotal) {
-
-        loadingDisplay.addLoader({ url, loaded: 0, staticTotal: 1632977 })
-    };
+    rgbeLoadManager.onStart = url => loadingDisplay.addLoader({
+        url,
+        loaded: 0,
+        staticTotal: 1632977
+    });
 
     const gltfLoadmanager = new LoadingManager();
-    gltfLoadmanager.onStart = function (url, itemsLoaded, itemsTotal) {
-
-        loadingDisplay.addLoader({ url, loaded: 0, staticTotal: 2759336 })
-    };
+    gltfLoadmanager.onStart = url => loadingDisplay.addLoader({
+        url,
+        loaded: 0,
+        staticTotal: 2759336
+    })
 
     const RGBELoad = new RGBELoader(rgbeLoadManager)
         .setDataType(UnsignedByteType)
@@ -104,12 +106,13 @@ function init() {
             url: 'assets/equirectangular/vintage_measuring_lab_1k.hdr',
             loaded: xhr.loaded,
             total: xhr.total
-        })
+        }),
+        error => console.log('An error happened', error)
     );
 
     GLTFLoad.load(
         'SoyuzElectroMechanicalSpaceClock.glb',
-        (gltf) => {
+        gltf => {
 
             const roughnessMipmapper = new RoughnessMipmapper(renderer);
 
@@ -147,11 +150,12 @@ function init() {
             loaded: xhr.loaded,
             total: xhr.total
         })},
-        function (error) {
+        error => {
             
             console.log('An error happened', error);
 
-        });
+        }
+    );
 
     initTools(clips, mixer, hilites, controls, state);
 
