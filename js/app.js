@@ -140,7 +140,6 @@ function init() {
             updateHilites = initUpdateHilites(scene, raycaster, state);
         },
         xhr => {
-            console.log('xhr:', xhr)
             loadingDisplay.updateLoaded({
             url: 'SoyuzElectroMechanicalSpaceClock.glb',
             loaded: xhr.loaded
