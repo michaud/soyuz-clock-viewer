@@ -2,6 +2,7 @@ export const timeAdjustOver = (
     scene,
     deviceService,
     visible,
+    container
 ) => {
 
     const hilite = scene.getObjectByName('time_adjust_rotation_overlay');
@@ -20,4 +21,5 @@ export const timeAdjustOver = (
         scaleClockOverlay.visible = false;
         scaleMissionOverlay.visible = visible;
     }
+    container.style.cursor = visible ? 'pointer' : 'move'; 
 };

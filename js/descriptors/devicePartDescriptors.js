@@ -4,7 +4,8 @@ export const devicePartDescriptors = [
         type: "buttons",
         name: "switch_device_on_off",
         action: "switch_device_on_offAction",
-        command: "toggle_device_on_off"
+        command: "toggle_device_on_off",
+        over: "switch_device_on_off"
     },
     {
         component: "device",
@@ -46,7 +47,8 @@ export const devicePartDescriptors = [
         type: "buttons",
         name: "start_stop_clear_button",
         action: "start_stop_clear_buttonAction",
-        command: "troggle_start_stop_clear"
+        command: "troggle_start_stop_clear",
+        over: "start_stop_clear_button"
     },
     {
         component: "clock",
@@ -55,6 +57,7 @@ export const devicePartDescriptors = [
         action: "advance_second_handAction",
         command: "advance_second_hand",
         up: "advance_second_hand",
+        over: "advance_second_hand_object"
     },
     {
         component: "clock",
@@ -91,7 +94,8 @@ export const devicePartDescriptors = [
         type: "buttons",
         name: "switch_alarm_on_off",
         action: "switch_alarm_on_offAction",
-        command: "switch_alarm_on_off"
+        command: "switch_alarm_on_off",
+        over: "switch_alarm_on_off"
     },
     {
         component: "alarm",
