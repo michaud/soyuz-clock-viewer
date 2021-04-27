@@ -146,8 +146,8 @@ function init() {
             loaded: xhr.loaded
         })},
         function (error) {
-
-            console.log('An error happened');
+            
+            console.log('An error happened', error);
 
         });
 
