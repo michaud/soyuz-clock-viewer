@@ -21,7 +21,7 @@ export const devicePartDescriptors = [
         component: "device",
         type: "buttons",
         name: "connector_plug",
-        action: "connector_plugAction",
+        action: "connector_plugActionTrack",
         command: "connect_device",
     },
     {

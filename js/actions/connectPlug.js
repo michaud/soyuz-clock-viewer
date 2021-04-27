@@ -1,6 +1,6 @@
 import { LoopOnce } from '../three/build/three.module.js';
 
-export const connector_plugAction = ({ actionName, clips, mixer, command = () => {} }) => {
+export const connector_plugActionTrack = ({ actionName, clips, mixer, command = () => {} }) => {
 
     const clip = clips.find(clip => clip.name === actionName);
     const action = mixer.clipAction(clip);
