@@ -81,7 +81,7 @@ function init() {
     const gltfLoadmanager = new LoadingManager();
     gltfLoadmanager.onStart = function (url, itemsLoaded, itemsTotal) {
 
-        loadingDisplay.addLoader({ url, loaded: 0, total: 2753452 })
+        loadingDisplay.addLoader({ url, loaded: 0, total: 2760620 })
     };
 
     const RGBELoad = new RGBELoader(rgbeLoadManager)
@@ -139,10 +139,12 @@ function init() {
 
             updateHilites = initUpdateHilites(scene, raycaster, state);
         },
-        xhr => loadingDisplay.updateLoaded({
+        xhr => {
+            console.log('xhr:', xhr)
+            loadingDisplay.updateLoaded({
             url: 'SoyuzElectroMechanicalSpaceClock.glb',
             loaded: xhr.loaded
-        }),
+        })},
         function (error) {
 
             console.log('An error happened');
