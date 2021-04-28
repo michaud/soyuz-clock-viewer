@@ -315,6 +315,7 @@
 			overflow-y: auto;
 			margin: 0;
 			background-color: rgb(255 255 255 / 50%);
+			padding-top: .5rem;
 		}
 
 		.btn {
@@ -328,7 +329,7 @@
 			border-bottom: none;
 			border-left: 3px solid rgba(255, 255, 255, 0);
 			border-radius: var(--button-radius);
-			color: white;
+			color: rgb(205 215 218);
 			font-family: 'inria_sansbold';
 			font-size: 1.25rem;
 			min-height: 2.5rem;
@@ -424,7 +425,7 @@
 			display: inline-block;
 			width: 3rem;
 			height: 1.6rem;
-			border: 2px solid white;
+			border: 2px solid rgb(205 215 218);
 			border-radius: 2rem;
 			text-align: left;
 			background-color: rgba(255, 255, 255, 0.1);
@@ -444,18 +445,22 @@
 
 		.knob__icon {
 
-			fill: rgba(255, 255, 255, 0.5);
+			fill: rgba(205, 215, 218, 0.5);
 		}
 
 		.on .knob__icon {
 
-			fill: white;
+			fill: rgb(205 215 218);
 		}
 
 		.toolbar {
 			display: flex;
 			gap: .5rem;
-			margin: 1rem;
+			margin: .5rem 1rem 1rem 1rem;
+			z-index: 100000;
+			position: absolute;
+			width: 100%;
+			justify-content: center;
 		}
 	</style>
 	<script src="/js/lib/luxon.min.js"></script>
@@ -498,27 +503,26 @@
 			</div>
 		</div>
 	</div>
+	<div class="toolbar">
+		<button class="btn" id="connect">back</button>
+		<button class="btn" id="open-close">open</button>
+		<div>
+			<button title="show hilites on device" class="btn btn--connect-end" id="show-hilite">hilite</button><button
+				class="btn btn--connect-start" title="turn hilites on or off" id="toggle-hilite-switch">
+				<div class="hilite-switch switch on">
+					<svg class="switch__knob" viewport="0 0 24 24" width="24" height="24">
+						<path class="knob__icon" fill="#fff"
+							d="M6 14l3 3v5h6v-5l3-3V9H6v5zm5-12h2v3h-2V2zM3.5 5.88l1.41-1.41 2.12 2.12L5.62 8 3.5 5.88zm13.46.71l2.12-2.12 1.41 1.41L18.38 8l-1.42-1.41z" />
+					</svg>
+				</div>
+			</button>
+		</div>
+	</div>
 	<aside id="tools">
 		<div class="tools__header">
 			<h2 class="tools__heading">Soyuz Space clock</h2>
 		</div>
 		<div class="description">
-			<div class="toolbar">
-				<button class="btn" id="connect">connect</button>
-				<button class="btn" id="open-close">open</button>
-				<div>
-					<button title="show hilites on device" class="btn btn--connect-end"
-						id="show-hilite">hilite</button><button class="btn btn--connect-start"
-						title="turn hilites on or off" id="toggle-hilite-switch">
-						<div class="hilite-switch switch on">
-							<svg class="switch__knob" viewport="0 0 24 24" width="24" height="24">
-								<path class="knob__icon" fill="#fff"
-									d="M6 14l3 3v5h6v-5l3-3V9H6v5zm5-12h2v3h-2V2zM3.5 5.88l1.41-1.41 2.12 2.12L5.62 8 3.5 5.88zm13.46.71l2.12-2.12 1.41 1.41L18.38 8l-1.42-1.41z" />
-							</svg>
-						</div>
-					</button>
-				</div>
-			</div>
 			<details data-target="device" class="detail">
 				<summary>
 					<h3>The device</h3>
