@@ -27,7 +27,7 @@ export const initMachine = (state, device) => {
 
         if (state.event.type !== '#soyuzClock.TICK') {
 
-            if(
+            if (
                 state.event.type === 'COND_TOGGLE_TIME_ADJUST'
                 // the switch from clock_time_adjust to mission_time_adjust has already happened
                 && state.matches('time_adjust.mission_time_adjust') 
@@ -35,6 +35,17 @@ export const initMachine = (state, device) => {
             ) {
                 const timeAdjustButton = device.device.buttons.find(btn => btn.name === 'time_adjust');
                 timeAdjustButton.action(false);
+            }
+
+            if (state.event.type === 'TOGGLE_CONNECT') {
+
+                const btn = document.getElementById('open-close');
+
+                if(state.matches('connect.connected')) {
+                    btn.disabled = true;
+                } else {
+                    btn.disabled = false;
+                }
             }
         }
     });

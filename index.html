@@ -321,6 +321,7 @@
 		.btn {
 
 			display: inline-block;
+			position: relative;
 			vertical-align: top;
 			padding: .25rem .5rem;
 			background-color: rgba(24 104 133 / 60%);
@@ -333,6 +334,11 @@
 			font-family: 'inria_sansbold';
 			font-size: 1.25rem;
 			min-height: 2.5rem;
+		}
+
+		.btn:disabled {
+			color: rgb(152 165 168);
+			background-color: rgb(70 108 121 / 60%);
 		}
 
 		.btn--connect-end {
@@ -357,6 +363,25 @@
 		.btn:hover {
 
 			background-color: rgba(24 104 133 / 80%);
+		}
+
+		.btn:disabled:hover {
+			color: rgb(152 165 168);
+			background-color: rgb(70 108 121 / 60%);
+		}
+
+		#open-close:disabled:hover:after {
+
+			content: "you can't open it when it's connected";
+			position: absolute;
+			top: 3rem;
+			min-width: 9rem;
+			background-color: rgb(255 255 255);
+			border: 1px solid rgb(0 128 0);
+			color: rgb(0 0 0);
+			left: 0;
+			font-size: 1rem;
+			padding: .25rem;
 		}
 
 		.btn--nav:hover {
@@ -504,11 +529,12 @@
 		</div>
 	</div>
 	<div class="toolbar">
-		<button class="btn" id="connect">back</button>
-		<button class="btn" id="open-close">open</button>
+		<button title="show backside of the device" class="btn" id="connect">backside</button>
+		<button title="open the device" class="btn" id="open-close">open</button>
 		<div>
-			<button title="show hilites on device" class="btn btn--connect-end" id="show-hilite">hilite</button><button
-				class="btn btn--connect-start" title="turn hilites on or off" id="toggle-hilite-switch">
+			<button title="show hilites on device" class="btn btn--connect-end" id="show-hilite">show
+				hilites</button><button class="btn btn--connect-start" title="turn hilites on or off"
+				id="toggle-hilite-switch">
 				<div class="hilite-switch switch on">
 					<svg class="switch__knob" viewport="0 0 24 24" width="24" height="24">
 						<path class="knob__icon" fill="#fff"

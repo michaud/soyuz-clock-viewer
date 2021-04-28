@@ -91,11 +91,12 @@ function init() {
     const dracoLoader = new DRACOLoader();
     dracoLoader.setDecoderPath('js/three/examples/js/libs/draco/');
 
-    loadingDisplay.show();
-
+    
     const GLTFLoad = new GLTFLoader(gltfLoadmanager)
         .setPath('scene/')
         .setDRACOLoader(dracoLoader);
+
+    loadingDisplay.show();
 
     RGBELoad.load(
         'vintage_measuring_lab_1k.hdr',
