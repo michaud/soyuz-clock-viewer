@@ -44,9 +44,6 @@ const state = {
 const deviceService = initMachine(state, device);
 const commands = initCommands(deviceService);
 const container = document.getElementById('scene');
-const minuteHand = document.getElementById('minuteHand');
-const hourHand = document.getElementById('hourHand');
-const loader = document.getElementById('loader');
 
 const {
     camera,
@@ -68,7 +65,8 @@ animate();
 
 function init() {
 
-    const loadingDisplay = loadingPanel(loader, minuteHand, hourHand);
+    const loaderStatus = document.getElementById('loader-container');
+    const loadingDisplay = loadingPanel();
 
     normalizeMousePostion(mouse);
 
@@ -142,6 +140,8 @@ function init() {
             getHilites(scene, hilites, state);
 
             updateHilites = initUpdateHilites(scene, raycaster, state);
+
+            loaderStatus.style.display = 'none';
         },
         xhr => {
 

@@ -59,6 +59,22 @@
 			font-style: normal;
 		}
 
+		@font-face {
+
+			font-family: 'pt_sans_captionregular';
+			src: url('./assets/font/ptsanscaption-regular-webfont.woff2') format('woff2');
+			font-weight: normal;
+			font-style: normal;
+		}
+
+		@font-face {
+			font-family: 'Ruda';
+			font-style: normal;
+			font-weight: 400;
+			src: url(./assets/font/ruda.woff2) format('woff2');
+			unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+		}
+
 		:root {
 
 			--button-radius: .33rem;
@@ -135,6 +151,112 @@
 			font-size: 1.5rem;
 			pointer-events: none;
 			backdrop-filter: blur(30px);
+		}
+
+		#loader-container {
+
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			justify-content: center;
+		}
+
+		#loader-container .loader-container__content {
+
+			max-width: 29rem;
+			text-align: center;
+			border-radius: 1.3rem;
+			background-color: rgb(144 166 173);
+			border: 0.25rem solid rgb(138 161 168);
+			box-shadow: 0 0 0 0.125rem hsl(194deg 15% 55%);
+		}
+
+		.cl__content p {
+			font-size: 1.15rem;
+			margin: 0;
+			color: rgb(78 99 106);
+		}
+
+
+		.cl__content .caption {
+
+			font-family: 'Ruda';
+			font-size: 1.4rem;
+			font-weight: bold;
+			color: rgb(65 65 65);
+		}
+
+		#code-loader {
+			margin: 1rem 2rem;
+		}
+
+		#code-loader .cl__content {
+
+			text-align: center;
+		}
+
+		#scene-loader {
+
+			display: none;
+			margin: 1rem 2rem 0.25rem 2rem;
+		}
+
+		#scene-loader .cl__content {
+
+			padding: 1rem 0;
+			border-top: 1px solid black;
+		}
+
+		#resource-loader {
+
+			display: none;
+			margin-top: 1rem;
+			padding-top: 1rem;
+			flex-direction: row;
+			align-items: center;
+			justify-content: center;
+			margin: 1rem 2rem 1rem 2rem;
+			border-top: 1px solid;
+		}
+
+		.resource-loader__clock {
+
+			position: relative;
+			width: 142px;
+			background-color: rgb(255 255 255);
+			border-radius: 50%;
+		}
+
+		.resource-loader__content {
+
+			padding-right: 2rem;
+			font-size: 1.3rem;
+			text-align: left;
+			flex-grow: 1;
+		}
+
+		#resource-loader img {
+
+			display: block;
+		}
+
+		#minuteHandSvg,
+		#hourHandSvg {
+
+			position: absolute;
+			top: 0;
+			left: 0;
+		}
+
+		#minuteHand,
+		#hourHand {
+
+			transform-origin: center;
 		}
 
 		.tools__header {
@@ -335,36 +457,6 @@
 			gap: .5rem;
 			margin: 1rem;
 		}
-
-		#loader {
-			display: none;
-			margin: 0 auto;
-			width: 142px;
-			position: absolute;
-			left: 50%;
-			transform: translate(-50%, -50%);
-			top: 50%;
-			background: rgb(255 255 255);
-			border-radius: 71px;
-		}
-
-		#loader img {
-			display: block;
-		}
-
-		#minuteHandSvg,
-		#hourHandSvg {
-
-			position: absolute;
-			top: 0;
-			left: 0;
-		}
-
-		#minuteHand,
-		#hourHand {
-
-			transform-origin: center;
-		}
 	</style>
 	<script src="/js/lib/luxon.min.js"></script>
 	<script src="https://unpkg.com/xstate@4/dist/xstate.js"></script>
@@ -372,15 +464,39 @@
 
 <body>
 	<div id="scene"></div>
-	<div id="loader"><img src="assets/clock_small_face.png">
-		<svg id="minuteHandSvg" viewBox="0 0 37.835416 37.835418" height="143" width="143">
-			<path id="minuteHand" style="fill:#000000;stroke:none;stroke-linecap:round;stroke-linejoin:round"
-				d="m 18.830581,1.8242132 c 0.0281,0 -0.05016,0.022516 -0.05116,0.050641 l -0.385506,8.8769796 -0.11472,4.404381 a 3.833735,3.833735 0 0 0 -3.246832,3.7884 3.833735,3.833735 0 0 0 3.833876,3.833873 3.833735,3.833735 0 0 0 3.833357,-3.833873 3.833735,3.833735 0 0 0 -3.244762,-3.7884 l -0.115756,-4.55786 -0.38654,-8.7235006 c -0.0013,-0.028099 -0.02254,-0.050641 -0.05064,-0.050641 z" />
-		</svg>
-		<svg id="hourHandSvg" viewBox="0 0 37.835416 37.835418" height="143" width="143">
-			<path id="hourHand" style="fill:#000000;stroke:none;stroke-linecap:round;stroke-linejoin:round"
-				d="m 18.847429,4.0721031 c 0.0281,0 -0.04864,0.022569 -0.05064,0.050643 l -0.386023,6.6290531 -0.114722,4.404382 a 3.833735,3.833735 0 0 0 -3.24683,3.788399 3.833735,3.833735 0 0 0 3.833875,3.833875 3.833735,3.833735 0 0 0 3.833874,-3.833875 3.833735,3.833735 0 0 0 -3.24528,-3.788399 L 19.355925,10.59832 18.969902,4.1227459 c -0.0016,-0.028091 -0.02307,-0.050643 -0.05116,-0.050643 z" />
-		</svg>
+	<div id="loader-container">
+		<div class="loader-container__content">
+			<div id="code-loader">
+				<div class="cl__content">
+					<p class="caption">загрузка гиперголических порохов</p>
+					<p>loading the hypergolic propellants</p>
+				</div>
+			</div>
+			<div id="resource-loader">
+				<div class="resource-loader__content cl__content">
+					<p class="caption">включение источника<br />времени цезия</p>
+					<p>spinning up the<br />Caesium time source</p>
+				</div>
+				<div class="resource-loader__clock">
+					<div><img src="assets/clock_small_face.png"></div>
+					<svg id="minuteHandSvg" viewBox="0 0 37.835416 37.835418" height="143" width="143">
+						<path id="minuteHand"
+							style="fill:#000000;stroke:none;stroke-linecap:round;stroke-linejoin:round"
+							d="m 18.830581,1.8242132 c 0.0281,0 -0.05016,0.022516 -0.05116,0.050641 l -0.385506,8.8769796 -0.11472,4.404381 a 3.833735,3.833735 0 0 0 -3.246832,3.7884 3.833735,3.833735 0 0 0 3.833876,3.833873 3.833735,3.833735 0 0 0 3.833357,-3.833873 3.833735,3.833735 0 0 0 -3.244762,-3.7884 l -0.115756,-4.55786 -0.38654,-8.7235006 c -0.0013,-0.028099 -0.02254,-0.050641 -0.05064,-0.050641 z" />
+					</svg>
+					<svg id="hourHandSvg" viewBox="0 0 37.835416 37.835418" height="143" width="143">
+						<path id="hourHand" style="fill:#000000;stroke:none;stroke-linecap:round;stroke-linejoin:round"
+							d="m 18.847429,4.0721031 c 0.0281,0 -0.04864,0.022569 -0.05064,0.050643 l -0.386023,6.6290531 -0.114722,4.404382 a 3.833735,3.833735 0 0 0 -3.24683,3.788399 3.833735,3.833735 0 0 0 3.833875,3.833875 3.833735,3.833735 0 0 0 3.833874,-3.833875 3.833735,3.833735 0 0 0 -3.24528,-3.788399 L 19.355925,10.59832 18.969902,4.1227459 c -0.0016,-0.028091 -0.02307,-0.050643 -0.05116,-0.050643 z" />
+					</svg>
+				</div>
+			</div>
+			<div id="scene-loader">
+				<div class="cl__content">
+					<p class="caption">надеть скафандр</p>
+					<p>putting on the space suit</p>
+				</div>
+			</div>
+		</div>
 	</div>
 	<aside id="tools">
 		<div class="tools__header">

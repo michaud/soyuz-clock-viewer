@@ -1,4 +1,9 @@
-export const loadingPanel = (loader, minuteHand, hourHand) => {
+export const loadingPanel = () => {
+
+    const minuteHand = document.getElementById('minuteHand');
+    const hourHand = document.getElementById('hourHand');
+    const resourceLoader = document.getElementById('resource-loader');
+    const sceneLoader = document.getElementById('scene-loader')
 
     const loaders = [];
 
@@ -38,14 +43,15 @@ export const loadingPanel = (loader, minuteHand, hourHand) => {
             minuteHand.style.transform = `rotate(${minuteLoaded}deg)`;
             hourHand.style.transform = `rotate(${hourLoaded}deg)`;
 
-            if(loadedTotal === total) loader.style.display = `none`;
-
+            if(loadedTotal === total) {
+                sceneLoader.style.display = 'block';
+            }
         },
         show: () => {
-            loader.style.display = `block`;
+            resourceLoader.style.display = `flex`;
         },
         hide: () => {
-            loader.style.display = `none`;
+            resourceLoader.style.display = `none`;
         }
     });
 };
