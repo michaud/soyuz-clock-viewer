@@ -42,17 +42,14 @@ export const initPicking = (
 
         if(isPointerDown) {
 
-            if(button?.move) {
-
-                button.move(
-                    pointerDownX,
-                    clientX,
-                    clientY,
-                    deviceService,
-                    movementY,
-                    scene
-                )
-            }
+            button?.move?.(
+                pointerDownX,
+                clientX,
+                clientY,
+                deviceService,
+                movementY,
+                scene
+            )
 
         } else {
 
@@ -63,23 +60,23 @@ export const initPicking = (
                 if(!overButton) {
                     //new overbutton
                     overButton = device.buttons[intersects[0].object?.userData.hit_target];
-                    overButton?.pointerOver && overButton.pointerOver(scene, deviceService, true, container);
+                    overButton?.pointerOver?.(scene, deviceService, true, container);
 
                 } else {
                     //prev overbutton
                     //reset prev
                     prevOverButton = overButton;
-                    prevOverButton?.pointerOver && prevOverButton.pointerOver(scene, deviceService, false, container);
+                    prevOverButton?.pointerOver?.(scene, deviceService, false, container);
                     //set new
                     overButton = device.buttons[intersects[0].object?.userData.hit_target];
-                    overButton?.pointerOver && overButton.pointerOver(scene, deviceService, true, container);
+                    overButton?.pointerOver?.(scene, deviceService, true, container);
                 }
 
             } else {
 
                 //reset prev and current
-                overButton?.pointerOver && overButton.pointerOver(scene, deviceService, false, container);
-                prevOverButton?.pointerOver && prevOverButton.pointerOver(scene, deviceService, false, container);
+                overButton?.pointerOver?.(scene, deviceService, false, container);
+                prevOverButton?.pointerOver?.(scene, deviceService, false, container);
 
                 overButton = undefined;
                 prevOverButton = undefined;
@@ -99,8 +96,8 @@ export const initPicking = (
         controls.enabled = true;
 
         const isPointerMove = Math.abs(pointerDownY - clientY) > 5;
-        button?.action && button.action(isPointerMove);
-        button?.pointerUp && button.pointerUp(isPointerMove, deviceService, scene);
+        button?.action?.(isPointerMove);
+        button?.pointerUp?.(isPointerMove, deviceService, scene);
 
         isPointerDown = false;
 

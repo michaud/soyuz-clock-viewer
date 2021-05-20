@@ -8,7 +8,9 @@ import {
     WebGLRenderer,
     ACESFilmicToneMapping,
     PMREMGenerator,
-    sRGBEncoding
+    sRGBEncoding,
+    PCFShadowMap,
+    DirectionalLight
 } from '../three/build/three.module.js';
 
 import { OrbitControls } from '../three/examples/jsm/controls/OrbitControls.js';
@@ -30,11 +32,40 @@ export const initScene = container => {
         antialias: true,
         alpha: true
     });
+
+    // let directionalLight = new DirectionalLight( 0xffffff, 0.7, 18 );
+    // directionalLight.position.set(0, 0, 1);
+    // directionalLight.castShadow = true;
+    // directionalLight.shadow.camera.left = - 3;
+    // directionalLight.shadow.camera.right = 3;
+    // directionalLight.shadow.camera.top = 3;
+    // directionalLight.shadow.camera.bottom = - 3;
+    // directionalLight.shadow.camera.fov = 45;
+    // directionalLight.shadow.camera.aspect = 1;
+    // directionalLight.shadow.camera.near = 0.1;
+    // directionalLight.shadow.camera.far = 3;
+    // directionalLight.shadow.bias = 0.001;
+    // directionalLight.shadow.normalBias = 0.003;
+    // directionalLight.shadow.mapSize.width = 2048;
+    // directionalLight.shadow.mapSize.height = 2048;
+    
+    // scene.add( directionalLight );
+
     renderer.setPixelRatio(window.devicePixelRatio);
     renderer.setSize(window.innerWidth, window.innerHeight);
+
+    renderer.shadowMap.enabled = true;
     renderer.toneMapping = ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1;
+    renderer.toneMappingExposure = .75;
     renderer.outputEncoding = sRGBEncoding;
+    renderer.physicallyCorrectLights = true;
+
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.autoUpdate = true;
+    renderer.receiveShadow = true;
+    //renderer.gammaFactor = 2.2;
+    renderer.shadowMap.type = PCFShadowMap;
+
     container.appendChild(renderer.domElement);
 
     const pmremGenerator = new PMREMGenerator(renderer);

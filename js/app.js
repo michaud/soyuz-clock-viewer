@@ -66,8 +66,13 @@ animate();
 function init() {
 
     const loaderStatus = document.getElementById('loader-container');
+    const intro = document.getElementById('intro');
+    const stepAside = document.getElementById('step-aside');
     const loadingDisplay = loadingPanel();
 
+    stepAside.onclick = () => {
+        intro.classList.remove('open');
+    }
     normalizeMousePostion(mouse);
 
     const rgbeLoadManager = new LoadingManager();
@@ -115,12 +120,22 @@ function init() {
 
             const roughnessMipmapper = new RoughnessMipmapper(renderer);
 
-            gltf.scene.traverse(function (child) {
+            gltf.scene.traverse(function (obj) {
 
-                if (child.isMesh) {
+                if (obj.isMesh) {
 
                     // TOFIX RoughnessMipmapper seems to be broken with WebGL 2.0
-                    roughnessMipmapper.generateMipmaps(child.material);
+                    roughnessMipmapper.generateMipmaps(obj.material);
+                    obj.castShadow = true;
+                    obj.receiveShadow = true;
+                }
+                
+                if (obj.isLight) {
+                    obj.castShadow = true;
+//                    obj.receiveShadow = true;
+
+                    obj.shadow.camera.near = 0.001;
+                    obj.shadow.camera.updateProjectionMatrix();
                 }
             });
 
@@ -143,6 +158,7 @@ function init() {
             updateHilites = initUpdateHilites(scene, raycaster, state);
 
             loaderStatus.style.display = 'none';
+            intro.classList.add('open');
         },
         xhr => {
 
@@ -158,7 +174,7 @@ function init() {
         }
     );
 
-    initTools(clips, mixer, hilites, controls, state);
+    initTools(clips, mixer, hilites, controls, state, deviceService);
 
     initPicking(raycaster, device, scene, container, controls, deviceService);
 

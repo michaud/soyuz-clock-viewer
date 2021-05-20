@@ -40,12 +40,7 @@ export const initMachine = (state, device) => {
             if (state.event.type === 'TOGGLE_CONNECT') {
 
                 const btn = document.getElementById('open-close');
-
-                if(state.matches('connect.connected')) {
-                    btn.disabled = true;
-                } else {
-                    btn.disabled = false;
-                }
+                btn.disabled = state.matches('connect.connected');
             }
         }
     });

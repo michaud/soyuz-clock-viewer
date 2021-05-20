@@ -1,9 +1,9 @@
 import { LoopOnce } from '../three/build/three.module.js';
 
-export const initTools = (clips, mixer, hilites, controls, state) => {
+export const initTools = (clips, mixer, hilites, controls, state, deviceService) => {
 
     const openButton = document.getElementById('open-close');
-    const connectButton = document.getElementById('connect');
+    const backFrontButton = document.getElementById('back-front');
     const resetButton = document.getElementById('reset-camera');
     const showHiliteButton = document.getElementById('show-hilite');
     const toggleHiliteSwitch = document.getElementById('toggle-hilite-switch');
@@ -63,16 +63,20 @@ export const initTools = (clips, mixer, hilites, controls, state) => {
 
     showHiliteButton.onclick = handleShowHilite();
 
-    const handleConnectClick = _ => {
+    const handleBackFrontClick = _ => {
 
         let open = false;
 
         return _ => {
 
+
             state.ac = new AudioContext();
+
+            const btn = document.getElementById('back-front');
+            btn.textContent = open ? 'backside': 'frontside'
     
             const clip = clips.find(clip => clip.name === 'connect_locAction');
-            
+
             if(clip) {
                 
                 let direction = 1;
@@ -90,30 +94,43 @@ export const initTools = (clips, mixer, hilites, controls, state) => {
         };
     };
 
-    connectButton.onclick = handleConnectClick();
+    backFrontButton.onclick = handleBackFrontClick();
 
     const handleOpenClick = _ => {
 
         let open = false;
+        const btn = document.getElementById('open-close');
 
         return _ => {
-        
-            const clip = clips.find(clip => clip.name === 'flipped_plate_open_Action');
-            
-            if(clip) {
-                
-                let direction = 1;
-                if(open) direction = -1;
 
-                const action = mixer.clipAction(clip);
+            btn.textContent = open ? 'open' : 'close'; 
+            const clipFlippedPlate = clips.find(clip => clip.name === 'flipped_plate_open_Action');
+            const clipBottomCap = clips.find(clip => clip.name === 'bottom_capAction');
+            
+            let direction = 1;
+            if(open) direction = -1;
+
+            if(clipFlippedPlate) {
+                
+                const action = mixer.clipAction(clipFlippedPlate);
                 action.clampWhenFinished = true;
                 action.setLoop(LoopOnce);
                 action.setEffectiveTimeScale(direction);
                 action.paused = false;
                 action.play();
-                
-                open = !open;
             }
+
+            if(clipBottomCap) {
+
+                const action = mixer.clipAction(clipBottomCap);
+                action.clampWhenFinished = true;
+                action.setLoop(LoopOnce);
+                action.setEffectiveTimeScale(direction);
+                action.paused = false;
+                action.play();
+            }
+
+            open = !open;
         };
     };
 

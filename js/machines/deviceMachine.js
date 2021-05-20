@@ -35,6 +35,21 @@ export const deviceMachineDesc = {
         }
     },
     states: {
+        device: {
+            initial: 'closed',
+            states: {
+                open: {
+                    on: {
+                        CLOSE: 'closed'
+                    }
+                },
+                closed: {
+                    on: {
+                        OPEN: 'open'
+                    }
+                }
+            }
+        },
         power: {
             id: 'power',
             initial: 'powerOff',

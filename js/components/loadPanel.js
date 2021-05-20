@@ -25,16 +25,10 @@ export const loadingPanel = () => {
             }
 
             //accumulate loaded & total
-            const totalLoaded = loaders.reduce((acc, { loaded, total }) => {
-
-                const newAcc = {
-                    total: acc.total + total,
-                    loaded: acc.loaded + loaded
-                }
-
-                return newAcc;
-
-            }, {total: 0, loaded: 0 });
+            const totalLoaded = loaders.reduce((acc, { loaded, total }) => ({
+                total: acc.total + total,
+                loaded: acc.loaded + loaded
+            }), { total: 0, loaded: 0 });
 
             const { loaded: loadedTotal, total } = totalLoaded;
             const minuteLoaded = (loadedTotal / total) * 360;
