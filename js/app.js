@@ -123,16 +123,27 @@ function init() {
             gltf.scene.traverse(function (obj) {
 
                 if (obj.isMesh) {
+                    console.log('parent:', obj.parent.name, 'obj:', obj.name)
 
                     // TOFIX RoughnessMipmapper seems to be broken with WebGL 2.0
                     roughnessMipmapper.generateMipmaps(obj.material);
-                    obj.castShadow = true;
-                    obj.receiveShadow = true;
+
+                    if(obj.parent.name === 'inner_works_anchor') {
+
+                        obj.castShadow = true;
+                        obj.receiveShadow = true;
+                    }
+
+                    if(obj.name === 'flipped_plate') {
+
+                        obj.receiveShadow = true;
+                    }
                 }
                 
                 if (obj.isLight) {
+
                     obj.castShadow = true;
-//                    obj.receiveShadow = true;
+                    obj.receiveShadow = true;
 
                     obj.shadow.camera.near = 0.001;
                     obj.shadow.camera.updateProjectionMatrix();
