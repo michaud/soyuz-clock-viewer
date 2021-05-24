@@ -1,6 +1,7 @@
 import {
     LoadingManager,
-    UnsignedByteType
+    UnsignedByteType,
+    LoopOnce
 } from './three/build/three.module.js';
 
 import { GLTFLoader } from './three/examples/jsm/loaders/GLTFLoader.js';
@@ -123,7 +124,6 @@ function init() {
             gltf.scene.traverse(function (obj) {
 
                 if (obj.isMesh) {
-                    console.log('parent:', obj.parent.name, 'obj:', obj.name)
 
                     // TOFIX RoughnessMipmapper seems to be broken with WebGL 2.0
                     roughnessMipmapper.generateMipmaps(obj.material);
@@ -170,6 +170,18 @@ function init() {
 
             loaderStatus.style.display = 'none';
             intro.classList.add('open');
+
+            
+            const clip = clips.find(clip => clip.name === 'complete_deviceAction');
+
+            const action = mixer.clipAction(clip);
+            action.clampWhenFinished = true;
+            action.setLoop(LoopOnce);
+
+            if(!action.isRunning()) {
+                action.reset();
+                action.play();
+            }
         },
         xhr => {
 
