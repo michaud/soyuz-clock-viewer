@@ -13,8 +13,7 @@ Todo:
   ☐ Make operational
     ✔ use hit target to enable disable hilites @done(21-04-09 02:30)
     ✔ hide hit targets when show hilite is disabled @done(21-04-09 02:30)
-    ☐ add clicks for switches, nobs and running clock?
-  
+
   ☐ Chronometer
     ✔ start(ed) @done(21-04-09 02:30)
     ✔ stop(ped) @done(21-04-09 02:30)
@@ -33,7 +32,7 @@ Todo:
         ✔ always counts up when turning left or right @done(21-04-19 20:00)
   
   Alarm
-  ☐ advance alarm
+  ✔ advance alarm @done(21-05-31 12:32)
   ✔ alarm on - off @done(21-04-10 16:58)
   ✔ set alarm turns one direction: backwards @done(21-04-11 01:13)
   
@@ -49,7 +48,10 @@ Todo:
     ✔ alarm moves with time adjust only when turned backwards @done(21-04-25 18:21)
     ✔ get out of adjustment mode press on second advance @done(21-04-25 18:21)
       ✔ to what state does the time adjust button move? seems to go to Mission time adjust @done(21-04-25 18:21)
-  
+
+Ideas
+  ☐ add clicks for switches, nobs and running clock?
+    
   device
   - off
     - device
