@@ -67,13 +67,9 @@ animate();
 function init() {
 
     const loaderStatus = document.getElementById('loader-container');
-    const intro = document.getElementById('intro');
     const stepAside = document.getElementById('step-aside');
     const loadingDisplay = loadingPanel();
 
-    stepAside.onclick = () => {
-        intro.classList.remove('open');
-    }
     normalizeMousePostion(mouse);
 
     const rgbeLoadManager = new LoadingManager();
@@ -169,8 +165,6 @@ function init() {
             updateHilites = initUpdateHilites(scene, raycaster, state);
 
             loaderStatus.style.display = 'none';
-            intro.classList.add('open');
-
             
             const clip = clips.find(clip => clip.name === 'complete_deviceAction');
 

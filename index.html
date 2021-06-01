@@ -380,7 +380,7 @@
 		.detail summary:hover,
 		.detail.hilite {
 
-			background-color: rgba(255 255 255 / 25%);
+			background-color: rgba(255 255 255 / 35%);
 		}
 
 		.detail[open] summary:before {
@@ -464,60 +464,6 @@
 			justify-content: center;
 		}
 
-		#intro {
-
-			display: flex;
-			gap: .5rem;
-			z-index: 0;
-			position: absolute;
-			bottom: 6rem;
-			top: 6rem;
-			left: 23.5rem;
-			width: 22rem;
-			transform: translateX(-100%);
-			transition: transform .35s;
-		}
-
-		#intro.open {
-
-			transform: translateX(0%);
-			/* transform: translateX(-100%); */
-		}
-
-		#intro .intro__content {
-
-			display: flex;
-			flex-direction: column;
-			gap: .5rem;
-			padding: 1.5rem;
-			backdrop-filter: blur(30px);
-			border-radius: 0 1rem 1rem 0;
-			background-color: rgb(255 255 255 / 60%)
-		}
-
-		#intro .intro-content__sections {
-
-			display: flex;
-			flex-direction: column;
-			gap: 1rem;
-		}
-
-		#intro .intro-content__sections div {
-
-			border-bottom: 1px solid rgb(24 104 133);
-			padding-bottom: 1rem;
-		}
-
-		#intro .intro-content__sections div:last-child {
-
-			border-bottom: none;
-			padding-bottom: 0;
-		}
-
-		.intro-content__sections h3 {
-
-			margin-top: 0;
-		}
 	</style>
 	<script src="/js/lib/luxon.min.js"></script>
 	<script src="https://unpkg.com/xstate@4/dist/xstate.js"></script>
@@ -575,30 +521,6 @@
 			</button>
 		</div>
 	</div>
-	<div id="intro">
-		<div class="intro__content">
-			<div class="intro-content__sections">
-				<div>
-					<h3>Connect</h3>
-					<p>First connect the device for electricity and the Caesium time source</p>
-					<ol>
-						<li>above, click backside</li>
-						<li>click the plug</li>
-						<li>above, click frontside</li>
-					</ol>
-				</div>
-				<div>
-					<h3>Set time</h3>
-					<p>Turn the hours, minutes, seconds knob to set the time</p>
-				</div>
-				<div>
-					<h3>Power on</h3>
-					<p>At the bottom left of the device, flip the power switch to turn the power on</p>
-				</div>
-				<button id="step-aside" class="btn">Step aside,<br />I know what I'm doing X</button>
-			</div>
-		</div>
-	</div>
 	<aside id="tools">
 		<div class="tools__header">
 			<h2 class="tools__heading">Soyuz Space clock</h2>
@@ -617,10 +539,29 @@
 						springs.</p>
 					</p>
 					<p>Later it was also used in the Buran space shuttle.</p>
-					<p>It is part of the <a
+					<p><a href="https://www.flickr.com/photos/jurvetson/8328690534/in/album-72157623704246792/">This clock</a> is part of the <a
 							href="https://www.flickr.com/photos/jurvetson/albums/72157623704246792">Space
 							Collection</a> of Steve Jurvetson.
 					</p>
+				</div>
+			</details>
+			<details class="detail">
+				<summary>
+					<h3>Get the clock running</h3>
+					<p>there are some steps</p>
+				</summary>	
+				<div class="detail__content">
+					<h3>Connect</h3>
+					<p>First connect the device for electricity and the Caesium time source</p>
+					<ol>
+						<li>above, click backside</li>
+						<li>click the plug</li>
+						<li>above, click frontside</li>
+					</ol>
+					<h3>Set time</h3>
+					<p>Turn the hours, minutes, seconds knob to set the time</p>
+					<h3>Power on</h3>
+					<p>At the bottom left of the device, flip the power switch to turn the power on</p>
 				</div>
 			</details>
 			<details data-target="clock" class="detail">
