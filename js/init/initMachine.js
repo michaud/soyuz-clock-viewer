@@ -12,7 +12,7 @@ const options = {
 
 export const initMachine = (state, device) => {
 
-    const debugContainer = document.getElementById('debug');
+    // const debugContainer = document.getElementById('debug');
 
     const { createMachine, interpret } = XState; // global variable: window.XState
 
@@ -22,8 +22,8 @@ export const initMachine = (state, device) => {
 
     const deviceService = interpret(deviceMachine).onTransition(state => {
 
-        const newDebugText = JSON.stringify(state.context, null, '  ') + '\n' + JSON.stringify(state.value, null, '  ');
-        debugContainer.textContent = newDebugText;
+        // const newDebugText = JSON.stringify(state.context, null, '  ') + '\n' + JSON.stringify(state.value, null, '  ');
+        // debugContainer.textContent = newDebugText;
 
         if (state.event.type !== '#soyuzClock.TICK') {
 
