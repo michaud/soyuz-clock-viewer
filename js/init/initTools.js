@@ -75,7 +75,7 @@ export const initTools = (clips, mixer, hilites, controls, state, deviceService)
             const btn = document.getElementById('back-front');
             btn.textContent = open ? 'backside': 'frontside'
     
-            const clip = clips.find(clip => clip.name === 'connect_locAction');
+            const clip = clips.find(clip => clip.name === 'show_backAction');
 
             if(clip) {
                 
@@ -105,7 +105,7 @@ export const initTools = (clips, mixer, hilites, controls, state, deviceService)
 
             btn.textContent = open ? 'open' : 'close'; 
             const clipFlippedPlate = clips.find(clip => clip.name === 'flipped_plate_open_Action');
-            const clipBottomCap = clips.find(clip => clip.name === 'bottom_capAction');
+            const clipBottomCap = clips.find(clip => clip.name === 'bottom_cap_openAction');
             
             let direction = 1;
             if(open) direction = -1;
