@@ -75,7 +75,7 @@ export const initTools = (clips, mixer, hilites, controls, state, deviceService)
             const btn = document.getElementById('back-front');
             btn.textContent = open ? 'backside': 'frontside'
     
-            const clip = clips.find(clip => clip.name === 'show_backAction');
+            const clip = clips.find(clip => clip.name === 'front_backAction');
 
             if(clip) {
                 

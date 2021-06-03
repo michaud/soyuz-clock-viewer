@@ -166,7 +166,7 @@ function init() {
 
             loaderStatus.style.display = 'none';
             
-            const clip = clips.find(clip => clip.name === 'complete_deviceAction');
+            const clip = clips.find(clip => clip.name === 'present_deviceAction');
 
             const action = mixer.clipAction(clip);
             action.clampWhenFinished = true;
