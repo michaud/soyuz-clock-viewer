@@ -39,8 +39,8 @@ export const updateMissionTime = ({
         
         if(hand.time === 'hour') {
 
-            xVal = val;
-            yVal = staticVal;
+            xVal = staticVal;
+            yVal = val;
             zVal = staticVal;
 
         } else {
