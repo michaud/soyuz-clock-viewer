@@ -18,6 +18,7 @@ import {
 } from '../three/build/three.module.js';
 
 import { OrbitControls } from '../three/examples/jsm/controls/OrbitControls.js';
+import { ArcballControls } from '../three/examples/jsm/controls/ArcballControls.js';
 
 export const initScene = container => {
 
@@ -85,11 +86,11 @@ export const initScene = container => {
     const pmremGenerator = new PMREMGenerator(renderer);
     pmremGenerator.compileEquirectangularShader();
 
-    const controls = new OrbitControls(camera, renderer.domElement);
+    const controls = new ArcballControls(camera, renderer.domElement);
 
     controls.minDistance = .1;
     controls.maxDistance = 10;
-    controls.target.set(0, 0, 0);
+    // controls.target.set(0, 0, 0);
     controls.update();
 
     return {
