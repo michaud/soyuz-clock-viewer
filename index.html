@@ -380,7 +380,7 @@
 		.detail summary:hover,
 		.detail.hilite {
 
-			background-color: rgba(255 255 255 / 35%);
+			background-color: rgba(255, 255, 255, 35%);
 		}
 
 		.detail[open] summary:before {
@@ -405,9 +405,9 @@
 			margin-top: .5rem;
 		}
 
-		.detail__header {
+		.detail__header--accent {
 
-			color: rgb(5 72 97);
+			color: rgb(97 5 5);
 		}
 
 		.detail summary:focus {
@@ -476,7 +476,7 @@
 
 	</style>
 	<script src="/js/lib/luxon.min.js"></script>
-	<script src="https://unpkg.com/xstate@4/dist/xstate.js"></script>
+	<script src="/js/lib/xstate.js"></script>
 </head>
 
 <body>
@@ -557,7 +557,7 @@
 			</details>
 			<details class="detail">
 				<summary>
-					<h3 class="detail__header">Get the clock running</h3>
+					<h3 class="detail__header--accent">Get the clock running</h3>
 					<p>there are some steps</p>
 				</summary>	
 				<div class="detail__content">

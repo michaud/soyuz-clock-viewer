@@ -9,6 +9,7 @@
   "author": "mv",
   "license": "ISC",
   "dependencies": {
-    "three": "^0.125.2"
+    "three": "^0.125.2",
+    "xstate": "^4.20.0"
   }
 }
